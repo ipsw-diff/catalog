@@ -48,6 +48,11 @@ that allowlist, both IPSW inputs name the same device, and each row matches
 exactly one route. It writes deterministic specs and never copies, commits,
 pushes, or deletes payloads.
 
+`render-archive` selects one exact destination repository from reviewed specs
+and writes or checks its deterministic shard README. Rows are grouped by device
+and source path without claiming that branched historical data is one release
+sequence. It does not inspect a directory name to infer a route.
+
 ## Mechanical staging
 
 `stage` requires one reviewed spec, both local repository roots, and the full
@@ -80,6 +85,7 @@ uv run ipsw-diff-catalog stage-batch --help
 uv run ipsw-diff-catalog validate-staged-batch --help
 uv run ipsw-diff-catalog census --help
 uv run ipsw-diff-catalog plan --help
+uv run ipsw-diff-catalog render-archive --help
 uv run ipsw-diff-catalog discover --help
 uv run pytest
 uv run ruff format --check .

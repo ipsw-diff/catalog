@@ -4,6 +4,7 @@ import argparse
 import sys
 from pathlib import Path
 
+from ipsw_diff_catalog.archive import render_archive
 from ipsw_diff_catalog.audit import audit
 from ipsw_diff_catalog.census import census
 from ipsw_diff_catalog.discovery import discover_live
@@ -101,6 +102,15 @@ def _parser() -> argparse.ArgumentParser:
     plan_parser.add_argument("--census", type=Path, required=True)
     plan_parser.add_argument("--output", type=Path, required=True)
     plan_parser.add_argument("--check", action="store_true")
+
+    archive_parser = commands.add_parser(
+        "render-archive",
+        help="render one deterministic archive-shard README from reviewed specs",
+    )
+    archive_parser.add_argument("--specs-dir", type=Path, required=True)
+    archive_parser.add_argument("--destination-repository", required=True)
+    archive_parser.add_argument("--output", type=Path, required=True)
+    archive_parser.add_argument("--check", action="store_true")
     return parser
 
 
@@ -142,6 +152,17 @@ def _run_plan(arguments: argparse.Namespace) -> None:
     result = plan(arguments.policy, arguments.census, arguments.output, check=arguments.check)
     verb = "Checked" if result.checked else "Wrote"
     print(f"{verb} {result.specification_count} migration specs in {result.output}")
+
+
+def _run_archive(arguments: argparse.Namespace) -> None:
+    count = render_archive(
+        arguments.specs_dir,
+        arguments.destination_repository,
+        arguments.output,
+        check=arguments.check,
+    )
+    verb = "Checked" if arguments.check else "Rendered"
+    print(f"{verb} {arguments.output}: diffs={count}")
 
 
 def _run_batch(arguments: argparse.Namespace) -> None:
@@ -225,6 +246,8 @@ def _dispatch(arguments: argparse.Namespace) -> None:
         _run_census(arguments)
     elif arguments.command == "plan":
         _run_plan(arguments)
+    elif arguments.command == "render-archive":
+        _run_archive(arguments)
     elif arguments.command in {"stage-batch", "validate-staged-batch"}:
         _run_batch(arguments)
     else:

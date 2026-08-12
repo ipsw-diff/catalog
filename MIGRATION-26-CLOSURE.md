@@ -77,7 +77,7 @@ device-specific comparisons are not silently linearized.
 | Selection and trigger | The planner recomputed the complete ordinary destination-major-26 census set and matched all 65 reviewed paths with no omission or extra | Closed |
 | Inputs and resources | All 65 specs re-parsed the immutable source README and measured 96,558 files, 4,382,923,774 bytes, and 65 distinct trees | Closed |
 | Transformation | A write followed by `--check` produced identical specs in the unpublished migration namespace; preflight tests reject stale scope, partial writes, route ambiguity, source drift, device drift, and identifier collisions | Closed for planning only |
-| Advertisement and options | The destination repositories and their archive-only READMEs do not exist yet | Unresolved |
+| Advertisement and options | A deterministic archive README renderer/checker is implemented; destination repositories and rendered outputs do not exist yet | Unresolved |
 | Dispatch and transport | No payload has been copied or pushed | Unresolved |
 | State transition | No shard or catalog merge for major 26 exists | Unresolved |
 | Outcome oracle | Source validation passes, but destination and catalog audits cannot run yet | Unresolved |
