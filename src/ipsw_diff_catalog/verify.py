@@ -18,6 +18,7 @@ from ipsw_diff_catalog.model import (
     canonical_json,
     parse_json_object,
 )
+from ipsw_diff_catalog.source import parse_source_readme
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -60,31 +61,31 @@ def validate_source_identity(spec: MigrationSpec, source_repo: Path) -> TreeIden
 
 
 def _validate_readme(spec: MigrationSpec, readme: str) -> None:
-    lines = readme.splitlines()
-    if not lines or lines[0] != f"# {spec.title}":
-        actual = lines[0] if lines else "<empty>"
+    parsed = parse_source_readme(readme)
+    observed_title = (
+        parsed.previous.version,
+        parsed.previous.build,
+        parsed.next.version,
+        parsed.next.build,
+    )
+    expected_title = (
+        spec.previous.version,
+        spec.previous.build,
+        spec.next.version,
+        spec.next.build,
+    )
+    if observed_title != expected_title:
         raise CatalogError(
-            f"source README title mismatch: expected '# {spec.title}', got {actual!r}"
+            f"source README title mismatch: expected '# {spec.title}', "
+            f"got '# {parsed.previous.version} ({parsed.previous.build}) .vs "
+            f"{parsed.next.version} ({parsed.next.build})'"
         )
-    headings = [index for index, line in enumerate(lines) if line == "## Inputs"]
-    if len(headings) != 1:
+    observed_inputs = (parsed.previous.input_name, parsed.next.input_name)
+    expected_inputs = (spec.previous.input_name, spec.next.input_name)
+    if observed_inputs != expected_inputs:
         raise CatalogError(
-            f"source README must have exactly one '## Inputs' section; found {len(headings)}"
-        )
-    start = headings[0] + 1
-    section: list[str] = []
-    for line in lines[start:]:
-        if line.startswith("## "):
-            break
-        if line:
-            section.append(line)
-    expected = [
-        f"- `{spec.previous.input_name}`",
-        f"- `{spec.next.input_name}`",
-    ]
-    if section != expected:
-        raise CatalogError(
-            f"source README inputs differ: expected={expected!r}, observed={section!r}"
+            f"source README inputs differ: expected={expected_inputs!r}, "
+            f"observed={observed_inputs!r}"
         )
 
 

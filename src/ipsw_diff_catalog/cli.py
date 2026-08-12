@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 from ipsw_diff_catalog.audit import audit
+from ipsw_diff_catalog.census import census
 from ipsw_diff_catalog.discovery import discover_live
 from ipsw_diff_catalog.model import CatalogError, MigrationSpec
 from ipsw_diff_catalog.render import render
@@ -62,6 +63,15 @@ def _parser() -> argparse.ArgumentParser:
     discover_parser.add_argument("--policy", type=Path, required=True)
     discover_parser.add_argument("--manifests-dir", type=Path, required=True)
     discover_parser.add_argument("--ipsw", default="ipsw")
+
+    census_parser = commands.add_parser(
+        "census",
+        help="classify every tracked file at one frozen legacy commit",
+    )
+    census_parser.add_argument("--policy", type=Path, required=True)
+    census_parser.add_argument("--source-repo", type=Path, required=True)
+    census_parser.add_argument("--output", type=Path, required=True)
+    census_parser.add_argument("--check", action="store_true")
     return parser
 
 
@@ -70,6 +80,21 @@ def _add_spec_and_repositories(parser: argparse.ArgumentParser, *, destination: 
     parser.add_argument("--source-repo", type=Path, required=True)
     if destination:
         parser.add_argument("--destination-repo", type=Path, required=True)
+
+
+def _run_census(arguments: argparse.Namespace) -> None:
+    result = census(
+        arguments.policy,
+        arguments.source_repo,
+        arguments.output,
+        check=arguments.check,
+    )
+    verb = "Checked" if result.checked else "Wrote"
+    print(
+        f"{verb} {result.output}: payloads={result.payload_count} "
+        f"ordinary={result.ordinary_count} blocked={result.blocked_count} "
+        f"files={result.tracked_file_count} bytes={result.logical_bytes}"
+    )
 
 
 def _run(arguments: argparse.Namespace) -> None:
@@ -131,9 +156,16 @@ def _run(arguments: argparse.Namespace) -> None:
     raise CatalogError(f"unsupported command: {arguments.command}")
 
 
+def _dispatch(arguments: argparse.Namespace) -> None:
+    if arguments.command == "census":
+        _run_census(arguments)
+    else:
+        _run(arguments)
+
+
 def main() -> None:
     try:
-        _run(_parser().parse_args())
+        _dispatch(_parser().parse_args())
     except CatalogError as error:
         print(f"error: {error}", file=sys.stderr)
         raise SystemExit(1) from error

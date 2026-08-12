@@ -12,6 +12,7 @@ from ipsw_diff_catalog.git import (
     ensure_repository,
     inventory,
     require_clean_worktree,
+    require_origin,
     resolve_commit,
     run_git,
     tree_entries,
@@ -45,23 +46,6 @@ class _StageTargets:
 
 _STATUS_PATH_OFFSET = 3
 _PATH_SUMMARY_LIMIT = 10
-
-
-def _require_origin(repo: Path, expected: str, context: str) -> None:
-    output = run_git(repo, "remote", "get-url", "origin")
-    assert isinstance(output, str)
-    observed = output.strip()
-    slug = expected.removeprefix("https://github.com/")
-    accepted = {
-        expected,
-        f"{expected}.git",
-        f"git@github.com:{slug}.git",
-        f"ssh://git@github.com/{slug}.git",
-    }
-    if observed not in accepted:
-        raise CatalogError(
-            f"{context} origin differs: expected GitHub repository {expected}, got {observed!r}"
-        )
 
 
 def _require_base(repo: Path, revision: str) -> str:
@@ -267,8 +251,8 @@ def validate_staged(
     destination = ensure_repository(destination_repo)
     if source == destination:
         raise CatalogError("source and destination repositories must differ")
-    _require_origin(source, spec.source.repository, "source")
-    _require_origin(destination, spec.destination.repository, "destination")
+    require_origin(source, spec.source.repository, "source")
+    require_origin(destination, spec.destination.repository, "destination")
     base = _require_base(destination, destination_base)
     source_inventory = validate_source(spec, source)
     expected_paths = _expected_paths(spec, source)
@@ -377,8 +361,8 @@ def stage(
     destination = ensure_repository(destination_repo)
     if source == destination:
         raise CatalogError("source and destination repositories must differ")
-    _require_origin(source, spec.source.repository, "source")
-    _require_origin(destination, spec.destination.repository, "destination")
+    require_origin(source, spec.source.repository, "source")
+    require_origin(destination, spec.destination.repository, "destination")
     base = _require_base(destination, destination_base)
     payload = _require_safe_absent_target(
         destination,

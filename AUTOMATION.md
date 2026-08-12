@@ -9,6 +9,11 @@ copier materializes one explicit spec into a clean shard worktree, leaves the
 exact outputs staged for review, and never commits, pushes, deletes, or selects
 a payload.
 
+The frozen legacy census is a separate planning gate. It exhaustively accounts
+for the tracked tree at one immutable commit and classifies structurally
+ordinary versus blocked payloads, but it does not infer a platform, choose a
+shard, generate specs, or authorize a copy.
+
 The first automation slice is deliberately read-only. `discover` validates one
 explicitly supported iOS 27 or macOS 27 policy against the terminal merged
 manifest, invokes the exact AppleDB selector, and emits either `current` or a

@@ -62,7 +62,52 @@ def test_duplicate_inputs_section_fails(repositories: Repositories) -> None:
     value = json.loads(repositories.spec_path.read_text(encoding="utf-8"))
     value["source"]["commit"] = source_commit
     spec = MigrationSpec.from_object(value)
-    with pytest.raises(CatalogError, match="exactly one '## Inputs'"):
+    with pytest.raises(CatalogError, match="exactly one '## Inputs' or '## IPSWs'"):
+        validate_source(spec, repositories.source)
+
+
+def test_legacy_ipsws_section_passes(repositories: Repositories) -> None:
+    readme = repositories.source / repositories.spec.source.path / "README.md"
+    readme.write_text(
+        readme.read_text(encoding="utf-8").replace("## Inputs", "## IPSWs"),
+        encoding="utf-8",
+    )
+    source_commit = commit_all(repositories.source, "legacy IPSWs heading")
+    value = json.loads(repositories.spec_path.read_text(encoding="utf-8"))
+    value["source"]["commit"] = source_commit
+    spec = MigrationSpec.from_object(value)
+    validate_source(spec, repositories.source)
+
+
+def test_mixed_input_sections_fail(repositories: Repositories) -> None:
+    readme = repositories.source / repositories.spec.source.path / "README.md"
+    readme.write_text(
+        readme.read_text(encoding="utf-8") + "\n## IPSWs\n\n- `Device1,1_1.0_A1_Restore.ipsw`\n",
+        encoding="utf-8",
+    )
+    source_commit = commit_all(repositories.source, "mixed input headings")
+    value = json.loads(repositories.spec_path.read_text(encoding="utf-8"))
+    value["source"]["commit"] = source_commit
+    spec = MigrationSpec.from_object(value)
+    with pytest.raises(CatalogError, match="found 2"):
+        validate_source(spec, repositories.source)
+
+
+def test_non_ipsw_inputs_fail(repositories: Repositories) -> None:
+    readme = repositories.source / repositories.spec.source.path / "README.md"
+    content = readme.read_text(encoding="utf-8")
+    readme.write_text(
+        content.replace(
+            "Device1,1_1.0_A1_Restore.ipsw",
+            "Device1,1_1.0_A1_Restore.aea",
+        ),
+        encoding="utf-8",
+    )
+    source_commit = commit_all(repositories.source, "non-IPSW input")
+    value = json.loads(repositories.spec_path.read_text(encoding="utf-8"))
+    value["source"]["commit"] = source_commit
+    spec = MigrationSpec.from_object(value)
+    with pytest.raises(CatalogError, match="non-IPSW"):
         validate_source(spec, repositories.source)
 
 

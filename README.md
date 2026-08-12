@@ -20,6 +20,20 @@ metadata, and generated manifest. Catalog links are pinned to immutable commits.
 The catalog tool never selects a diff, infers platform semantics from a path,
 pushes, merges, deletes legacy data, or rewrites a verified payload.
 
+## Frozen migration census
+
+`census` inventories the legacy repository from one full commit, not its
+worktree. The reviewed [source layout policy](migration/source-layout.json)
+names every payload root and every intentional exclusion. The command rejects
+missing or overlapping policy paths and any tracked file classified zero or
+multiple times, then records Git object IDs, file counts, logical bytes, modes,
+README metadata, and explicit blocker reasons in the generated
+[census](migration/census.json).
+
+Both known ordinary README labels (`## Inputs` and `## IPSWs`) must satisfy the
+same exact title and two-IPSW contract. A census row does not select a platform,
+device, destination shard, or migration route; those remain reviewed spec data.
+
 ## Mechanical staging
 
 `stage` requires one reviewed spec, both local repository roots, and the full
@@ -42,6 +56,7 @@ uv sync --locked --all-groups
 uv run ipsw-diff-catalog --help
 uv run ipsw-diff-catalog stage --help
 uv run ipsw-diff-catalog validate-staged --help
+uv run ipsw-diff-catalog census --help
 uv run ipsw-diff-catalog discover --help
 uv run pytest
 uv run ruff format --check .
@@ -49,6 +64,11 @@ uv run ruff check .
 uv run ty check src tests
 uv run ipsw-diff-catalog render --check
 uv run ipsw-diff-catalog audit
+uv run ipsw-diff-catalog census \
+  --policy migration/source-layout.json \
+  --source-repo /path/to/ipsw-diffs \
+  --output migration/census.json \
+  --check
 ```
 
 [AUTOMATION.md](AUTOMATION.md) defines the separately gated migration,
