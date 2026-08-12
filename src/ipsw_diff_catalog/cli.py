@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 from ipsw_diff_catalog.audit import audit
+from ipsw_diff_catalog.discovery import discover_live
 from ipsw_diff_catalog.model import CatalogError, MigrationSpec
 from ipsw_diff_catalog.render import render
 from ipsw_diff_catalog.stage import stage, validate_staged
@@ -53,6 +54,14 @@ def _parser() -> argparse.ArgumentParser:
     )
     audit_parser.add_argument("--entries-dir", type=Path, default=Path("entries"))
     audit_parser.add_argument("--specs-dir", type=Path, default=Path("specs"))
+
+    discover_parser = commands.add_parser(
+        "discover",
+        help="classify the latest AppleDB build against one exact track policy",
+    )
+    discover_parser.add_argument("--policy", type=Path, required=True)
+    discover_parser.add_argument("--manifests-dir", type=Path, required=True)
+    discover_parser.add_argument("--ipsw", default="ipsw")
     return parser
 
 
@@ -74,6 +83,10 @@ def _run(arguments: argparse.Namespace) -> None:
             f"{'Checked' if arguments.check else 'Rendered'} "
             f"{arguments.readme} and {arguments.catalog}"
         )
+        return
+    if arguments.command == "discover":
+        decision = discover_live(arguments.policy, arguments.manifests_dir, arguments.ipsw)
+        print(decision.to_json())
         return
 
     spec = MigrationSpec.from_path(arguments.spec)
