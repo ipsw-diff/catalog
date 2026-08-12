@@ -312,6 +312,23 @@ class MigrationSpec:
     def entrypoint(self) -> str:
         return f"{self.destination.payload_path}/README.md"
 
+    def to_object(self) -> JsonObject:
+        return {
+            "schema_version": 1,
+            "id": self.identifier,
+            "platform": self.platform,
+            "major_version": self.major_version,
+            "device": self.device,
+            "from": self.previous.to_object(),
+            "to": self.next.to_object(),
+            "source": self.source.to_object(),
+            "destination": {
+                "repository": self.destination.repository,
+                "payload_path": self.destination.payload_path,
+                "manifest_path": self.destination.manifest_path,
+            },
+        }
+
     def _validate_routing_policy(self) -> None:
         next_major = re.match(r"(\d+)", self.next.version)
         if next_major is None or int(next_major.group(1)) != self.major_version:

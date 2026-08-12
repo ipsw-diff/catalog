@@ -1,0 +1,27 @@
+{
+  "destination": {
+    "manifest_path": "manifests/26_1_23B85__vs_26_2_23C5027f.json",
+    "payload_path": "diffs/26_1_23B85__vs_26_2_23C5027f",
+    "repository": "https://github.com/ipsw-diff/ios-26"
+  },
+  "device": "iPhone18,1",
+  "from": {
+    "build": "23B85",
+    "input": "iPhone18,1_26.1_23B85_Restore.ipsw",
+    "version": "26.1"
+  },
+  "id": "ios-26.2-23B85-23C5027f",
+  "major_version": 26,
+  "platform": "iOS",
+  "schema_version": 1,
+  "source": {
+    "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+    "path": "26_1_23B85__vs_26_2_23C5027f",
+    "repository": "https://github.com/blacktop/ipsw-diffs"
+  },
+  "to": {
+    "build": "23C5027f",
+    "input": "iPhone18,1_26.2_23C5027f_Restore.ipsw",
+    "version": "26.2"
+  }
+}

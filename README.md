@@ -41,6 +41,13 @@ Both known ordinary README labels (`## Inputs` and `## IPSWs`) must satisfy the
 same exact title and two-IPSW contract. A census row does not select a platform,
 device, destination shard, or migration route; those remain reviewed spec data.
 
+`plan` combines a frozen census with an explicit reviewed policy. The policy
+contains the exact source-path allowlist and input-device-prefix routes. The
+command fails closed unless the complete ordinary destination-major set equals
+that allowlist, both IPSW inputs name the same device, and each row matches
+exactly one route. It writes deterministic specs and never copies, commits,
+pushes, or deletes payloads.
+
 ## Mechanical staging
 
 `stage` requires one reviewed spec, both local repository roots, and the full
@@ -72,6 +79,7 @@ uv run ipsw-diff-catalog validate-staged --help
 uv run ipsw-diff-catalog stage-batch --help
 uv run ipsw-diff-catalog validate-staged-batch --help
 uv run ipsw-diff-catalog census --help
+uv run ipsw-diff-catalog plan --help
 uv run ipsw-diff-catalog discover --help
 uv run pytest
 uv run ruff format --check .
@@ -83,6 +91,11 @@ uv run ipsw-diff-catalog census \
   --policy migration/source-layout.json \
   --source-repo /path/to/ipsw-diffs \
   --output migration/census.json \
+  --check
+uv run ipsw-diff-catalog plan \
+  --policy migration/major-26.json \
+  --census migration/census.json \
+  --output migration/specs-26 \
   --check
 ```
 

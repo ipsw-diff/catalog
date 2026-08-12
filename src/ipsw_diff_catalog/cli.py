@@ -8,6 +8,7 @@ from ipsw_diff_catalog.audit import audit
 from ipsw_diff_catalog.census import census
 from ipsw_diff_catalog.discovery import discover_live
 from ipsw_diff_catalog.model import CatalogError, MigrationSpec
+from ipsw_diff_catalog.planner import plan
 from ipsw_diff_catalog.render import render
 from ipsw_diff_catalog.stage import (
     stage,
@@ -91,6 +92,15 @@ def _parser() -> argparse.ArgumentParser:
     census_parser.add_argument("--source-repo", type=Path, required=True)
     census_parser.add_argument("--output", type=Path, required=True)
     census_parser.add_argument("--check", action="store_true")
+
+    plan_parser = commands.add_parser(
+        "plan",
+        help="generate exact migration specs from a frozen census and reviewed policy",
+    )
+    plan_parser.add_argument("--policy", type=Path, required=True)
+    plan_parser.add_argument("--census", type=Path, required=True)
+    plan_parser.add_argument("--output", type=Path, required=True)
+    plan_parser.add_argument("--check", action="store_true")
     return parser
 
 
@@ -126,6 +136,12 @@ def _run_census(arguments: argparse.Namespace) -> None:
         f"ordinary={result.ordinary_count} blocked={result.blocked_count} "
         f"files={result.tracked_file_count} bytes={result.logical_bytes}"
     )
+
+
+def _run_plan(arguments: argparse.Namespace) -> None:
+    result = plan(arguments.policy, arguments.census, arguments.output, check=arguments.check)
+    verb = "Checked" if result.checked else "Wrote"
+    print(f"{verb} {result.specification_count} migration specs in {result.output}")
 
 
 def _run_batch(arguments: argparse.Namespace) -> None:
@@ -207,6 +223,8 @@ def _run(arguments: argparse.Namespace) -> None:
 def _dispatch(arguments: argparse.Namespace) -> None:
     if arguments.command == "census":
         _run_census(arguments)
+    elif arguments.command == "plan":
+        _run_plan(arguments)
     elif arguments.command in {"stage-batch", "validate-staged-batch"}:
         _run_batch(arguments)
     else:

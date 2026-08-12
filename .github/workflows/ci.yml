@@ -45,5 +45,13 @@ jobs:
       - name: Check generated catalog
         run: uv run ipsw-diff-catalog render --check
 
+      - name: Check major 26 migration plan
+        run: >-
+          uv run ipsw-diff-catalog plan
+          --policy migration/major-26.json
+          --census migration/census.json
+          --output migration/specs-26
+          --check
+
       - name: Re-audit immutable source and destination commits
         run: uv run ipsw-diff-catalog audit
