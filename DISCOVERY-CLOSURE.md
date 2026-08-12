@@ -54,13 +54,13 @@ no evidence for generation or publication.
 
 | Stage | Evidence | Current status |
 | --- | --- | --- |
-| Selection and trigger | `ios-27` PR #2 pins the reusable workflow to `05d2db3e4a2e9af1f3f1b8dec58f93cb85bef8c3` and selects only `track.json` plus `manifests` | Closed |
+| Selection and trigger | `ios-27` PR #2 pins the reusable workflow to `abf25ba90c5591deff0b831c82f66711d978b0d5` and selects only `track.json` plus `manifests` | Closed |
 | Inputs and resources | Strict iOS 27 policy, terminal manifest build, `ipsw` v3.1.707 archive digest, and exact AppleDB object | Closed |
 | Transformation | Tests cover current, same-major candidate, wrong major, non-forward date, stale baseline, and ambiguous JSON | Closed |
 | Advertisement and options | Detector CLI and shard caller expose no OS, device, major, build, generation, or mutation override | Closed |
 | Dispatch and transport | A fake executable asserts all ten `ipsw` arguments, including `--version 27.`; the live query used the same selector | Closed |
 | State transition | Canonical decision JSON has exactly `current` or `candidate` status | Closed |
-| Outcome oracle | Local and GitHub-hosted run `31562156307` both emitted the same canonical `current` decision and left both worktrees clean | Closed |
+| Outcome oracle | Local and GitHub-hosted run `31562416331` both emitted the same canonical `current` decision and left both worktrees clean | Closed |
 
 ## Expected versus observed inventory
 
@@ -84,7 +84,7 @@ no evidence for generation or publication.
   the detector emitted canonical `status=current` without changing either
   repository.
 - The `ios-27` pull-request run
-  [`31562156307`](https://github.com/ipsw-diff/ios-27/actions/runs/31562156307/job/94006526321)
+  [`31562416331`](https://github.com/ipsw-diff/ios-27/actions/runs/31562416331/job/94007306208)
   resolved the reusable workflow to the pinned catalog commit, verified the
   `ipsw` archive and version on Ubuntu 24.04, used a read-only token, and emitted
   the same canonical `current` decision before proving both checked-out
