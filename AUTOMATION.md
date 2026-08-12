@@ -20,7 +20,7 @@ their separate activation gates.
 | Track | Repository | Exact AppleDB selector | Allowed version | Status |
 | --- | --- | --- | --- | --- |
 | iOS 27 | `ipsw-diff/ios-27` | `os=iOS`, `device=iPhone18,1` | numeric major exactly `27` | Pilot merged; manual read-only discovery; scheduler not enabled |
-| macOS 27 | `ipsw-diff/macos-27` | `os=macOS`, `device=Mac17,6` | numeric major exactly `27` | Repository and pilot still required |
+| macOS 27 | `ipsw-diff/macos-27` | `os=macOS`, `device=Mac17,6` | numeric major exactly `27` | Pilot merged; catalog publication pending; discovery not enabled |
 
 The selectors come from the existing production workflow. They remain explicit
 reviewed policy; directory names, build prefixes, and AppleDB result ordering

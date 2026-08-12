@@ -9,6 +9,7 @@ source-to-default-branch verification recorded here.
 | Platform | Major | Device | Comparison | Integrity |
 | --- | ---: | --- | --- | --- |
 | iOS | 27 | `iPhone18,1` | [27.0 (24A5390f) → 27.0 (24A5408d)](https://github.com/ipsw-diff/ios-27/blob/2ed100600c64666ae0347694e17e0aa2f80cb63e/diffs/27_0_24A5390f_vs_27_0_24A5408d/README.md) | `c8b4d57f870c` · 4,389 files · 57,800,821 bytes · [manifest](https://github.com/ipsw-diff/ios-27/blob/2ed100600c64666ae0347694e17e0aa2f80cb63e/manifests/27_0_24A5390f_vs_27_0_24A5408d.json) |
+| macOS | 27 | `Mac17,6` | [27.0 (26A5378n) → 27.0 (26A5388g)](https://github.com/ipsw-diff/macos-27/blob/52185c99752b8f29fd6f344738b8289b88be28f1/diffs/27_0_26A5378n_vs_27_0_26A5388g/README.md) | `59f11312d306` · 7,166 files · 70,386,271 bytes · [manifest](https://github.com/ipsw-diff/macos-27/blob/52185c99752b8f29fd6f344738b8289b88be28f1/manifests/27_0_26A5378n_vs_27_0_26A5388g.json) |
 
 ## Integrity model
 
