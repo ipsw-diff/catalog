@@ -5,9 +5,9 @@ generation, catalog publication, and external announcements are separate state
 transitions with separate permissions and observable success oracles.
 
 The immutable verifier, remote audit, and mechanical copier are merged. The
-copier materializes one explicit spec into a clean shard worktree, leaves the
-exact outputs staged for review, and never commits, pushes, deletes, or selects
-a payload.
+copier materializes one explicit spec or an explicit same-snapshot batch into a
+clean shard worktree, leaves the exact outputs staged for review, and never
+commits, pushes, deletes, or selects a payload.
 
 The frozen legacy census is a separate planning gate. It exhaustively accounts
 for the tracked tree at one immutable commit and classifies structurally

@@ -9,7 +9,12 @@ from ipsw_diff_catalog.census import census
 from ipsw_diff_catalog.discovery import discover_live
 from ipsw_diff_catalog.model import CatalogError, MigrationSpec
 from ipsw_diff_catalog.render import render
-from ipsw_diff_catalog.stage import stage, validate_staged
+from ipsw_diff_catalog.stage import (
+    stage,
+    stage_batch,
+    validate_staged,
+    validate_staged_batch,
+)
 from ipsw_diff_catalog.verify import record, verify
 
 
@@ -42,6 +47,20 @@ def _parser() -> argparse.ArgumentParser:
     )
     _add_spec_and_repositories(staged_parser, destination=True)
     staged_parser.add_argument("--destination-base", required=True)
+
+    batch_parser = commands.add_parser(
+        "stage-batch",
+        help="materialize and verify an all-or-rollback batch in one clean shard",
+    )
+    _add_batch_and_repositories(batch_parser)
+    batch_parser.add_argument("--destination-base", required=True)
+
+    batch_staged_parser = commands.add_parser(
+        "validate-staged-batch",
+        help="re-verify an entire staged migration batch without modifying it",
+    )
+    _add_batch_and_repositories(batch_staged_parser)
+    batch_staged_parser.add_argument("--destination-base", required=True)
 
     render_parser = commands.add_parser("render", help="render deterministic catalog outputs")
     render_parser.add_argument("--entries-dir", type=Path, default=Path("entries"))
@@ -82,6 +101,18 @@ def _add_spec_and_repositories(parser: argparse.ArgumentParser, *, destination: 
         parser.add_argument("--destination-repo", type=Path, required=True)
 
 
+def _add_batch_and_repositories(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        "--spec",
+        type=Path,
+        action="append",
+        required=True,
+        help="reviewed spec path; repeat for each batch member (minimum 2)",
+    )
+    parser.add_argument("--source-repo", type=Path, required=True)
+    parser.add_argument("--destination-repo", type=Path, required=True)
+
+
 def _run_census(arguments: argparse.Namespace) -> None:
     result = census(
         arguments.policy,
@@ -94,6 +125,23 @@ def _run_census(arguments: argparse.Namespace) -> None:
         f"{verb} {result.output}: payloads={result.payload_count} "
         f"ordinary={result.ordinary_count} blocked={result.blocked_count} "
         f"files={result.tracked_file_count} bytes={result.logical_bytes}"
+    )
+
+
+def _run_batch(arguments: argparse.Namespace) -> None:
+    specs = tuple(MigrationSpec.from_path(path) for path in arguments.spec)
+    operation = stage_batch if arguments.command == "stage-batch" else validate_staged_batch
+    result = operation(
+        specs,
+        arguments.source_repo,
+        arguments.destination_repo,
+        arguments.destination_base,
+    )
+    verb = "Staged" if arguments.command == "stage-batch" else "Validated staged"
+    print(
+        f"{verb} batch: payloads={len(result.payloads)} tree={result.staged_tree} "
+        f"files={result.tracked_file_count} bytes={result.logical_bytes} "
+        f"paths={result.staged_path_count} base={result.base_commit}"
     )
 
 
@@ -159,6 +207,8 @@ def _run(arguments: argparse.Namespace) -> None:
 def _dispatch(arguments: argparse.Namespace) -> None:
     if arguments.command == "census":
         _run_census(arguments)
+    elif arguments.command in {"stage-batch", "validate-staged-batch"}:
+        _run_batch(arguments)
     else:
         _run(arguments)
 
