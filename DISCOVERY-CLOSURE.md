@@ -54,13 +54,13 @@ no evidence for generation or publication.
 
 | Stage | Evidence | Current status |
 | --- | --- | --- |
-| Selection and trigger | Reusable workflow accepts only a policy path and manifests directory; immutable shard caller is pending | Unresolved |
+| Selection and trigger | `ios-27` PR #2 pins the reusable workflow to `2c39764a5220a941da60d6a83e9acf3e991c946e` and selects only `track.json` plus `manifests` | Closed |
 | Inputs and resources | Strict iOS 27 policy, terminal manifest build, `ipsw` v3.1.707 archive digest, and exact AppleDB object | Closed |
 | Transformation | Tests cover current, same-major candidate, wrong major, backward date, stale baseline, and ambiguous JSON | Closed |
-| Advertisement and options | Detector CLI has no OS, device, major, build, generation, or mutation override; shard caller is pending | Unresolved |
+| Advertisement and options | Detector CLI and shard caller expose no OS, device, major, build, generation, or mutation override | Closed |
 | Dispatch and transport | A fake executable asserts all eight `ipsw` arguments; the live query used the same selector | Closed |
 | State transition | Canonical decision JSON has exactly `current` or `candidate` status | Closed |
-| Outcome oracle | Live local result is `current` with unchanged Git state; a GitHub caller run is pending | Unresolved |
+| Outcome oracle | Local and GitHub-hosted run `31561524324` both emitted the same canonical `current` decision | Closed |
 
 ## Expected versus observed inventory
 
@@ -70,6 +70,7 @@ no evidence for generation or publication.
 | Terminal manifest builds | 1 | 1 |
 | AppleDB result objects | 1 | 1 |
 | Decision states | 2 | 2 |
+| GitHub-hosted caller runs | 1 | 1 |
 | Repository paths modified by live detection | 0 | 0 |
 
 ## Verification and mutation evidence
@@ -82,12 +83,18 @@ no evidence for generation or publication.
 - A live query for `os=iOS`, `device=iPhone18,1` returned build `24A5408d` and
   the detector emitted canonical `status=current` without changing either
   repository.
+- The `ios-27` pull-request run
+  [`31561524324`](https://github.com/ipsw-diff/ios-27/actions/runs/31561524324/job/94004651981)
+  resolved the reusable workflow to the pinned catalog commit, verified the
+  `ipsw` archive and version on Ubuntu 24.04, used a read-only token, and emitted
+  the same canonical `current` decision.
 
-## Unresolved rows
+## Remaining activation conditions
 
-- Selection, options, and the final outcome remain unresolved until the shard
-  caller pins this reusable workflow to an immutable commit and a GitHub-hosted
-  run produces the same decision.
+- No success-critical row in the scoped read-only behavior remains unresolved.
+- Catalog PR #4 and `ios-27` PR #2 must merge before manual default-branch
+  dispatch is available. Scheduling, generation, and publication retain their
+  separate activation gates.
 
 ## Stop conditions
 
@@ -98,6 +105,7 @@ mutation survives, or either repository changes during the live run.
 
 ## Bounded conclusion
 
-The local read-only detector is closed from policy parsing through decision
-output. Cross-repository invocation remains unresolved. Nothing in this audit
-authorizes scheduling, generation, or publication.
+The read-only detector is closed from immutable caller selection through its
+GitHub-hosted decision output. This establishes the scoped behavior on the
+review branches, not default-branch activation. Nothing in this audit authorizes
+scheduling, generation, or publication.

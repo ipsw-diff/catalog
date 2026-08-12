@@ -108,3 +108,14 @@ jobs:
             cat "$RUNNER_TEMP/discovery.json"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Verify repositories unchanged
+        run: |
+          set -euo pipefail
+          shard_status="$(git -C shard status --porcelain=v1 --untracked-files=all)"
+          catalog_status="$(git -C catalog status --porcelain=v1 --untracked-files=all)"
+          if [ -n "$shard_status" ] || [ -n "$catalog_status" ]; then
+            printf 'shard status:\n%s\ncatalog status:\n%s\n' \
+              "$shard_status" "$catalog_status" >&2
+            exit 1
+          fi
