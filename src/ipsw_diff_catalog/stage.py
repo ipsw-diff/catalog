@@ -34,6 +34,28 @@ class StageResult:
     staged_path_count: int
 
 
+@dataclass(frozen=True)
+class StagedPayload:
+    identifier: str
+    inventory: TreeInventory
+
+
+@dataclass(frozen=True)
+class BatchStageResult:
+    base_commit: str
+    staged_tree: str
+    payloads: tuple[StagedPayload, ...]
+    staged_path_count: int
+
+    @property
+    def tracked_file_count(self) -> int:
+        return sum(payload.inventory.file_count for payload in self.payloads)
+
+    @property
+    def logical_bytes(self) -> int:
+        return sum(payload.inventory.logical_bytes for payload in self.payloads)
+
+
 @dataclass
 class _StageTargets:
     payload: Path
@@ -44,8 +66,70 @@ class _StageTargets:
     index_touched: bool = False
 
 
+@dataclass(frozen=True)
+class _StageFacts:
+    spec: MigrationSpec
+    inventory: TreeInventory
+    expected_paths: frozenset[str]
+
+
+@dataclass
+class _StageItem:
+    facts: _StageFacts
+    targets: _StageTargets
+
+
+@dataclass(frozen=True)
+class _StageContext:
+    specs: tuple[MigrationSpec, ...]
+    source: Path
+    destination: Path
+    base: str
+
+
 _STATUS_PATH_OFFSET = 3
 _PATH_SUMMARY_LIMIT = 10
+
+
+def _paths_overlap(first: str, second: str) -> bool:
+    return first == second or first.startswith(f"{second}/") or second.startswith(f"{first}/")
+
+
+def _require_unique(values: tuple[str, ...], label: str) -> None:
+    if len(values) != len(set(values)):
+        raise CatalogError(f"batch specs must have unique {label}")
+
+
+def _ordered_specs(
+    specs: tuple[MigrationSpec, ...],
+    *,
+    minimum_count: int,
+) -> tuple[MigrationSpec, ...]:
+    if len(specs) < minimum_count:
+        raise CatalogError(f"batch staging requires at least {minimum_count} specs")
+    ordered = tuple(sorted(specs, key=lambda spec: spec.identifier))
+    _require_unique(tuple(spec.identifier for spec in ordered), "ids")
+    _require_unique(tuple(spec.source.path for spec in ordered), "source paths")
+    if len({spec.source.repository for spec in ordered}) != 1:
+        raise CatalogError("batch specs must share one source repository")
+    if len({spec.source.commit for spec in ordered}) != 1:
+        raise CatalogError("batch specs must share one source commit")
+    if len({spec.destination.repository for spec in ordered}) != 1:
+        raise CatalogError("batch specs must share one destination repository")
+
+    targets = [
+        (path, spec.identifier)
+        for spec in ordered
+        for path in (spec.destination.payload_path, spec.destination.manifest_path)
+    ]
+    for index, (first, first_identifier) in enumerate(targets):
+        for second, second_identifier in targets[index + 1 :]:
+            if _paths_overlap(first, second):
+                raise CatalogError(
+                    "batch destination paths overlap: "
+                    f"{first_identifier}:{first} and {second_identifier}:{second}"
+                )
+    return ordered
 
 
 def _require_base(repo: Path, revision: str) -> str:
@@ -56,6 +140,30 @@ def _require_base(repo: Path, revision: str) -> str:
     if head != base:
         raise CatalogError(f"destination HEAD differs: expected {base}, got {head}")
     return base
+
+
+def _stage_context(
+    specs: tuple[MigrationSpec, ...],
+    source_repo: Path,
+    destination_repo: Path,
+    destination_base: str,
+    *,
+    minimum_count: int,
+) -> _StageContext:
+    ordered = _ordered_specs(specs, minimum_count=minimum_count)
+    source = ensure_repository(source_repo)
+    destination = ensure_repository(destination_repo)
+    if source == destination:
+        raise CatalogError("source and destination repositories must differ")
+    require_origin(source, ordered[0].source.repository, "source")
+    require_origin(destination, ordered[0].destination.repository, "destination")
+    base = _require_base(destination, destination_base)
+    return _StageContext(
+        specs=ordered,
+        source=source,
+        destination=destination,
+        base=base,
+    )
 
 
 def _target_path(repo: Path, relative: str) -> Path:
@@ -109,6 +217,17 @@ def _expected_paths(spec: MigrationSpec, source_repo: Path) -> frozenset[str]:
         paths.add(f"{spec.destination.payload_path}/{relative}")
     paths.add(spec.destination.manifest_path)
     return frozenset(paths)
+
+
+def _load_facts(context: _StageContext) -> tuple[_StageFacts, ...]:
+    return tuple(
+        _StageFacts(
+            spec=spec,
+            inventory=validate_source(spec, context.source),
+            expected_paths=_expected_paths(spec, context.source),
+        )
+        for spec in context.specs
+    )
 
 
 def _archive_payload(
@@ -198,13 +317,20 @@ def _summarize_paths(paths: frozenset[str]) -> list[str]:
     ]
 
 
-def _validate_staged(
-    spec: MigrationSpec,
+def _expected_batch_paths(facts: tuple[_StageFacts, ...]) -> frozenset[str]:
+    expected = frozenset(path for item in facts for path in item.expected_paths)
+    expected_count = sum(len(item.expected_paths) for item in facts)
+    if len(expected) != expected_count:
+        raise CatalogError("batch expected path sets overlap")
+    return expected
+
+
+def _validate_staged_facts(
+    facts: tuple[_StageFacts, ...],
     destination_repo: Path,
     base: str,
-    source_inventory: TreeInventory,
     expected_paths: frozenset[str],
-) -> StageResult:
+) -> BatchStageResult:
     actual_paths = _status_additions(destination_repo)
     if actual_paths != expected_paths:
         raise CatalogError(
@@ -215,29 +341,70 @@ def _validate_staged(
     tree_output = run_git(destination_repo, "write-tree")
     assert isinstance(tree_output, str)
     staged_root = tree_output.strip()
-    staged_inventory = inventory(
-        destination_repo,
-        staged_root,
-        spec.destination.payload_path,
-    )
-    if staged_inventory != source_inventory:
-        raise CatalogError(
-            "staged payload inventory mismatch: "
-            f"source={source_inventory}, staged={staged_inventory}"
+    payloads: list[StagedPayload] = []
+    for item in facts:
+        spec = item.spec
+        staged_inventory = inventory(
+            destination_repo,
+            staged_root,
+            spec.destination.payload_path,
         )
-    manifest_bytes = blob_at_path(
-        destination_repo,
-        staged_root,
-        spec.destination.manifest_path,
-    )
-    manifest = parse_json_object(manifest_bytes, "staged manifest")
-    if manifest != spec.manifest(source_inventory):
-        raise CatalogError("staged manifest differs from measured source facts")
-    blob_at_path(destination_repo, staged_root, spec.entrypoint)
-    return StageResult(
+        if staged_inventory != item.inventory:
+            raise CatalogError(
+                f"staged payload inventory mismatch for {spec.identifier}: "
+                f"source={item.inventory}, staged={staged_inventory}"
+            )
+        manifest_bytes = blob_at_path(
+            destination_repo,
+            staged_root,
+            spec.destination.manifest_path,
+        )
+        manifest = parse_json_object(manifest_bytes, f"staged manifest for {spec.identifier}")
+        if manifest != spec.manifest(item.inventory):
+            raise CatalogError(
+                f"staged manifest differs from measured source facts for {spec.identifier}"
+            )
+        blob_at_path(destination_repo, staged_root, spec.entrypoint)
+        payloads.append(StagedPayload(identifier=spec.identifier, inventory=staged_inventory))
+    return BatchStageResult(
         base_commit=base,
-        inventory=staged_inventory,
+        staged_tree=staged_root,
+        payloads=tuple(payloads),
         staged_path_count=len(actual_paths),
+    )
+
+
+def _validate_specs(
+    specs: tuple[MigrationSpec, ...],
+    source_repo: Path,
+    destination_repo: Path,
+    destination_base: str,
+    *,
+    minimum_count: int,
+) -> BatchStageResult:
+    context = _stage_context(
+        specs,
+        source_repo,
+        destination_repo,
+        destination_base,
+        minimum_count=minimum_count,
+    )
+    facts = _load_facts(context)
+    return _validate_staged_facts(
+        facts,
+        context.destination,
+        context.base,
+        _expected_batch_paths(facts),
+    )
+
+
+def _single_result(result: BatchStageResult) -> StageResult:
+    if len(result.payloads) != 1:
+        raise CatalogError("internal single-stage result has multiple payloads")
+    return StageResult(
+        base_commit=result.base_commit,
+        inventory=result.payloads[0].inventory,
+        staged_path_count=result.staged_path_count,
     )
 
 
@@ -247,16 +414,29 @@ def validate_staged(
     destination_repo: Path,
     destination_base: str,
 ) -> StageResult:
-    source = ensure_repository(source_repo)
-    destination = ensure_repository(destination_repo)
-    if source == destination:
-        raise CatalogError("source and destination repositories must differ")
-    require_origin(source, spec.source.repository, "source")
-    require_origin(destination, spec.destination.repository, "destination")
-    base = _require_base(destination, destination_base)
-    source_inventory = validate_source(spec, source)
-    expected_paths = _expected_paths(spec, source)
-    return _validate_staged(spec, destination, base, source_inventory, expected_paths)
+    result = _validate_specs(
+        (spec,),
+        source_repo,
+        destination_repo,
+        destination_base,
+        minimum_count=1,
+    )
+    return _single_result(result)
+
+
+def validate_staged_batch(
+    specs: tuple[MigrationSpec, ...],
+    source_repo: Path,
+    destination_repo: Path,
+    destination_base: str,
+) -> BatchStageResult:
+    return _validate_specs(
+        specs,
+        source_repo,
+        destination_repo,
+        destination_base,
+        minimum_count=2,
+    )
 
 
 def _remove_exact_target(path: Path) -> None:
@@ -305,28 +485,76 @@ def _write_manifest(targets: _StageTargets, content: str) -> None:
         raise CatalogError(f"cannot write destination manifest: {error}") from error
 
 
-def _rollback(
-    repo: Path,
-    base: str,
-    spec: MigrationSpec,
-    targets: _StageTargets,
+def _preflight_targets(context: _StageContext) -> tuple[_StageTargets, ...]:
+    targets: list[_StageTargets] = []
+    for spec in context.specs:
+        payload = _require_safe_absent_target(
+            context.destination,
+            context.base,
+            spec.destination.payload_path,
+        )
+        manifest = _require_safe_absent_target(
+            context.destination,
+            context.base,
+            spec.destination.manifest_path,
+        )
+        targets.append(_StageTargets(payload=payload, manifest=manifest))
+    return tuple(targets)
+
+
+def _materialize_item(
+    item: _StageItem,
+    source: Path,
+    destination: Path,
 ) -> None:
-    if targets.index_touched:
+    spec = item.facts.spec
+    targets = item.targets
+    with tempfile.TemporaryDirectory(prefix="ipsw-diff-stage-") as raw_temporary:
+        extracted = _archive_payload(
+            spec,
+            source,
+            item.facts.inventory,
+            Path(raw_temporary),
+        )
+        _ensure_parent_directories(destination, spec.destination.payload_path, targets)
+        _reserve_payload(targets)
+        _copy_payload(extracted, targets.payload)
+        _ensure_parent_directories(destination, spec.destination.manifest_path, targets)
+        _write_manifest(targets, canonical_json(spec.manifest(item.facts.inventory)))
+        targets.index_touched = True
         run_git(
-            repo,
-            "reset",
-            "--quiet",
-            base,
+            destination,
+            "add",
+            "--force",
             "--",
             spec.destination.payload_path,
             spec.destination.manifest_path,
         )
-    if targets.manifest_owned:
-        _remove_exact_target(targets.manifest)
-    if targets.payload_owned:
-        _remove_exact_target(targets.payload)
+
+
+def _rollback_items(
+    repo: Path,
+    base: str,
+    items: tuple[_StageItem, ...],
+) -> None:
+    target_paths = tuple(
+        path
+        for item in items
+        for path in (
+            item.facts.spec.destination.payload_path,
+            item.facts.spec.destination.manifest_path,
+        )
+    )
+    if any(item.targets.index_touched for item in items):
+        run_git(repo, "reset", "--quiet", base, "--", *target_paths)
+    for item in reversed(items):
+        if item.targets.manifest_owned:
+            _remove_exact_target(item.targets.manifest)
+        if item.targets.payload_owned:
+            _remove_exact_target(item.targets.payload)
+    created_parents = {path for item in items for path in item.targets.created_parents}
     for path in sorted(
-        set(targets.created_parents),
+        created_parents,
         key=lambda item: len(item.parts),
         reverse=True,
     ):
@@ -343,12 +571,50 @@ def _rollback(
         "--name-only",
         base,
         "--",
-        spec.destination.payload_path,
-        spec.destination.manifest_path,
+        *target_paths,
     )
     assert isinstance(staged, str)
     if staged:
         raise CatalogError(f"rollback left staged destination paths:\n{staged.rstrip()}")
+
+
+def _stage_specs(
+    specs: tuple[MigrationSpec, ...],
+    source_repo: Path,
+    destination_repo: Path,
+    destination_base: str,
+    *,
+    minimum_count: int,
+) -> BatchStageResult:
+    context = _stage_context(
+        specs,
+        source_repo,
+        destination_repo,
+        destination_base,
+        minimum_count=minimum_count,
+    )
+    targets = _preflight_targets(context)
+    require_clean_worktree(context.destination)
+    facts = _load_facts(context)
+    expected_paths = _expected_batch_paths(facts)
+    items = tuple(
+        _StageItem(facts=item, targets=target) for item, target in zip(facts, targets, strict=True)
+    )
+    succeeded = False
+    try:
+        for item in items:
+            _materialize_item(item, context.source, context.destination)
+        result = _validate_staged_facts(
+            facts,
+            context.destination,
+            context.base,
+            expected_paths,
+        )
+        succeeded = True
+        return result
+    finally:
+        if not succeeded:
+            _rollback_items(context.destination, context.base, items)
 
 
 def stage(
@@ -357,71 +623,26 @@ def stage(
     destination_repo: Path,
     destination_base: str,
 ) -> StageResult:
-    source = ensure_repository(source_repo)
-    destination = ensure_repository(destination_repo)
-    if source == destination:
-        raise CatalogError("source and destination repositories must differ")
-    require_origin(source, spec.source.repository, "source")
-    require_origin(destination, spec.destination.repository, "destination")
-    base = _require_base(destination, destination_base)
-    payload = _require_safe_absent_target(
-        destination,
-        base,
-        spec.destination.payload_path,
+    result = _stage_specs(
+        (spec,),
+        source_repo,
+        destination_repo,
+        destination_base,
+        minimum_count=1,
     )
-    manifest = _require_safe_absent_target(
-        destination,
-        base,
-        spec.destination.manifest_path,
-    )
-    require_clean_worktree(destination)
-    targets = _StageTargets(
-        payload=payload,
-        manifest=manifest,
-    )
-    source_inventory = validate_source(spec, source)
-    expected_paths = _expected_paths(spec, source)
+    return _single_result(result)
 
-    with tempfile.TemporaryDirectory(prefix="ipsw-diff-stage-") as raw_temporary:
-        extracted = _archive_payload(spec, source, source_inventory, Path(raw_temporary))
-        succeeded = False
-        try:
-            _ensure_parent_directories(
-                destination,
-                spec.destination.payload_path,
-                targets,
-            )
-            _reserve_payload(targets)
-            _copy_payload(extracted, payload)
-            _ensure_parent_directories(
-                destination,
-                spec.destination.manifest_path,
-                targets,
-            )
-            _write_manifest(targets, canonical_json(spec.manifest(source_inventory)))
-            targets.index_touched = True
-            run_git(
-                destination,
-                "add",
-                "--force",
-                "--",
-                spec.destination.payload_path,
-                spec.destination.manifest_path,
-            )
-            result = _validate_staged(
-                spec,
-                destination,
-                base,
-                source_inventory,
-                expected_paths,
-            )
-            succeeded = True
-            return result
-        finally:
-            if not succeeded:
-                _rollback(
-                    destination,
-                    base,
-                    spec,
-                    targets,
-                )
+
+def stage_batch(
+    specs: tuple[MigrationSpec, ...],
+    source_repo: Path,
+    destination_repo: Path,
+    destination_base: str,
+) -> BatchStageResult:
+    return _stage_specs(
+        specs,
+        source_repo,
+        destination_repo,
+        destination_base,
+        minimum_count=2,
+    )
