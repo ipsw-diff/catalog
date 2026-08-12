@@ -172,6 +172,35 @@ def test_discover_reports_current_baseline(tmp_path: Path) -> None:
     }
 
 
+def test_discover_accepts_boundary_manifest_routed_by_destination_major(
+    tmp_path: Path,
+) -> None:
+    manifest = _manifest_object("23F77", "24A5408d")
+    manifest["from"] = {
+        "version": "26.5",
+        "build": "23F77",
+        "input": "iPhone18,1_26.5_23F77_Restore.ipsw",
+    }
+    policy_path, manifests_dir = _write_track(tmp_path, manifest=manifest)
+
+    decision = discover(TrackPolicy.from_path(policy_path), _latest(), manifests_dir)
+
+    assert decision.status == "current"
+
+
+def test_discover_rejects_manifest_destination_outside_track_major(tmp_path: Path) -> None:
+    manifest = _manifest_object()
+    manifest["to"] = {
+        "version": "26.5",
+        "build": "24A5408d",
+        "input": "iPhone18,1_26.5_24A5408d_Restore.ipsw",
+    }
+    policy_path, manifests_dir = _write_track(tmp_path, manifest=manifest)
+
+    with pytest.raises(CatalogError, match="to version differs from track major"):
+        discover(TrackPolicy.from_path(policy_path), _latest(), manifests_dir)
+
+
 def test_discover_reports_same_major_forward_candidate(tmp_path: Path) -> None:
     policy_path, manifests_dir = _write_track(tmp_path)
 
