@@ -23,7 +23,12 @@ _VERSION = re.compile(r"[0-9]+(?:\.[0-9]+)*(?: [A-Za-z0-9]+)*")
 _BUILD = re.compile(r"[A-Za-z0-9]+")
 _DEVICE = re.compile(r"[A-Za-z0-9][A-Za-z0-9,._-]*")
 _RELEASED = re.compile(r"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z")
-_TRACK_MAJOR = 27
+_SUPPORTED_TRACKS = frozenset(
+    {
+        ("ios-27", "iOS", 27),
+        ("macos-27", "macOS", 27),
+    }
+)
 
 
 def _exact_keys(value: JsonObject, expected: set[str], context: str) -> None:
@@ -179,14 +184,13 @@ class TrackPolicy:
             major_version=_integer(value["major_version"], "track policy.major_version"),
             baseline=ReleaseMetadata.from_object(value["baseline"], "track policy.baseline"),
         )
-        if policy.platform != "iOS":
-            raise CatalogError("track policy.platform must be exactly iOS")
-        if policy.major_version != _TRACK_MAJOR:
-            raise CatalogError("track policy.major_version must be exactly 27")
-        if policy.identifier != "ios-27":
-            raise CatalogError("track policy.id must be exactly ios-27")
-        if _major(policy.baseline.version, "track policy.baseline.version") != _TRACK_MAJOR:
-            raise CatalogError("track policy baseline version major must be exactly 27")
+        track = (policy.identifier, policy.platform, policy.major_version)
+        if track not in _SUPPORTED_TRACKS:
+            raise CatalogError("track policy must be exactly ios-27/iOS/27 or macos-27/macOS/27")
+        if _major(policy.baseline.version, "track policy.baseline.version") != policy.major_version:
+            raise CatalogError(
+                "track policy baseline version major must match track policy.major_version"
+            )
         return policy
 
     @classmethod

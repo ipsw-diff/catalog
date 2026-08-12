@@ -113,8 +113,11 @@ jobs:
 
       - name: Summarize decision
         run: |
+          heading="$(jq --exit-status --raw-output \
+            '"### \(.platform) \(.major_version) firmware discovery"' \
+            "$RUNNER_TEMP/discovery.json")"
           {
-            echo '### iOS 27 firmware discovery'
+            printf '%s\n' "$heading"
             echo
             echo '```json'
             cat "$RUNNER_TEMP/discovery.json"

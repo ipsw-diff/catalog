@@ -9,18 +9,18 @@ copier materializes one explicit spec into a clean shard worktree, leaves the
 exact outputs staged for review, and never commits, pushes, deletes, or selects
 a payload.
 
-The first automation slice is deliberately read-only. `discover` validates the
-reviewed iOS 27 policy against the terminal merged manifest, invokes the exact
-AppleDB selector, and emits either `current` or a same-major forward `candidate`.
-Its reusable workflow is manually invoked until generation and publication pass
-their separate activation gates.
+The first automation slice is deliberately read-only. `discover` validates one
+explicitly supported iOS 27 or macOS 27 policy against the terminal merged
+manifest, invokes the exact AppleDB selector, and emits either `current` or a
+same-major forward `candidate`. Its reusable workflow is manually invoked until
+generation and publication pass their separate activation gates.
 
 ## Planned tracks
 
 | Track | Repository | Exact AppleDB selector | Allowed version | Status |
 | --- | --- | --- | --- | --- |
 | iOS 27 | `ipsw-diff/ios-27` | `os=iOS`, `device=iPhone18,1` | numeric major exactly `27` | Pilot merged; manual read-only discovery; scheduler not enabled |
-| macOS 27 | `ipsw-diff/macos-27` | `os=macOS`, `device=Mac17,6` | numeric major exactly `27` | Pilot merged; catalog publication pending; discovery not enabled |
+| macOS 27 | `ipsw-diff/macos-27` | `os=macOS`, `device=Mac17,6` | numeric major exactly `27` | Pilot and catalog merged; read-only discovery allowed; scheduler not enabled |
 
 The selectors come from the existing production workflow. They remain explicit
 reviewed policy; directory names, build prefixes, and AppleDB result ordering
