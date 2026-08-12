@@ -176,10 +176,21 @@ def test_discover_rejects_wrong_platform(tmp_path: Path) -> None:
 def test_discover_rejects_backward_release(tmp_path: Path) -> None:
     policy_path, manifests_dir = _write_track(tmp_path)
 
-    with pytest.raises(CatalogError, match="older than baseline"):
+    with pytest.raises(CatalogError, match="not newer than baseline"):
         discover(
             TrackPolicy.from_path(policy_path),
             _latest(build="24A5399z", released="2026-08-09T00:00:00Z"),
+            manifests_dir,
+        )
+
+
+def test_discover_rejects_different_build_on_same_date(tmp_path: Path) -> None:
+    policy_path, manifests_dir = _write_track(tmp_path)
+
+    with pytest.raises(CatalogError, match="not newer than baseline"):
+        discover(
+            TrackPolicy.from_path(policy_path),
+            _latest(build="24A5409a"),
             manifests_dir,
         )
 

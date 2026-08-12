@@ -337,10 +337,11 @@ def discover(
             raise CatalogError(
                 f"latest build {latest.build} is already known but is not the baseline"
             )
-        if latest.released_at < policy.baseline.released_at:
+        if latest.released_at <= policy.baseline.released_at:
             baseline_released = policy.baseline.released
             raise CatalogError(
-                f"latest release {latest.released} is older than baseline {baseline_released}"
+                f"candidate release {latest.released} is not newer than baseline "
+                f"{baseline_released}"
             )
         status = "candidate"
 
