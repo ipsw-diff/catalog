@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "ios-27.0-24A5380h-24A5390f",
+  "platform": "iOS",
+  "major_version": 27,
+  "device": "iPhone18,1",
+  "from": {
+    "version": "27.0",
+    "build": "24A5380h",
+    "input": "iPhone18,1_27.0_24A5380h_Restore.ipsw"
+  },
+  "to": {
+    "version": "27.0",
+    "build": "24A5390f",
+    "input": "iPhone18,1_27.0_24A5390f_Restore.ipsw"
+  },
+  "source": {
+    "repository": "https://github.com/blacktop/ipsw-diffs",
+    "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+    "path": "27_0_24A5380h_vs_27_0_24A5390f"
+  },
+  "destination": {
+    "repository": "https://github.com/ipsw-diff/ios-27",
+    "payload_path": "diffs/27_0_24A5380h_vs_27_0_24A5390f",
+    "manifest_path": "manifests/27_0_24A5380h_vs_27_0_24A5390f.json"
+  }
+}
