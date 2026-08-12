@@ -4,11 +4,13 @@ Automation is intentionally downstream of the integrity model. Detection,
 generation, catalog publication, and external announcements are separate state
 transitions with separate permissions and observable success oracles.
 
-The first catalog PR contains the immutable verifier and remote audit. The
-mechanical legacy-staging command is deliberately isolated in a smaller
-follow-up PR. No additional legacy payload moves until that copier proves
-temporary extraction, reconstructed-tree equality, overwrite refusal, and
-mutation failure in review.
+The first catalog PR contains the immutable verifier and remote audit. Its
+stacked mechanical-copier follow-up adds `stage` and `validate-staged` commands.
+They materialize one explicit spec into a clean shard worktree, leave the exact
+outputs staged for review, and never commit, push, delete, or select a payload.
+No additional legacy payload moves until that follow-up merges with temporary
+extraction, reconstructed-tree equality, overwrite refusal, rollback, and
+mutation evidence green.
 
 ## Planned tracks
 

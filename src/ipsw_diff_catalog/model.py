@@ -22,6 +22,7 @@ _PATH_PART = re.compile(r"[A-Za-z0-9][A-Za-z0-9,._+@-]*")
 _VERSION = re.compile(r"[0-9]+(?:\.[0-9]+)*(?: [A-Za-z0-9]+)*")
 _BUILD = re.compile(r"[A-Za-z0-9]+")
 _DEVICE = re.compile(r"[A-Za-z0-9][A-Za-z0-9,._-]*")
+_INPUT_NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9,._+-]*\.ipsw")
 
 
 class _DuplicateJsonKeyError(ValueError):
@@ -108,6 +109,13 @@ def _device(value: object, context: str) -> str:
     return device
 
 
+def _input_name(value: object, context: str) -> str:
+    input_name = _string(value, context)
+    if _INPUT_NAME.fullmatch(input_name) is None:
+        raise CatalogError(f"{context} must be a plain IPSW filename")
+    return input_name
+
+
 def _full_oid(value: object, context: str) -> str:
     oid = _string(value, context)
     if _FULL_OID.fullmatch(oid) is None:
@@ -167,7 +175,7 @@ class Release:
         release = cls(
             version=_version(data["version"], f"{context}.version"),
             build=_build(data["build"], f"{context}.build"),
-            input_name=_string(data["input"], f"{context}.input"),
+            input_name=_input_name(data["input"], f"{context}.input"),
         )
         if release.build not in release.input_name:
             raise CatalogError(f"{context}.input does not contain declared build")

@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 import pytest
 
 from ipsw_diff_catalog.model import JsonObject, MigrationSpec
-from tests.helpers import Repositories, commit_all, init_repo
+from tests.helpers import Repositories, commit_all, git, init_repo
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -16,6 +16,7 @@ if TYPE_CHECKING:
 def repositories(tmp_path: Path) -> Repositories:
     source = tmp_path / "source"
     init_repo(source)
+    git(source, "remote", "add", "origin", "https://github.com/example/source.git")
     source_payload = source / "source-diff"
     source_payload.mkdir()
     (source_payload / "README.md").write_text(
@@ -36,8 +37,9 @@ def repositories(tmp_path: Path) -> Repositories:
 
     destination = tmp_path / "destination"
     init_repo(destination)
+    git(destination, "remote", "add", "origin", "https://github.com/example/ios-1.git")
     (destination / "README.md").write_text("# shard\n", encoding="utf-8")
-    commit_all(destination, "bootstrap")
+    destination_base = commit_all(destination, "bootstrap")
 
     spec_object: JsonObject = {
         "schema_version": 1,
@@ -73,4 +75,5 @@ def repositories(tmp_path: Path) -> Repositories:
         destination=destination,
         spec=MigrationSpec.from_object(spec_object),
         spec_path=spec_path,
+        destination_base=destination_base,
     )

@@ -66,20 +66,25 @@ def _validate_readme(spec: MigrationSpec, readme: str) -> None:
         raise CatalogError(
             f"source README title mismatch: expected '# {spec.title}', got {actual!r}"
         )
-    try:
-        start = lines.index("## Inputs") + 1
-    except ValueError as error:
-        raise CatalogError("source README has no exact '## Inputs' section") from error
-    inputs: list[str] = []
+    headings = [index for index, line in enumerate(lines) if line == "## Inputs"]
+    if len(headings) != 1:
+        raise CatalogError(
+            f"source README must have exactly one '## Inputs' section; found {len(headings)}"
+        )
+    start = headings[0] + 1
+    section: list[str] = []
     for line in lines[start:]:
         if line.startswith("## "):
             break
-        if line.startswith("- `") and line.endswith("`"):
-            inputs.append(line[3:-1])
-    expected = [spec.previous.input_name, spec.next.input_name]
-    if inputs != expected:
+        if line:
+            section.append(line)
+    expected = [
+        f"- `{spec.previous.input_name}`",
+        f"- `{spec.next.input_name}`",
+    ]
+    if section != expected:
         raise CatalogError(
-            f"source README inputs differ: expected={expected!r}, observed={inputs!r}"
+            f"source README inputs differ: expected={expected!r}, observed={section!r}"
         )
 
 
