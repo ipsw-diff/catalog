@@ -66,11 +66,29 @@ def require_clean_worktree(repo: Path) -> None:
         raise CatalogError(f"destination worktree is not clean:\n{output.rstrip()}")
 
 
-def tree_entries(repo: Path, revision: str, path: str) -> tuple[TreeEntry, ...]:
-    output = run_git(repo, "ls-tree", "-r", "-z", "-l", revision, "--", path, text=False)
-    assert isinstance(output, bytes)
+def require_origin(repo: Path, expected: str, context: str) -> None:
+    output = run_git(repo, "remote", "get-url", "origin")
+    assert isinstance(output, str)
+    observed = output.strip()
+    slug = expected.removeprefix("https://github.com/")
+    accepted = {
+        expected,
+        f"{expected}.git",
+        f"git@github.com:{slug}.git",
+        f"ssh://git@github.com/{slug}.git",
+    }
+    if observed not in accepted:
+        raise CatalogError(
+            f"{context} origin differs: expected GitHub repository {expected}, got {observed!r}"
+        )
+
+
+def _parse_tree_entries(
+    output: bytes,
+    context: str,
+    prefix: str | None,
+) -> tuple[TreeEntry, ...]:
     entries: list[TreeEntry] = []
-    prefix = f"{path}/"
     for raw in output.split(b"\0"):
         if not raw:
             continue
@@ -80,15 +98,36 @@ def tree_entries(repo: Path, revision: str, path: str) -> tuple[TreeEntry, ...]:
             entry_path = raw_path.decode("utf-8")
             size = int(raw_size)
         except (UnicodeDecodeError, ValueError) as error:
-            raise CatalogError(f"cannot parse Git tree entry below {path}") from error
+            raise CatalogError(f"cannot parse Git tree entry for {context}") from error
         if kind != "blob" or mode not in {"100644", "100755"}:
-            raise CatalogError(f"unsupported Git entry below {path}: {mode} {kind} {entry_path}")
-        if not entry_path.startswith(prefix):
-            raise CatalogError(f"Git returned an entry outside {path}: {entry_path}")
+            raise CatalogError(f"unsupported Git entry for {context}: {mode} {kind} {entry_path}")
+        if prefix is not None and not entry_path.startswith(prefix):
+            raise CatalogError(f"Git returned an entry outside {context}: {entry_path}")
         entries.append(TreeEntry(mode=mode, oid=oid, size=size, path=entry_path))
     if not entries:
-        raise CatalogError(f"no tracked files found below {path} at {revision}")
+        raise CatalogError(f"no tracked files found for {context}")
     return tuple(entries)
+
+
+def tracked_entries(repo: Path, revision: str) -> tuple[TreeEntry, ...]:
+    output = run_git(repo, "ls-tree", "-r", "-z", "-l", revision, text=False)
+    assert isinstance(output, bytes)
+    return _parse_tree_entries(output, f"repository at {revision}", None)
+
+
+def tree_entries(repo: Path, revision: str, path: str) -> tuple[TreeEntry, ...]:
+    output = run_git(repo, "ls-tree", "-r", "-z", "-l", revision, "--", path, text=False)
+    assert isinstance(output, bytes)
+    return _parse_tree_entries(output, f"{path} at {revision}", f"{path}/")
+
+
+def root_tree_oid(repo: Path, revision: str) -> str:
+    output = run_git(repo, "rev-parse", "--verify", f"{revision}^{{tree}}")
+    assert isinstance(output, str)
+    oid = output.strip()
+    if _FULL_OID.fullmatch(oid) is None:
+        raise CatalogError(f"Git returned an invalid root tree object ID for {revision}")
+    return oid
 
 
 def tree_oid(repo: Path, revision: str, path: str) -> str:
