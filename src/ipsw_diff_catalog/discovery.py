@@ -257,7 +257,9 @@ def _manifest_edge(path: Path, policy: TrackPolicy) -> tuple[str, str]:
         release = _object(data[name], f"{path} {name}")
         _exact_keys(release, {"version", "build", "input"}, f"{path} {name}")
         version = _string(release["version"], f"{path} {name}.version", _VERSION)
-        if _major(version, f"{path} {name}.version") != policy.major_version:
+        # Tracks are routed by destination major; source versions may therefore
+        # belong to the preceding major at a release boundary.
+        if name == "to" and _major(version, f"{path} {name}.version") != policy.major_version:
             raise CatalogError(f"{path} {name} version differs from track major")
         builds.append(_string(release["build"], f"{path} {name}.build", _BUILD))
     if builds[0] == builds[1]:
