@@ -29,10 +29,11 @@ Run `validate-staged` again after inspection. Neither command commits or pushes.
 
 ## Read-only discovery
 
-`discover` reads one reviewed iOS 27 track policy, proves its baseline is the
-terminal merged manifest build, queries AppleDB with the exact policy selector,
-and emits canonical `current` or `candidate` JSON. It does not download firmware,
-modify a repository, schedule work, generate a diff, or publish anything.
+`discover` reads one explicitly supported iOS 27 or macOS 27 track policy,
+proves its baseline is the terminal merged manifest build, queries AppleDB with
+the exact policy selector, and emits canonical `current` or `candidate` JSON.
+It does not download firmware, modify a repository, schedule work, generate a
+diff, or publish anything.
 
 ## Tooling
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 import pytest
@@ -17,17 +18,48 @@ if TYPE_CHECKING:
     from pathlib import Path
 
 
-def _policy_object() -> JsonObject:
+@dataclass(frozen=True)
+class _TrackFixture:
+    identifier: str
+    platform: str
+    device: str
+    baseline_version: str
+    baseline_build: str
+    baseline_released: str
+    input_prefix: str
+
+
+_IOS_TRACK = _TrackFixture(
+    identifier="ios-27",
+    platform="iOS",
+    device="iPhone18,1",
+    baseline_version="27.0 beta 5",
+    baseline_build="24A5408d",
+    baseline_released="2026-08-10T00:00:00Z",
+    input_prefix="iPhone18,1",
+)
+_MACOS_TRACK = _TrackFixture(
+    identifier="macos-27",
+    platform="macOS",
+    device="Mac17,6",
+    baseline_version="27.0 beta 4",
+    baseline_build="26A5388g",
+    baseline_released="2026-07-20T00:00:00Z",
+    input_prefix="UniversalMac",
+)
+
+
+def _policy_object(track: _TrackFixture = _IOS_TRACK) -> JsonObject:
     return {
         "schema_version": 1,
-        "id": "ios-27",
-        "platform": "iOS",
-        "device": "iPhone18,1",
+        "id": track.identifier,
+        "platform": track.platform,
+        "device": track.device,
         "major_version": 27,
         "baseline": {
-            "version": "27.0 beta 5",
-            "build": "24A5408d",
-            "released": "2026-08-10T00:00:00Z",
+            "version": track.baseline_version,
+            "build": track.baseline_build,
+            "released": track.baseline_released,
             "beta": True,
             "rc": False,
         },
@@ -37,22 +69,24 @@ def _policy_object() -> JsonObject:
 def _manifest_object(
     previous_build: str = "24A5390f",
     next_build: str = "24A5408d",
+    *,
+    track: _TrackFixture = _IOS_TRACK,
 ) -> JsonObject:
     return {
         "schema_version": 1,
-        "id": f"ios-27.0-{previous_build}-{next_build}",
-        "platform": "iOS",
+        "id": f"{track.identifier}.0-{previous_build}-{next_build}",
+        "platform": track.platform,
         "major_version": 27,
-        "device": "iPhone18,1",
+        "device": track.device,
         "from": {
             "version": "27.0",
             "build": previous_build,
-            "input": f"iPhone18,1_27.0_{previous_build}_Restore.ipsw",
+            "input": f"{track.input_prefix}_27.0_{previous_build}_Restore.ipsw",
         },
         "to": {
             "version": "27.0",
             "build": next_build,
-            "input": f"iPhone18,1_27.0_{next_build}_Restore.ipsw",
+            "input": f"{track.input_prefix}_27.0_{next_build}_Restore.ipsw",
         },
         "payload": {
             "path": "diffs/example",
@@ -69,13 +103,21 @@ def _manifest_object(
     }
 
 
-def _write_track(tmp_path: Path) -> tuple[Path, Path]:
+def _write_track(
+    tmp_path: Path,
+    *,
+    policy: JsonObject | None = None,
+    manifest: JsonObject | None = None,
+) -> tuple[Path, Path]:
     policy_path = tmp_path / "track.json"
-    policy_path.write_text(json.dumps(_policy_object()), encoding="utf-8")
+    policy_path.write_text(
+        json.dumps(policy if policy is not None else _policy_object()),
+        encoding="utf-8",
+    )
     manifests_dir = tmp_path / "manifests"
     manifests_dir.mkdir()
     (manifests_dir / "baseline.json").write_text(
-        json.dumps(_manifest_object()),
+        json.dumps(manifest if manifest is not None else _manifest_object()),
         encoding="utf-8",
     )
     return policy_path, manifests_dir
@@ -83,6 +125,7 @@ def _write_track(tmp_path: Path) -> tuple[Path, Path]:
 
 def _latest(
     *,
+    platform: str = "iOS",
     version: str = "27.0 beta 5",
     build: str = "24A5408d",
     released: str = "2026-08-10T00:00:00Z",
@@ -90,7 +133,7 @@ def _latest(
     return AppleDBRelease.from_json(
         json.dumps(
             {
-                "OS": "iOS",
+                "OS": platform,
                 "version": version,
                 "build": build,
                 "beta": True,
@@ -234,12 +277,85 @@ def test_appledb_result_rejects_ambiguous_shape(raw: str) -> None:
         AppleDBRelease.from_json(raw)
 
 
-def test_policy_is_exactly_ios_27() -> None:
-    policy = _policy_object()
-    policy["platform"] = "macOS"
+@pytest.mark.parametrize(
+    "policy",
+    [
+        _policy_object(),
+        _policy_object(_MACOS_TRACK),
+    ],
+)
+def test_policy_accepts_only_reviewed_tracks(policy: JsonObject) -> None:
+    assert TrackPolicy.from_object(policy).identifier == policy["id"]
 
-    with pytest.raises(CatalogError, match="platform must be exactly iOS"):
+
+@pytest.mark.parametrize(
+    ("identifier", "platform", "major_version"),
+    [
+        ("ios-27", "macOS", 27),
+        ("macos-27", "iOS", 27),
+        ("ios-28", "iOS", 28),
+    ],
+)
+def test_policy_rejects_unsupported_track_tuples(
+    identifier: str,
+    platform: str,
+    major_version: int,
+) -> None:
+    policy = _policy_object()
+    policy["id"] = identifier
+    policy["platform"] = platform
+    policy["major_version"] = major_version
+
+    with pytest.raises(CatalogError, match="track policy must be exactly"):
         TrackPolicy.from_object(policy)
+
+
+def test_discover_reports_macos_forward_candidate(tmp_path: Path) -> None:
+    policy = _policy_object(_MACOS_TRACK)
+    manifest = _manifest_object(
+        "26A5378n",
+        "26A5388g",
+        track=_MACOS_TRACK,
+    )
+    policy_path, manifests_dir = _write_track(
+        tmp_path,
+        policy=policy,
+        manifest=manifest,
+    )
+
+    decision = discover(
+        TrackPolicy.from_path(policy_path),
+        _latest(
+            platform="macOS",
+            version="27.0 beta 5",
+            build="26A5406e",
+            released="2026-08-10T00:00:00Z",
+        ),
+        manifests_dir,
+    )
+
+    assert decision.to_object() == {
+        "schema_version": 1,
+        "track_id": "macos-27",
+        "status": "candidate",
+        "platform": "macOS",
+        "device": "Mac17,6",
+        "major_version": 27,
+        "baseline": {
+            "version": "27.0 beta 4",
+            "build": "26A5388g",
+            "released": "2026-07-20T00:00:00Z",
+            "beta": True,
+            "rc": False,
+        },
+        "latest": {
+            "version": "27.0 beta 5",
+            "build": "26A5406e",
+            "released": "2026-08-10T00:00:00Z",
+            "beta": True,
+            "rc": False,
+        },
+    }
 
 
 def test_live_query_passes_only_the_reviewed_selector(tmp_path: Path) -> None:
@@ -276,3 +392,49 @@ def test_live_query_passes_only_the_reviewed_selector(tmp_path: Path) -> None:
     decision = discover_live(policy_path, manifests_dir, fake_ipsw)
 
     assert decision.status == "current"
+
+
+def test_live_query_passes_only_the_reviewed_macos_selector(tmp_path: Path) -> None:
+    policy = _policy_object(_MACOS_TRACK)
+    manifest = _manifest_object(
+        "26A5378n",
+        "26A5388g",
+        track=_MACOS_TRACK,
+    )
+    policy_path, manifests_dir = _write_track(
+        tmp_path,
+        policy=policy,
+        manifest=manifest,
+    )
+    fake_ipsw = tmp_path / "ipsw"
+    latest = json.dumps(
+        {
+            "OS": "macOS",
+            "version": "27.0 beta 5",
+            "build": "26A5406e",
+            "beta": True,
+            "released": "2026-08-10T00:00:00Z",
+        },
+        separators=(",", ":"),
+    )
+    fake_ipsw.write_text(
+        "#!/bin/sh\n"
+        'test "$#" -eq 10 || exit 64\n'
+        'test "$1" = dl || exit 65\n'
+        'test "$2" = appledb || exit 66\n'
+        'test "$3" = --os || exit 67\n'
+        'test "$4" = macOS || exit 68\n'
+        'test "$5" = --device || exit 69\n'
+        'test "$6" = Mac17,6 || exit 70\n'
+        'test "$7" = --version || exit 71\n'
+        'test "$8" = 27. || exit 72\n'
+        'test "$9" = --show-latest || exit 73\n'
+        'test "${10}" = --no-color || exit 74\n'
+        f"printf '%s\\n' '{latest}'\n",
+        encoding="utf-8",
+    )
+    fake_ipsw.chmod(0o755)
+
+    decision = discover_live(policy_path, manifests_dir, fake_ipsw)
+
+    assert decision.status == "candidate"
