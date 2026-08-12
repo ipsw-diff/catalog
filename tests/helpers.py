@@ -66,3 +66,4 @@ class Repositories:
     destination: Path
     spec: MigrationSpec
     spec_path: Path
+    destination_base: str

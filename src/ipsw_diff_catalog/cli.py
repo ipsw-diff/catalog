@@ -7,6 +7,7 @@ from pathlib import Path
 from ipsw_diff_catalog.audit import audit
 from ipsw_diff_catalog.model import CatalogError, MigrationSpec
 from ipsw_diff_catalog.render import render
+from ipsw_diff_catalog.stage import stage, validate_staged
 from ipsw_diff_catalog.verify import record, verify
 
 
@@ -25,6 +26,20 @@ def _parser() -> argparse.ArgumentParser:
     _add_spec_and_repositories(record_parser, destination=True)
     record_parser.add_argument("--destination-revision", required=True)
     record_parser.add_argument("--entries-dir", type=Path, default=Path("entries"))
+
+    stage_parser = commands.add_parser(
+        "stage",
+        help="materialize and verify one source subtree in a clean shard worktree",
+    )
+    _add_spec_and_repositories(stage_parser, destination=True)
+    stage_parser.add_argument("--destination-base", required=True)
+
+    staged_parser = commands.add_parser(
+        "validate-staged",
+        help="re-verify a staged migration without modifying it",
+    )
+    _add_spec_and_repositories(staged_parser, destination=True)
+    staged_parser.add_argument("--destination-base", required=True)
 
     render_parser = commands.add_parser("render", help="render deterministic catalog outputs")
     render_parser.add_argument("--entries-dir", type=Path, default=Path("entries"))
@@ -84,6 +99,21 @@ def _run(arguments: argparse.Namespace) -> None:
             arguments.entries_dir,
         )
         print(f"Recorded {path}")
+        return
+    if arguments.command in {"stage", "validate-staged"}:
+        operation = stage if arguments.command == "stage" else validate_staged
+        result = operation(
+            spec,
+            arguments.source_repo,
+            arguments.destination_repo,
+            arguments.destination_base,
+        )
+        verb = "Staged" if arguments.command == "stage" else "Validated staged"
+        print(
+            f"{verb} {spec.identifier}: tree={result.inventory.tree} "
+            f"files={result.inventory.file_count} bytes={result.inventory.logical_bytes} "
+            f"paths={result.staged_path_count} base={result.base_commit}"
+        )
         return
     raise CatalogError(f"unsupported command: {arguments.command}")
 

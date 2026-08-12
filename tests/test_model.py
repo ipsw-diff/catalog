@@ -46,6 +46,13 @@ def test_json_rejects_duplicate_keys() -> None:
         )
 
 
+def test_spec_rejects_input_path(repositories: Repositories) -> None:
+    data = json.loads(repositories.spec_path.read_text(encoding="utf-8"))
+    data["from"]["input"] = "../Device1,1_1.0_A1_Restore.ipsw"
+    with pytest.raises(CatalogError, match="plain IPSW filename"):
+        MigrationSpec.from_object(data)
+
+
 @pytest.mark.parametrize(
     ("field", "value", "message"),
     [
