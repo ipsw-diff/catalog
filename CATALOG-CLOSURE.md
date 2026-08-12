@@ -51,8 +51,8 @@ legacy directory name?
 | Transformation | Entry and generated outputs reproduce deterministically | Closed |
 | Advertisement | Commit-pinned payload and manifest links resolve | Closed |
 | Dispatch and transport | Public `ipsw-diff/catalog` repository and `agent/catalog-pilot` review branch | Closed |
-| State transition | Catalog PR is not yet merged | Unresolved until merge |
-| Outcome oracle | Local remote audit passes; fresh catalog `main` clone is pending | Unresolved until merge and post-merge check |
+| State transition | PR #1 merged to `main` as `56ae4039fb6e287daf9765dc23755979f36df96a` with successful CI | Closed |
+| Outcome oracle | A fresh public `main` clone at `db63199852bb5e4014ac02c4ed3569974f0cd252` reproduced the generated outputs and passed the immutable remote audit | Closed |
 
 ## Expected versus observed inventory
 
@@ -77,6 +77,10 @@ payload blobs proves their contents.
 
 - The real pilot passes full local verification and an independent partial-clone
   remote audit from both public GitHub repositories.
+- PR #1 merged to the public default branch as
+  `56ae4039fb6e287daf9765dc23755979f36df96a`. A later fresh clone of public
+  `main` at `db63199852bb5e4014ac02c4ed3569974f0cd252` passed formatting, lint,
+  type checking, all 31 tests, deterministic rendering, and the remote audit.
 - Tests reject payload mutation, manifest mutation, README/spec disagreement,
   unsafe routes and paths, unknown schema keys, duplicate entries, mismatched
   spec/entry sets, overwrite attempts, and stale generated files.
@@ -91,6 +95,6 @@ outputs, remote audit fails, or any success-critical row above is unresolved.
 
 ## Bounded conclusion
 
-The one-entry catalog candidate is locally verified and ready for publication
-review. This does not establish bulk-migration safety or activate shard and X
-automation. Final catalog closure waits for merge and a fresh `main` audit.
+The one-entry catalog pilot is published and complete within the lifecycle scope
+defined above. This does not establish bulk-migration safety or activate shard
+and X automation.

@@ -75,14 +75,19 @@ path outside its exact payload and manifest targets.
 | Transformation | Temporary archive extraction is re-indexed and compared to the source before destination copying | Closed |
 | Advertisement and options | CLI accepts only spec, source repo, destination repo, and full destination base commit | Closed |
 | Dispatch and transport | Destination status contains exactly 4,389 payload files plus one derived manifest | Closed |
-| State transition | Disposable pre-pilot shard clone remains at the pinned `HEAD` with exactly 4,390 additions staged | Closed |
-| Outcome oracle | Reconstructed staged payload tree equals both the source and merged pilot tree | Closed |
+| State transition | PR #2 merged to `main` as `db63199852bb5e4014ac02c4ed3569974f0cd252`; that fresh public code changed a clean disposable pre-pilot shard clone into exactly 4,390 staged additions at the pinned `HEAD` | Closed |
+| Outcome oracle | `validate-staged` independently confirmed that the reconstructed payload tree from fresh public `main` equals both the source and merged pilot tree | Closed |
 
 ## Verification and mutation evidence
 
 - The real iOS 27 rehearsal staged tree `c8b4d57f870c15eedcb953456ab61707ed0e3cbe`,
   4,389 files, 57,800,821 logical bytes, and one manifest from the pre-pilot
   destination commit.
+- After PR #2 merged, a fresh public `main` clone at
+  `db63199852bb5e4014ac02c4ed3569974f0cd252` repeated that full rehearsal and
+  passed the independent `validate-staged` oracle. Formatting, lint, type
+  checking, deterministic rendering, the remote audit, and all 31 tests also
+  passed from that clone.
 - The payload tree equals the merged pilot payload tree. The newly generated
   manifest is semantically identical to the pilot manifest but uses canonical
   sorted JSON keys; manifest byte identity is deliberately not a payload oracle.
@@ -97,8 +102,7 @@ path outside its exact payload and manifest targets.
 
 ## Bounded conclusion
 
-The scoped copier candidate faithfully stages one explicitly selected payload
-and derived manifest for review. This does not establish selection policy,
-bulk-migration readiness, source deletion safety, or any automation beyond the
-first and last lifecycle stages named above. Publication readiness still waits
-for review, CI, and merge of both the catalog base and this stacked follow-up.
+The scoped copier is published and faithfully stages one explicitly selected
+payload and derived manifest for review. This does not establish selection
+policy, bulk-migration readiness, source deletion safety, or any automation
+beyond the first and last lifecycle stages named above.
