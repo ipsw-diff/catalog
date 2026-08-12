@@ -246,15 +246,17 @@ def test_live_query_passes_only_the_reviewed_selector(tmp_path: Path) -> None:
     )
     fake_ipsw.write_text(
         "#!/bin/sh\n"
-        'test "$#" -eq 8 || exit 64\n'
+        'test "$#" -eq 10 || exit 64\n'
         'test "$1" = dl || exit 65\n'
         'test "$2" = appledb || exit 66\n'
         'test "$3" = --os || exit 67\n'
         'test "$4" = iOS || exit 68\n'
         'test "$5" = --device || exit 69\n'
         'test "$6" = iPhone18,1 || exit 70\n'
-        'test "$7" = --show-latest || exit 71\n'
-        'test "$8" = --no-color || exit 72\n'
+        'test "$7" = --version || exit 71\n'
+        'test "$8" = 27. || exit 72\n'
+        'test "$9" = --show-latest || exit 73\n'
+        'test "${10}" = --no-color || exit 74\n'
         f"printf '%s\\n' '{latest}'\n",
         encoding="utf-8",
     )

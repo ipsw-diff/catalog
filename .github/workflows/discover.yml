@@ -99,17 +99,8 @@ jobs:
             printf 'result=%s\n' "$result"
           } >> "$GITHUB_OUTPUT"
 
-      - name: Summarize decision
-        run: |
-          {
-            echo '### iOS 27 firmware discovery'
-            echo
-            echo '```json'
-            cat "$RUNNER_TEMP/discovery.json"
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
-
       - name: Verify repositories unchanged
+        if: always()
         run: |
           set -euo pipefail
           shard_status="$(git -C shard status --porcelain=v1 --untracked-files=all)"
@@ -119,3 +110,13 @@ jobs:
               "$shard_status" "$catalog_status" >&2
             exit 1
           fi
+
+      - name: Summarize decision
+        run: |
+          {
+            echo '### iOS 27 firmware discovery'
+            echo
+            echo '```json'
+            cat "$RUNNER_TEMP/discovery.json"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

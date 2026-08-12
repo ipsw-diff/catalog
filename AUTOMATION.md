@@ -24,7 +24,9 @@ their separate activation gates.
 
 The selectors come from the existing production workflow. They remain explicit
 reviewed policy; directory names, build prefixes, and AppleDB result ordering
-are not allowed to assign platform or major-version semantics.
+are not allowed to assign platform or major-version semantics. Detection passes
+the numeric-major prefix to AppleDB and independently validates the returned
+version, so a later iOS major cannot hide iOS 27 maintenance builds.
 
 ## Shard workflow contract
 
@@ -34,7 +36,8 @@ SHA, as recommended by [GitHub's reusable-workflow documentation][reuse].
 
 The reusable workflow must:
 
-1. Query AppleDB using only the exact platform and device in the shard policy.
+1. Query AppleDB using only the exact platform, device, and numeric-major prefix
+   in the shard policy.
 2. Parse the returned version and require its numeric major to equal the exact
    allowed major before downloading anything. Manual inputs pass the same gate.
 3. Compare only with the last merged baseline from the same track. A first build

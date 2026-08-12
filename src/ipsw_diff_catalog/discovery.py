@@ -369,6 +369,8 @@ def discover_live(
         policy.platform,
         "--device",
         policy.device,
+        "--version",
+        f"{policy.major_version}.",
         "--show-latest",
         "--no-color",
     ]

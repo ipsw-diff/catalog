@@ -5,9 +5,9 @@ Recorded: 2026-08-11
 ## Claim and scope
 
 Question: can a read-only reusable workflow take the reviewed `ios-27` track
-policy, query AppleDB with exactly that platform and device, and deterministically
-classify the latest result as either the current baseline or a same-major forward
-candidate?
+policy, query AppleDB with exactly that platform, device, and numeric-major
+prefix, and deterministically classify the latest result as either the current
+baseline or a same-major forward candidate?
 
 - First lifecycle stage: a caller selects the checked-in policy and invokes the
   catalog workflow at an immutable commit.
@@ -58,7 +58,7 @@ no evidence for generation or publication.
 | Inputs and resources | Strict iOS 27 policy, terminal manifest build, `ipsw` v3.1.707 archive digest, and exact AppleDB object | Closed |
 | Transformation | Tests cover current, same-major candidate, wrong major, backward date, stale baseline, and ambiguous JSON | Closed |
 | Advertisement and options | Detector CLI and shard caller expose no OS, device, major, build, generation, or mutation override | Closed |
-| Dispatch and transport | A fake executable asserts all eight `ipsw` arguments; the live query used the same selector | Closed |
+| Dispatch and transport | A fake executable asserts all ten `ipsw` arguments, including `--version 27.`; the live query used the same selector | Closed |
 | State transition | Canonical decision JSON has exactly `current` or `candidate` status | Closed |
 | Outcome oracle | Local and GitHub-hosted run `31561524324` both emitted the same canonical `current` decision | Closed |
 
