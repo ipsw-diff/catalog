@@ -1,0 +1,53 @@
+[project]
+name = "ipsw-diff-catalog"
+version = "0.1.0"
+description = "Integrity-first catalog tooling for ipsw-diff shards"
+readme = "README.md"
+authors = [
+    { name = "blacktop", email = "blacktop@users.noreply.github.com" }
+]
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+ipsw-diff-catalog = "ipsw_diff_catalog:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.16.2",
+    "ty>=0.0.70",
+]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "COM812",
+    "CPY001",
+    "D",
+    "EM101",
+    "EM102",
+    "ISC001",
+    "S101",
+    "S607",
+    "T201",
+    "TRY003",
+]
+
+[tool.ty.environment]
+python-version = "3.12"
+
+[tool.ty.terminal]
+error-on-warning = true
+
+[build-system]
+requires = ["uv_build>=0.12.3,<0.13.0"]
+build-backend = "uv_build"
