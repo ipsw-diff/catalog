@@ -26,6 +26,13 @@ destination `HEAD` commit. It refuses dirty or pre-existing targets, reconstruct
 the source tree twice, and leaves only the payload and manifest staged for review.
 Run `validate-staged` again after inspection. Neither command commits or pushes.
 
+## Read-only discovery
+
+`discover` reads one reviewed iOS 27 track policy, proves its baseline is the
+terminal merged manifest build, queries AppleDB with the exact policy selector,
+and emits canonical `current` or `candidate` JSON. It does not download firmware,
+modify a repository, schedule work, generate a diff, or publish anything.
+
 ## Tooling
 
 ```console
@@ -33,6 +40,7 @@ uv sync --locked --all-groups
 uv run ipsw-diff-catalog --help
 uv run ipsw-diff-catalog stage --help
 uv run ipsw-diff-catalog validate-staged --help
+uv run ipsw-diff-catalog discover --help
 uv run pytest
 uv run ruff format --check .
 uv run ruff check .

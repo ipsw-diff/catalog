@@ -4,19 +4,22 @@ Automation is intentionally downstream of the integrity model. Detection,
 generation, catalog publication, and external announcements are separate state
 transitions with separate permissions and observable success oracles.
 
-The first catalog PR contains the immutable verifier and remote audit. Its
-stacked mechanical-copier follow-up adds `stage` and `validate-staged` commands.
-They materialize one explicit spec into a clean shard worktree, leave the exact
-outputs staged for review, and never commit, push, delete, or select a payload.
-No additional legacy payload moves until that follow-up merges with temporary
-extraction, reconstructed-tree equality, overwrite refusal, rollback, and
-mutation evidence green.
+The immutable verifier, remote audit, and mechanical copier are merged. The
+copier materializes one explicit spec into a clean shard worktree, leaves the
+exact outputs staged for review, and never commits, pushes, deletes, or selects
+a payload.
+
+The first automation slice is deliberately read-only. `discover` validates the
+reviewed iOS 27 policy against the terminal merged manifest, invokes the exact
+AppleDB selector, and emits either `current` or a same-major forward `candidate`.
+Its reusable workflow is manually invoked until generation and publication pass
+their separate activation gates.
 
 ## Planned tracks
 
 | Track | Repository | Exact AppleDB selector | Allowed version | Status |
 | --- | --- | --- | --- | --- |
-| iOS 27 | `ipsw-diff/ios-27` | `os=iOS`, `device=iPhone18,1` | numeric major exactly `27` | Pilot merged; scheduler not enabled |
+| iOS 27 | `ipsw-diff/ios-27` | `os=iOS`, `device=iPhone18,1` | numeric major exactly `27` | Pilot merged; manual read-only discovery; scheduler not enabled |
 | macOS 27 | `ipsw-diff/macos-27` | `os=macOS`, `device=Mac17,6` | numeric major exactly `27` | Repository and pilot still required |
 
 The selectors come from the existing production workflow. They remain explicit
