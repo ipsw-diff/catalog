@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "macos-27.0-26A5353q-26A5368g",
+  "platform": "macOS",
+  "major_version": 27,
+  "device": "Mac17,6",
+  "from": {
+    "version": "27.0",
+    "build": "26A5353q",
+    "input": "UniversalMac_27.0_26A5353q_Restore.ipsw"
+  },
+  "to": {
+    "version": "27.0",
+    "build": "26A5368g",
+    "input": "UniversalMac_27.0_26A5368g_Restore.ipsw"
+  },
+  "source": {
+    "repository": "https://github.com/blacktop/ipsw-diffs",
+    "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+    "path": "27_0_26A5353q_vs_27_0_26A5368g"
+  },
+  "destination": {
+    "repository": "https://github.com/ipsw-diff/macos-27",
+    "payload_path": "diffs/27_0_26A5353q_vs_27_0_26A5368g",
+    "manifest_path": "manifests/27_0_26A5353q_vs_27_0_26A5368g.json"
+  }
+}
