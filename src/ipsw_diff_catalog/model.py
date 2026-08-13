@@ -154,8 +154,9 @@ def _validate_repository_route(
 
 
 def _validate_catalog_paths(payload: str, entrypoint: str, manifest: str) -> None:
-    if entrypoint != f"{payload}/README.md":
-        raise CatalogError("destination.entrypoint must be the payload README")
+    allowed_entrypoints = {f"{payload}/README.md", f"{payload}/TOC.md"}
+    if entrypoint not in allowed_entrypoints:
+        raise CatalogError("destination.entrypoint must be the payload README.md or TOC.md")
     if not payload.startswith("diffs/"):
         raise CatalogError("destination.payload_path must be below diffs/")
     if not manifest.startswith("manifests/") or not manifest.endswith(".json"):
@@ -209,23 +210,36 @@ class Source:
 class Destination:
     repository: str
     payload_path: str
+    entrypoint: str
     manifest_path: str
 
     @classmethod
     def from_object(cls, value: object) -> Destination:
         data = _object(value, "destination")
-        _exact_keys(data, {"repository", "payload_path", "manifest_path"}, "destination")
+        required = {"repository", "payload_path", "manifest_path"}
+        actual = set(data)
+        unexpected = actual - required - {"entrypoint"}
+        if not required <= actual or unexpected:
+            raise CatalogError(
+                "destination keys differ: "
+                f"missing={sorted(required - actual)}, "
+                f"extra={sorted(unexpected)}"
+            )
+        payload_path = _relative_path(data["payload_path"], "destination.payload_path")
         destination = cls(
             repository=_repository(data["repository"], "destination.repository"),
-            payload_path=_relative_path(data["payload_path"], "destination.payload_path"),
+            payload_path=payload_path,
+            entrypoint=_relative_path(
+                data.get("entrypoint", f"{payload_path}/README.md"),
+                "destination.entrypoint",
+            ),
             manifest_path=_relative_path(data["manifest_path"], "destination.manifest_path"),
         )
-        if not destination.payload_path.startswith("diffs/"):
-            raise CatalogError("destination.payload_path must be below diffs/")
-        if not destination.manifest_path.startswith(
-            "manifests/"
-        ) or not destination.manifest_path.endswith(".json"):
-            raise CatalogError("destination.manifest_path must be a JSON file below manifests/")
+        _validate_catalog_paths(
+            destination.payload_path,
+            destination.entrypoint,
+            destination.manifest_path,
+        )
         return destination
 
 
@@ -310,9 +324,20 @@ class MigrationSpec:
 
     @property
     def entrypoint(self) -> str:
-        return f"{self.destination.payload_path}/README.md"
+        return self.destination.entrypoint
+
+    @property
+    def source_entrypoint(self) -> str:
+        return f"{self.source.path}/{PurePosixPath(self.entrypoint).name}"
 
     def to_object(self) -> JsonObject:
+        destination: JsonObject = {
+            "repository": self.destination.repository,
+            "payload_path": self.destination.payload_path,
+            "manifest_path": self.destination.manifest_path,
+        }
+        if self.entrypoint != f"{self.destination.payload_path}/README.md":
+            destination["entrypoint"] = self.entrypoint
         return {
             "schema_version": 1,
             "id": self.identifier,
@@ -322,11 +347,7 @@ class MigrationSpec:
             "from": self.previous.to_object(),
             "to": self.next.to_object(),
             "source": self.source.to_object(),
-            "destination": {
-                "repository": self.destination.repository,
-                "payload_path": self.destination.payload_path,
-                "manifest_path": self.destination.manifest_path,
-            },
+            "destination": destination,
         }
 
     def _validate_routing_policy(self) -> None:

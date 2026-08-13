@@ -38,6 +38,31 @@ def test_spec_rejects_unknown_fields(repositories: Repositories) -> None:
         MigrationSpec.from_object(data)
 
 
+def test_spec_accepts_explicit_toc_entrypoint(repositories: Repositories) -> None:
+    data = json.loads(repositories.spec_path.read_text(encoding="utf-8"))
+    payload_path = data["destination"]["payload_path"]
+    data["destination"]["entrypoint"] = f"{payload_path}/TOC.md"
+
+    spec = MigrationSpec.from_object(data)
+
+    assert spec.entrypoint == f"{payload_path}/TOC.md"
+    assert spec.source_entrypoint == f"{spec.source.path}/TOC.md"
+    assert MigrationSpec.from_object(spec.to_object()) == spec
+
+
+@pytest.mark.parametrize("name", ["INDEX.md", "docs/TOC.md"])
+def test_spec_rejects_unsupported_entrypoint(
+    repositories: Repositories,
+    name: str,
+) -> None:
+    data = json.loads(repositories.spec_path.read_text(encoding="utf-8"))
+    payload_path = data["destination"]["payload_path"]
+    data["destination"]["entrypoint"] = f"{payload_path}/{name}"
+
+    with pytest.raises(CatalogError, match=r"README\.md or TOC\.md"):
+        MigrationSpec.from_object(data)
+
+
 def test_json_rejects_duplicate_keys() -> None:
     with pytest.raises(CatalogError, match="duplicate key 'build'"):
         parse_json_object(

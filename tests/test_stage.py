@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import shutil
+from dataclasses import replace
 from typing import TYPE_CHECKING
 
 import pytest
@@ -61,6 +62,38 @@ def test_stage_reconstructs_exact_tree_and_stages_only_outputs(
         "diffs/source-diff/tool",
         "manifests/source-diff.json",
     ]
+
+
+def test_stage_preserves_toc_entrypoint_without_synthesizing_readme(
+    repositories: Repositories,
+) -> None:
+    source_payload = repositories.source / repositories.spec.source.path
+    (source_payload / "README.md").rename(source_payload / "TOC.md")
+    source_commit = commit_all(repositories.source, "legacy TOC entrypoint")
+    spec = replace(
+        repositories.spec,
+        source=replace(repositories.spec.source, commit=source_commit),
+        destination=replace(
+            repositories.spec.destination,
+            entrypoint=f"{repositories.spec.destination.payload_path}/TOC.md",
+        ),
+    )
+
+    result = stage(
+        spec,
+        repositories.source,
+        repositories.destination,
+        repositories.destination_base,
+    )
+
+    staged = set(git(repositories.destination, "diff", "--cached", "--name-only").splitlines())
+    assert f"{spec.destination.payload_path}/TOC.md" in staged
+    assert f"{spec.destination.payload_path}/README.md" not in staged
+    assert result.inventory.tree == git(
+        repositories.source,
+        "rev-parse",
+        f"{source_commit}:{spec.source.path}",
+    )
 
 
 def test_stage_rejects_dirty_destination(repositories: Repositories) -> None:

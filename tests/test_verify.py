@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from dataclasses import replace
 from typing import TYPE_CHECKING
 
 import pytest
@@ -48,7 +49,7 @@ def test_readme_metadata_mismatch_fails(repositories: Repositories) -> None:
     value = json.loads(repositories.spec_path.read_text(encoding="utf-8"))
     value["from"]["version"] = "9.9"
     spec = MigrationSpec.from_object(value)
-    with pytest.raises(CatalogError, match="README title mismatch"):
+    with pytest.raises(CatalogError, match="report title mismatch"):
         validate_source(spec, repositories.source)
 
 
@@ -77,6 +78,28 @@ def test_legacy_ipsws_section_passes(repositories: Repositories) -> None:
     value["source"]["commit"] = source_commit
     spec = MigrationSpec.from_object(value)
     validate_source(spec, repositories.source)
+
+
+def test_explicit_toc_entrypoint_verifies_and_populates_metadata(
+    repositories: Repositories,
+) -> None:
+    payload = repositories.source / repositories.spec.source.path
+    (payload / "README.md").rename(payload / "TOC.md")
+    source_commit = commit_all(repositories.source, "legacy TOC entrypoint")
+    spec = replace(
+        repositories.spec,
+        source=replace(repositories.spec.source, commit=source_commit),
+        destination=replace(
+            repositories.spec.destination,
+            entrypoint=f"{repositories.spec.destination.payload_path}/TOC.md",
+        ),
+    )
+
+    inventory = validate_source(spec, repositories.source)
+    manifest = spec.manifest(inventory)
+    payload_metadata = manifest["payload"]
+    assert isinstance(payload_metadata, dict)
+    assert payload_metadata["entrypoint"] == f"{spec.destination.payload_path}/TOC.md"
 
 
 def test_mixed_input_sections_fail(repositories: Repositories) -> None:
@@ -122,7 +145,7 @@ def test_extra_inputs_content_fails(repositories: Repositories) -> None:
     value = json.loads(repositories.spec_path.read_text(encoding="utf-8"))
     value["source"]["commit"] = source_commit
     spec = MigrationSpec.from_object(value)
-    with pytest.raises(CatalogError, match="README inputs differ"):
+    with pytest.raises(CatalogError, match="report inputs differ"):
         validate_source(spec, repositories.source)
 
 

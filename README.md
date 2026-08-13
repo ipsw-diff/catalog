@@ -268,7 +268,7 @@ Full comparison and integrity details are in the version browser below.
 ## Integrity model
 
 Every entry is created only after a fresh destination commit matches its frozen
-source subtree's Git tree ID, file count, logical byte total, modes, README
+source subtree's Git tree ID, file count, logical byte total, modes, report
 metadata, and generated manifest. Catalog links are pinned to immutable commits.
 
 The catalog tool never selects a diff, infers platform semantics from a path,
@@ -280,12 +280,15 @@ pushes, merges, deletes legacy data, or rewrites a verified payload.
 worktree. The reviewed [source layout policy](migration/source-layout.json)
 names every payload root and every intentional exclusion. The command rejects
 missing or overlapping policy paths and any tracked file classified zero or
-multiple times, then records Git object IDs, file counts, logical bytes, modes,
-README metadata, and explicit blocker reasons in the generated
-[census](migration/census.json).
+multiple times. It records Git object IDs, file counts, logical bytes, modes,
+the selected root entrypoint, report metadata, and explicit blocker reasons in
+the generated [census](migration/census.json).
 
-Both known ordinary README labels (`## Inputs` and `## IPSWs`) must satisfy the
-same exact title and two-IPSW contract. A census row does not select a platform,
+An ordinary payload must have a root `README.md` or root `TOC.md`; `README.md`
+takes precedence if both exist. Both known input labels (`## Inputs` and
+`## IPSWs`)
+must satisfy the same exact title and two-IPSW contract. No nested or inferred
+entrypoint is accepted. A census row does not select a platform,
 device, destination shard, or migration route; those remain reviewed spec data.
 
 `plan` combines a frozen census with an explicit reviewed policy. The policy
@@ -367,6 +370,11 @@ uv run ipsw-diff-catalog census \
   --policy migration/source-layout.json \
   --source-repo /path/to/ipsw-diffs \
   --output migration/census.json \
+  --check
+uv run ipsw-diff-catalog plan \
+  --policy migration/major-15.json \
+  --census migration/census.json \
+  --output migration/specs-15 \
   --check
 uv run ipsw-diff-catalog plan \
   --policy migration/major-17.json \

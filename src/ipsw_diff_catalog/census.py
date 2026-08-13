@@ -28,6 +28,7 @@ _GITHUB_REPOSITORY = re.compile(
 )
 _PATH_PART = re.compile(r"(?:[A-Za-z0-9]|\.[A-Za-z0-9])[A-Za-z0-9,._+@-]*")
 _PATH_SUMMARY_LIMIT = 10
+_ENTRYPOINT_NAMES = ("README.md", "TOC.md")
 
 
 @dataclass(frozen=True)
@@ -280,23 +281,27 @@ def _payload_record(
     path: str,
     entries: list[TreeEntry],
 ) -> JsonObject:
-    readme_path = f"{path}/README.md"
-    readme_entry = next((entry for entry in entries if entry.path == readme_path), None)
-    if readme_entry is None:
+    entry_paths = {entry.path for entry in entries}
+    entrypoint = next(
+        (name for name in _ENTRYPOINT_NAMES if f"{path}/{name}" in entry_paths),
+        None,
+    )
+    if entrypoint is None:
         classification = "blocked"
         reason: JsonObject | None = {
-            "code": "missing-readme",
-            "detail": "payload has no tracked README.md",
+            "code": "missing-entrypoint",
+            "detail": "payload has no tracked README.md or TOC.md",
         }
         readme: JsonObject | None = None
     else:
+        readme_path = f"{path}/{entrypoint}"
         try:
             raw_readme = blob_at_path(repo, commit, readme_path).decode("utf-8")
         except UnicodeDecodeError:
             classification = "blocked"
             reason = {
                 "code": "unsupported-readme",
-                "detail": "payload README.md is not UTF-8",
+                "detail": f"payload {entrypoint} is not UTF-8",
             }
             readme = None
         else:
@@ -314,6 +319,7 @@ def _payload_record(
         "path": path,
         "classification": classification,
         "reason": reason,
+        "entrypoint": entrypoint,
         "readme": readme,
         "integrity": _tree_integrity(repo, commit, path, entries),
     }

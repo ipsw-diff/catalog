@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "source": {
+    "repository": "https://github.com/blacktop/ipsw-diffs",
+    "commit": "d881e84676308404c6947d0218c11f347a6f3a89"
+  },
+  "selection": {
+    "classification": "ordinary-two-ipsw",
+    "destination_major": 15,
+    "expected_source_paths": [
+      "15_0_24A5279h__vs_15_0_24A5289g",
+      "15_3_2_24D81__vs_15_4_24E248",
+      "15_4_24E248__vs_15_5_24F5042g",
+      "15_8_6_19H402__vs_15_8_7_19H411"
+    ]
+  },
+  "routes": [
+    {
+      "input_device_prefix": "UniversalMac",
+      "platform": "macOS",
+      "repository": "https://github.com/ipsw-diff/macos-15"
+    },
+    {
+      "input_device_prefix": "iPodtouch",
+      "platform": "iOS",
+      "repository": "https://github.com/ipsw-diff/ios-15"
+    }
+  ]
+}

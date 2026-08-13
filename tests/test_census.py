@@ -14,10 +14,10 @@ from tests.helpers import commit_all, git, init_repo
 if TYPE_CHECKING:
     from pathlib import Path
 
-EXPECTED_PAYLOAD_COUNT = 6
-EXPECTED_ORDINARY_COUNT = 2
+EXPECTED_PAYLOAD_COUNT = 7
+EXPECTED_ORDINARY_COUNT = 3
 EXPECTED_BLOCKED_COUNT = 4
-EXPECTED_TRACKED_FILE_COUNT = 13
+EXPECTED_TRACKED_FILE_COUNT = 15
 EXPECTED_OUTPUT_MODE = 0o644
 
 
@@ -64,7 +64,10 @@ def census_fixture(tmp_path: Path) -> CensusFixture:
     _write_payload(source / "payload-inputs", _ordinary_readme("Inputs"))
     (source / "payload-inputs/data.md").write_text("current\n", encoding="utf-8")
     _write_payload(source / "payload-missing", None)
+    (source / "payload-missing/TOC.md").write_text(_ordinary_readme("IPSWs"), encoding="utf-8")
     (source / "payload-missing/data.md").write_text("missing\n", encoding="utf-8")
+    _write_payload(source / "payload-no-entrypoint", None)
+    (source / "payload-no-entrypoint/data.md").write_text("missing\n", encoding="utf-8")
     _write_payload(
         source / "payload-redirect",
         "# ⚠️ Please see corrected [README](../payload-inputs/README.md)",
@@ -95,6 +98,7 @@ def census_fixture(tmp_path: Path) -> CensusFixture:
             "payload-aea",
             "payload-inputs",
             "payload-missing",
+            "payload-no-entrypoint",
             "payload-redirect",
             "payload-unsupported",
         ],
@@ -143,14 +147,14 @@ def test_census_reconciles_every_tracked_file(census_fixture: CensusFixture) -> 
     assert stat.S_IMODE(census_fixture.output.stat().st_mode) == EXPECTED_OUTPUT_MODE
     assert data["summary"] == {
         "blocked_by_reason": {
-            "missing-readme": 1,
+            "missing-entrypoint": 1,
             "non-ipsw-inputs": 1,
             "redirect-readme": 1,
             "unsupported-readme": 1,
         },
         "blocked_count": 4,
-        "ordinary_two_ipsw_count": 2,
-        "payload_count": 6,
+        "ordinary_two_ipsw_count": EXPECTED_ORDINARY_COUNT,
+        "payload_count": EXPECTED_PAYLOAD_COUNT,
     }
     coverage = data["coverage"]
     assert (
@@ -164,13 +168,17 @@ def test_census_reconciles_every_tracked_file(census_fixture: CensusFixture) -> 
         == result.logical_bytes
     )
     ordinary = {
-        payload["path"]: payload["readme"]["input_section"]
+        payload["path"]: (
+            payload["entrypoint"],
+            payload["readme"]["input_section"],
+        )
         for payload in data["payloads"]
         if payload["classification"] == "ordinary-two-ipsw"
     }
     assert ordinary == {
-        "device/payload-ipsws": "IPSWs",
-        "payload-inputs": "Inputs",
+        "device/payload-ipsws": ("README.md", "IPSWs"),
+        "payload-inputs": ("README.md", "Inputs"),
+        "payload-missing": ("TOC.md", "IPSWs"),
     }
     checked = census(
         census_fixture.policy_path,
@@ -187,6 +195,28 @@ def test_census_rejects_unclassified_tracked_file(census_fixture: CensusFixture)
     _write_policy(census_fixture.policy_path, policy)
     with pytest.raises(CatalogError, match=r"not classified.*justfile"):
         census(census_fixture.policy_path, census_fixture.source, census_fixture.output)
+
+
+def test_census_prefers_root_readme_when_toc_also_exists(
+    census_fixture: CensusFixture,
+) -> None:
+    (census_fixture.source / "payload-inputs/TOC.md").write_text(
+        "not a valid report\n",
+        encoding="utf-8",
+    )
+    commit = commit_all(census_fixture.source, "add lower-priority TOC")
+    policy = dict(census_fixture.policy)
+    source = dict(cast("JsonObject", policy["source"]))
+    source["commit"] = commit
+    policy["source"] = source
+    _write_policy(census_fixture.policy_path, policy)
+
+    census(census_fixture.policy_path, census_fixture.source, census_fixture.output)
+
+    data = json.loads(census_fixture.output.read_text(encoding="utf-8"))
+    payload = next(row for row in data["payloads"] if row["path"] == "payload-inputs")
+    assert payload["classification"] == "ordinary-two-ipsw"
+    assert payload["entrypoint"] == "README.md"
 
 
 def test_census_rejects_overlapping_policy_paths(census_fixture: CensusFixture) -> None:

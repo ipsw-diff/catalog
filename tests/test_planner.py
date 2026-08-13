@@ -33,6 +33,7 @@ def _payload(
 ) -> dict[str, object]:
     return {
         "classification": "ordinary-two-ipsw",
+        "entrypoint": "README.md",
         "integrity": {
             "git_tree": "b" * 40,
             "logical_bytes": 1,
@@ -130,6 +131,19 @@ def test_plan_writes_and_checks_exact_specs(tmp_path: Path) -> None:
         "path": "ios-row",
     }
     assert plan(policy, census, output, check=True).checked
+
+
+def test_plan_preserves_explicit_toc_entrypoint(tmp_path: Path) -> None:
+    rows = [_payload("ios-row", "iPhone18,1", "A1", "A2")]
+    rows[0]["entrypoint"] = "TOC.md"
+    policy, census, output = _write_inputs(tmp_path, payloads=rows)
+
+    plan(policy, census, output, check=False)
+
+    planned = _read_object(output / "ios-26.0-A1-A2.json")
+    destination = planned["destination"]
+    assert isinstance(destination, dict)
+    assert destination["entrypoint"] == "diffs/ios-row/TOC.md"
 
 
 def test_plan_rejects_allowlist_omission(tmp_path: Path) -> None:

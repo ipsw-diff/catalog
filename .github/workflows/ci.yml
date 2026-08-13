@@ -45,6 +45,26 @@ jobs:
       - name: Check generated catalog
         run: uv run ipsw-diff-catalog render --check
 
+      - name: Fetch pinned legacy corpus commit
+        env:
+          LEGACY_COMMIT: d881e84676308404c6947d0218c11f347a6f3a89
+        run: |
+          set -euo pipefail
+          git init --quiet --object-format=sha1 legacy
+          git -C legacy remote add origin https://github.com/blacktop/ipsw-diffs.git
+          git -C legacy -c protocol.version=2 fetch \
+            --no-tags --depth=1 --filter=blob:none origin "$LEGACY_COMMIT"
+          observed="$(git -C legacy rev-parse FETCH_HEAD)"
+          test "$observed" = "$LEGACY_COMMIT"
+
+      - name: Check frozen migration census
+        run: >-
+          uv run ipsw-diff-catalog census
+          --policy migration/source-layout.json
+          --source-repo legacy
+          --output migration/census.json
+          --check
+
       - name: Check major 26 migration plan
         run: >-
           uv run ipsw-diff-catalog plan
@@ -67,6 +87,14 @@ jobs:
           --policy migration/major-17.json
           --census migration/census.json
           --output migration/specs-17
+          --check
+
+      - name: Check major 15 migration plan
+        run: >-
+          uv run ipsw-diff-catalog plan
+          --policy migration/major-15.json
+          --census migration/census.json
+          --output migration/specs-15
           --check
 
       - name: Fetch pinned AppleDB metadata commit
