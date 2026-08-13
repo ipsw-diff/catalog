@@ -19,11 +19,11 @@ from tests.helpers import populate_destination
 if TYPE_CHECKING:
     from tests.helpers import Repositories
 
-_EXPECTED_REAL_ENTRIES = 129
-_EXPECTED_REAL_RELEASES = 140
+_EXPECTED_REAL_ENTRIES = 134
+_EXPECTED_REAL_RELEASES = 148
 _EXPECTED_REAL_BETAS = 80
 _EXPECTED_REAL_RCS = 17
-_EXPECTED_REAL_FINAL_RELEASES = 43
+_EXPECTED_REAL_FINAL_RELEASES = 51
 
 
 def _record_fixture(repositories: Repositories, entries: Path) -> None:
@@ -37,12 +37,14 @@ def _record_fixture(repositories: Repositories, entries: Path) -> None:
     )
 
 
-def _entry(
+def _entry(  # noqa: PLR0913 - compact catalog-fixture builder
     identifier: str,
     platform: str,
     major: int,
     previous: tuple[str, str],
     following: tuple[str, str],
+    *,
+    device: str = "Device1,1",
 ) -> CatalogEntry:
     previous_version, previous_build = previous
     next_version, next_build = following
@@ -53,16 +55,16 @@ def _entry(
         "id": identifier,
         "platform": platform,
         "major_version": major,
-        "device": "Device1,1",
+        "device": device,
         "from": {
             "version": previous_version,
             "build": previous_build,
-            "input": f"Device1,1_{previous_version}_{previous_build}_Restore.ipsw",
+            "input": f"{device}_{previous_version}_{previous_build}_Restore.ipsw",
         },
         "to": {
             "version": next_version,
             "build": next_build,
-            "input": f"Device1,1_{next_version}_{next_build}_Restore.ipsw",
+            "input": f"{device}_{next_version}_{next_build}_Restore.ipsw",
         },
         "source": {
             "repository": "https://github.com/example/source",
@@ -106,6 +108,11 @@ def _labels(
                 build=release.build,
                 display_version=display_version,
                 channel=channel,
+                source_path=(
+                    f"osFiles/iPadOS/fixture/{release.build}.json"
+                    if entry.platform == "iOS" and entry.device.startswith("iPad")
+                    else f"osFiles/{entry.platform}/fixture/{release.build}.json"
+                ),
             )
     return labels
 
@@ -122,7 +129,7 @@ def _registry_object(entries: tuple[CatalogEntry, ...]) -> JsonObject:
                 "beta": False,
                 "rc": False,
                 "released": "2026-08-10",
-                "source_path": f"osFiles/{platform}/fixture/{build}.json",
+                "source_path": label.source_path,
             }
         )
     return {
@@ -298,6 +305,41 @@ def test_release_registry_rejects_version_and_channel_conflicts(tmp_path: Path) 
     registry_path.write_text(json.dumps(escaped_path), encoding="utf-8")
     with pytest.raises(CatalogError, match=r"must identify A1\.json below osFiles/iOS"):
         load_release_labels(registry_path, entries)
+
+
+def test_release_registry_requires_device_selected_appledb_root(tmp_path: Path) -> None:
+    registry_path = tmp_path / "releases.json"
+
+    ipad_entries = (
+        _entry(
+            "ios-17-ipad",
+            "iOS",
+            17,
+            ("17.7.5", "A1"),
+            ("17.7.6", "A2"),
+            device="iPad",
+        ),
+    )
+    ipad_registry = _registry_object(ipad_entries)
+    registry_path.write_text(json.dumps(ipad_registry), encoding="utf-8")
+    labels = load_release_labels(registry_path, ipad_entries)
+    assert labels[("iOS", "A1")].source_path.startswith("osFiles/iPadOS/")
+
+    ipad_releases = ipad_registry["releases"]
+    assert isinstance(ipad_releases, list)
+    ipad_releases[0]["source_path"] = "osFiles/iOS/fixture/A1.json"
+    registry_path.write_text(json.dumps(ipad_registry), encoding="utf-8")
+    with pytest.raises(CatalogError, match=r"source path must be below osFiles/iPadOS"):
+        load_release_labels(registry_path, ipad_entries)
+
+    iphone_entries = (_entry("ios-17-iphone", "iOS", 17, ("17.7.5", "A1"), ("17.7.6", "A2")),)
+    iphone_registry = _registry_object(iphone_entries)
+    iphone_releases = iphone_registry["releases"]
+    assert isinstance(iphone_releases, list)
+    iphone_releases[0]["source_path"] = "osFiles/iPadOS/fixture/A1.json"
+    registry_path.write_text(json.dumps(iphone_registry), encoding="utf-8")
+    with pytest.raises(CatalogError, match=r"source path must be below osFiles/iOS"):
+        load_release_labels(registry_path, iphone_entries)
 
 
 def test_checked_in_release_registry_exactly_covers_the_real_catalog() -> None:

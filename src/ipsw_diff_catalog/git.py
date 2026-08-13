@@ -121,6 +121,31 @@ def tree_entries(repo: Path, revision: str, path: str) -> tuple[TreeEntry, ...]:
     return _parse_tree_entries(output, f"{path} at {revision}", f"{path}/")
 
 
+def tree_paths(repo: Path, revision: str, path: str) -> tuple[str, ...]:
+    output = run_git(repo, "ls-tree", "-r", "-z", revision, "--", path, text=False)
+    assert isinstance(output, bytes)
+    context = f"{path} at {revision}"
+    prefix = f"{path}/"
+    paths: list[str] = []
+    for raw in output.split(b"\0"):
+        if not raw:
+            continue
+        try:
+            metadata, raw_path = raw.split(b"\t", 1)
+            mode, kind, _oid = metadata.decode("ascii").split()
+            entry_path = raw_path.decode("utf-8")
+        except (UnicodeDecodeError, ValueError) as error:
+            raise CatalogError(f"cannot parse Git tree path for {context}") from error
+        if kind != "blob" or mode not in {"100644", "100755"}:
+            raise CatalogError(f"unsupported Git entry for {context}: {mode} {kind} {entry_path}")
+        if not entry_path.startswith(prefix):
+            raise CatalogError(f"Git returned an entry outside {context}: {entry_path}")
+        paths.append(entry_path)
+    if not paths:
+        raise CatalogError(f"no tracked files found for {context}")
+    return tuple(paths)
+
+
 def root_tree_oid(repo: Path, revision: str) -> str:
     output = run_git(repo, "rev-parse", "--verify", f"{revision}^{{tree}}")
     assert isinstance(output, str)

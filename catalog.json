@@ -3980,6 +3980,176 @@
     },
     {
       "destination": {
+        "commit": "28fd3d571d396c6030354e4a5cab91ab75aba685",
+        "entrypoint": "diffs/17_6_1_21G93__vs_17_6_1_21G101/README.md",
+        "manifest_path": "manifests/17_6_1_21G93__vs_17_6_1_21G101.json",
+        "payload_path": "diffs/17_6_1_21G93__vs_17_6_1_21G101",
+        "repository": "https://github.com/ipsw-diff/ios-17"
+      },
+      "device": "iPhone16,2",
+      "from": {
+        "build": "21G93",
+        "input": "iPhone16,2_17.6.1_21G93_Restore.ipsw",
+        "version": "17.6.1"
+      },
+      "id": "ios-17.6.1-21G93-21G101",
+      "integrity": {
+        "git_tree": "ea95642fe65b8a4857cd281e4b422508bf466c5f",
+        "logical_bytes": 5920,
+        "tracked_file_count": 1
+      },
+      "major_version": 17,
+      "platform": "iOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+        "path": "17_6_1_21G93__vs_17_6_1_21G101",
+        "repository": "https://github.com/blacktop/ipsw-diffs"
+      },
+      "to": {
+        "build": "21G101",
+        "input": "iPhone16,2_17.6.1_21G101_Restore.ipsw",
+        "version": "17.6.1"
+      }
+    },
+    {
+      "destination": {
+        "commit": "28fd3d571d396c6030354e4a5cab91ab75aba685",
+        "entrypoint": "diffs/17_6_21G79__vs_17_6_1_21G93/README.md",
+        "manifest_path": "manifests/17_6_21G79__vs_17_6_1_21G93.json",
+        "payload_path": "diffs/17_6_21G79__vs_17_6_1_21G93",
+        "repository": "https://github.com/ipsw-diff/ios-17"
+      },
+      "device": "iPhone16,2",
+      "from": {
+        "build": "21G80",
+        "input": "iPhone16,2_17.6_21G80_Restore.ipsw",
+        "version": "17.6"
+      },
+      "id": "ios-17.6.1-21G80-21G93",
+      "integrity": {
+        "git_tree": "b3a0bfe0b10be855d51c588b2251f13598de29b8",
+        "logical_bytes": 27521,
+        "tracked_file_count": 1
+      },
+      "major_version": 17,
+      "platform": "iOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+        "path": "17_6_21G79__vs_17_6_1_21G93",
+        "repository": "https://github.com/blacktop/ipsw-diffs"
+      },
+      "to": {
+        "build": "21G93",
+        "input": "iPhone16,2_17.6.1_21G93_Restore.ipsw",
+        "version": "17.6.1"
+      }
+    },
+    {
+      "destination": {
+        "commit": "28fd3d571d396c6030354e4a5cab91ab75aba685",
+        "entrypoint": "diffs/17_6_1_21G101__vs_17_7_21H16/README.md",
+        "manifest_path": "manifests/17_6_1_21G101__vs_17_7_21H16.json",
+        "payload_path": "diffs/17_6_1_21G101__vs_17_7_21H16",
+        "repository": "https://github.com/ipsw-diff/ios-17"
+      },
+      "device": "iPhone16,2",
+      "from": {
+        "build": "21G101",
+        "input": "iPhone16,2_17.6.1_21G101_Restore.ipsw",
+        "version": "17.6.1"
+      },
+      "id": "ios-17.7-21G101-21H16",
+      "integrity": {
+        "git_tree": "070950a3055b891bfc45edc1f86c4205aca45caf",
+        "logical_bytes": 114267,
+        "tracked_file_count": 61
+      },
+      "major_version": 17,
+      "platform": "iOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+        "path": "17_6_1_21G101__vs_17_7_21H16",
+        "repository": "https://github.com/blacktop/ipsw-diffs"
+      },
+      "to": {
+        "build": "21H16",
+        "input": "iPhone16,2_17.7_21H16_Restore.ipsw",
+        "version": "17.7"
+      }
+    },
+    {
+      "destination": {
+        "commit": "28fd3d571d396c6030354e4a5cab91ab75aba685",
+        "entrypoint": "diffs/17_7_5_21H420__vs_17_7_6_21H423/README.md",
+        "manifest_path": "manifests/17_7_5_21H420__vs_17_7_6_21H423.json",
+        "payload_path": "diffs/17_7_5_21H420__vs_17_7_6_21H423",
+        "repository": "https://github.com/ipsw-diff/ios-17"
+      },
+      "device": "iPad",
+      "from": {
+        "build": "21H420",
+        "input": "iPad_64bit_TouchID_ASTC_17.7.5_21H420_Restore.ipsw",
+        "version": "17.7.5"
+      },
+      "id": "ios-17.7.6-21H420-21H423",
+      "integrity": {
+        "git_tree": "6b1622a19fcec3e2911f0f5a714cf89241a5e466",
+        "logical_bytes": 147199,
+        "tracked_file_count": 68
+      },
+      "major_version": 17,
+      "platform": "iOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+        "path": "17_7_5_21H420__vs_17_7_6_21H423",
+        "repository": "https://github.com/blacktop/ipsw-diffs"
+      },
+      "to": {
+        "build": "21H423",
+        "input": "iPad_64bit_TouchID_ASTC_17.7.6_21H423_Restore.ipsw",
+        "version": "17.7.6"
+      }
+    },
+    {
+      "destination": {
+        "commit": "28fd3d571d396c6030354e4a5cab91ab75aba685",
+        "entrypoint": "diffs/17_7_7_21H433__vs_17_7_8_21H440/README.md",
+        "manifest_path": "manifests/17_7_7_21H433__vs_17_7_8_21H440.json",
+        "payload_path": "diffs/17_7_7_21H433__vs_17_7_8_21H440",
+        "repository": "https://github.com/ipsw-diff/ios-17"
+      },
+      "device": "iPad",
+      "from": {
+        "build": "21H433",
+        "input": "iPad_64bit_TouchID_ASTC_17.7.7_21H433_Restore.ipsw",
+        "version": "17.7.7"
+      },
+      "id": "ios-17.7.8-21H433-21H440",
+      "integrity": {
+        "git_tree": "5dc6be01ccd37a434ed2e5ecad70c54401d4bfd3",
+        "logical_bytes": 3377,
+        "tracked_file_count": 1
+      },
+      "major_version": 17,
+      "platform": "iOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+        "path": "17_7_7_21H433__vs_17_7_8_21H440",
+        "repository": "https://github.com/blacktop/ipsw-diffs"
+      },
+      "to": {
+        "build": "21H440",
+        "input": "iPad_64bit_TouchID_ASTC_17.7.8_21H440_Restore.ipsw",
+        "version": "17.7.8"
+      }
+    },
+    {
+      "destination": {
         "commit": "2c87c1970492719b2083e391c178c6c10fc00ddc",
         "entrypoint": "diffs/27_0_26A5353q_vs_27_0_26A5368g/README.md",
         "manifest_path": "manifests/27_0_26A5353q_vs_27_0_26A5368g.json",

@@ -17,23 +17,23 @@ _APPLEDB_ORIGIN = "https://github.com/littlebyteorg/appledb.git"
 _EXPECTED_RELEASES = 2
 
 
-def _entry(platform: str = "iOS") -> JsonObject:
+def _entry(platform: str = "iOS", device: str = "Device1,1") -> JsonObject:
     repository_name = platform.lower()
     return {
         "schema_version": 1,
         "id": f"{repository_name}-27.0-A1-A2",
         "platform": platform,
         "major_version": 27,
-        "device": "Device1,1",
+        "device": device,
         "from": {
             "version": "27.0",
             "build": "A1",
-            "input": "Device1,1_27.0_A1_Restore.ipsw",
+            "input": f"{device}_27.0_A1_Restore.ipsw",
         },
         "to": {
             "version": "27.0",
             "build": "A2",
-            "input": "Device1,1_27.0_A2_Restore.ipsw",
+            "input": f"{device}_27.0_A2_Restore.ipsw",
         },
         "source": {
             "repository": "https://github.com/example/source",
@@ -152,6 +152,55 @@ def test_import_reads_the_pinned_commit_not_the_worktree(tmp_path: Path) -> None
         release["display_version"] for release in json.loads(output.read_bytes())["releases"]
     ]
     assert versions == ["27.0 beta", "27.0 beta 2"]
+
+
+def test_import_selects_ipados_records_for_ipad_catalog_entries(tmp_path: Path) -> None:
+    entries = tmp_path / "entries"
+    entries.mkdir()
+    _write_json(entries / "ios-27.0-A1-A2.json", _entry(device="iPad"))
+
+    appledb = tmp_path / "appledb"
+    init_repo(appledb)
+    git(appledb, "remote", "add", "origin", _APPLEDB_ORIGIN)
+    for build in ("A1", "A2"):
+        _write_json(
+            appledb / f"osFiles/iPadOS/1x - 27.x/{build}.json",
+            _appledb_record(build, "27.0", platform="iPadOS"),
+        )
+        _write_json(
+            appledb / f"osFiles/iOS/1x - 27.x/{build}.json",
+            _appledb_record(build, "27.0"),
+        )
+    commit = commit_all(appledb, "iPadOS fixture with iOS decoys")
+    output = tmp_path / "releases.json"
+
+    import_release_metadata(entries, appledb, commit, output, check=False)
+
+    releases = json.loads(output.read_bytes())["releases"]
+    assert [record["platform"] for record in releases] == ["iOS", "iOS"]
+    assert [record["source_path"] for record in releases] == [
+        "osFiles/iPadOS/1x - 27.x/A1.json",
+        "osFiles/iPadOS/1x - 27.x/A2.json",
+    ]
+
+
+def test_import_rejects_ipados_record_with_mismatched_os_identity(tmp_path: Path) -> None:
+    entries = tmp_path / "entries"
+    entries.mkdir()
+    _write_json(entries / "ios-27.0-A1-A2.json", _entry(device="iPad"))
+
+    appledb = tmp_path / "appledb"
+    init_repo(appledb)
+    git(appledb, "remote", "add", "origin", _APPLEDB_ORIGIN)
+    for build in ("A1", "A2"):
+        _write_json(
+            appledb / f"osFiles/iPadOS/1x - 27.x/{build}.json",
+            _appledb_record(build, "27.0", platform="iOS"),
+        )
+    commit = commit_all(appledb, "mismatched iPadOS fixture")
+
+    with pytest.raises(CatalogError, match=r"osStr differs: expected iPadOS"):
+        import_release_metadata(entries, appledb, commit, tmp_path / "releases.json", check=False)
 
 
 def test_import_accepts_rc_label_and_iso_timestamp(tmp_path: Path) -> None:
