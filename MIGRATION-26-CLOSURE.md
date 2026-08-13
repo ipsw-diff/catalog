@@ -82,6 +82,26 @@ device-specific comparisons are not silently linearized.
 | State transition | No shard or catalog merge for major 26 exists | Unresolved |
 | Outcome oracle | Source validation passes, but destination and catalog audits cannot run yet | Unresolved |
 
+## Publication-time closure
+
+| Stage | Evidence | Status |
+| --- | --- | --- |
+| Selection and trigger | The 65 reviewed specs were promoted to `specs/` while the deterministic plan remained in `migration/specs-26/`; the catalog audit proves the complete 74-entry spec and entry identifier sets are equal | Closed |
+| Inputs and resources | All 65 rows revalidated against frozen source commit `d881e84676308404c6947d0218c11f347a6f3a89` | Closed |
+| Transformation | Staging and independent staged-tree validation reproduced 57 iOS payloads and 8 macOS payloads with exactly 96,558 files and 4,382,923,774 logical bytes | Closed |
+| Advertisement and options | Generated archive READMEs check with exactly 57 iOS rows and 8 macOS rows; each shard remains archive-only and the staged scope contained no unexpected path | Closed |
+| Dispatch and transport | `ipsw-diff/ios-26#1` and `ipsw-diff/macos-26#1` each contained one unsigned bulk payload commit and were merged without per-diff commits | Closed |
+| State transition | iOS `main` is `181d2d99f2d683c3e4df8a62949568c109785dc1` with tree `bd72b971018a7fdcf616eabee5910780696edc48`; macOS `main` is `21b19bf3a6e32c240be5ffd7abc3b78ce2c38a5b` with tree `2bfdd0ff3396f490e066966d4f6314339d9a6c8b`; both trees equal their independently verified PR-head trees | Closed |
+| Outcome oracle | The remote audit verified all 74 catalog entries, including all 65 major-26 source trees, destination trees, manifests, entrypoints, and canonical catalog entries | Closed |
+
+## Expected versus observed inventory
+
+| Shard | Expected rows | Observed rows | Expected files | Observed files | Expected bytes | Observed bytes |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| iOS 26 | 57 | 57 | 89,307 | 89,307 | 3,201,091,519 | 3,201,091,519 |
+| macOS 26 | 8 | 8 | 7,251 | 7,251 | 1,181,832,255 | 1,181,832,255 |
+| Total | 65 | 65 | 96,558 | 96,558 | 4,382,923,774 | 4,382,923,774 |
+
 ## Stop conditions
 
 Stop if selection differs from the 65-path allowlist, a row matches zero or
@@ -92,8 +112,9 @@ any local or remote audit fails. Do not delete legacy payloads in this work.
 
 ## Current bounded conclusion
 
-The exact selection, routing inputs, deterministic planning, and immutable
-source validation are closed. No iOS 26 or macOS 26 shard existed when this
-matrix was recorded, so copying, publication, and the final destination oracle
-remain unresolved. Closure will be updated only as the named stage oracles
-pass.
+The named 65-row iOS 26 and macOS 26 migration is faithfully copied, merged,
+and cataloged within the scope above. Every success-critical row is closed and
+the final remote audit reconciles the complete 74-entry published catalog.
+This conclusion does not cover blocked census rows, other destination majors,
+future release discovery, diff generation, announcement automation, or removal
+of the legacy corpus.

@@ -1,0 +1,34 @@
+{
+  "destination": {
+    "commit": "21b19bf3a6e32c240be5ffd7abc3b78ce2c38a5b",
+    "entrypoint": "diffs/26_6_1_25G76_vs_26_6_2_25G82/README.md",
+    "manifest_path": "manifests/26_6_1_25G76_vs_26_6_2_25G82.json",
+    "payload_path": "diffs/26_6_1_25G76_vs_26_6_2_25G82",
+    "repository": "https://github.com/ipsw-diff/macos-26"
+  },
+  "device": "UniversalMac",
+  "from": {
+    "build": "25G76",
+    "input": "UniversalMac_26.6.1_25G76_Restore.ipsw",
+    "version": "26.6.1"
+  },
+  "id": "macos-26.6.2-25G76-25G82",
+  "integrity": {
+    "git_tree": "c0a748be29af466fcedc72fcd2754670bbb7213b",
+    "logical_bytes": 1043331,
+    "tracked_file_count": 612
+  },
+  "major_version": 26,
+  "platform": "macOS",
+  "schema_version": 1,
+  "source": {
+    "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+    "path": "26_6_1_25G76_vs_26_6_2_25G82",
+    "repository": "https://github.com/blacktop/ipsw-diffs"
+  },
+  "to": {
+    "build": "25G82",
+    "input": "UniversalMac_26.6.2_25G82_Restore.ipsw",
+    "version": "26.6.2"
+  }
+}
