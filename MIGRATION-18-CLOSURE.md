@@ -4,20 +4,19 @@ Recorded: 2026-08-12
 
 ## Claim and scope
 
-Question: which frozen legacy iOS 18 payloads can be deterministically planned
-for an `ios-18` shard without inventing missing source facts or hiding device
-identity conflicts?
+Question: which frozen legacy iOS 18 payloads can be deterministically planned,
+published to an `ios-18` shard, and cataloged without inventing missing source
+facts or hiding device identity conflicts?
 
 - First lifecycle stage: classify the complete frozen-census destination-major-18
   set and reconcile it with reviewed selected and excluded paths.
-- Last lifecycle stage in this change: produce canonical migration specs for
-  every eligible selected path and retain all unresolved rows as visible stop
-  conditions.
-- Supported claim after this stage: the named 55 rows are ready for later
-  source-to-destination staging and verification.
-- Excluded: repository creation, copying, commits, pushes, catalog publication,
-  deletion of legacy data, repair of missing READMEs, and any final migration
-  claim.
+- Last lifecycle stage in this change: record catalog entries only after every
+  selected source tree matches the immutable shard `main` commit, while retaining
+  all unresolved rows as visible stop conditions.
+- Supported claim after this stage: the named 55 rows are published and verified
+  from the frozen source through the shard and central catalog.
+- Excluded: deletion of legacy data, repair of missing READMEs, coercion of the
+  cross-device row, and any claim that all iOS 18 source candidates migrated.
 
 ## Authority map
 
@@ -29,6 +28,8 @@ identity conflicts?
 | Device identity | Device token parsed independently from both census IPSW inputs |
 | Versions, builds, paths, trees, counts, bytes, and modes | Frozen census and immutable legacy Git objects |
 | Spec identity for the second device-specific build pair | Reviewed device-qualified path in `migration/major-18.json` |
+| Published destination | `ipsw-diff/ios-18` `main` commit `1b95b2b8bed3efaac679421c1a8a6b3111957280` |
+| Human release labels | AppleDB commit `3051f8643eaf5d6d7196fb3c01a0f9ade46f1dc7` |
 
 ## Closure matrix
 
@@ -36,11 +37,11 @@ identity conflicts?
 | --- | --- | --- |
 | Selection and trigger | All 56 ordinary destination-major-18 rows equal 55 planned plus one reviewed exclusion | Closed |
 | Inputs and resources | Planned rows have matching input devices; seven no-README rows remain visible | Closed for 55 planned rows; 8 rows unresolved |
-| Transformation | Deterministic planner writes and checks 55 unique specs | Closed for planning only |
-| Advertisement and options | `ipsw-diff/ios-18` exists with an archive README | Unresolved |
-| Dispatch and transport | Every planned source tree is staged into a bounded shard batch | Unresolved |
-| State transition | Shard merge precedes catalog publication | Unresolved |
-| Outcome oracle | Destination trees and catalog entries independently equal source trees | Unresolved |
+| Transformation | Deterministic planner writes and checks 55 unique specs; atomic staging preserves all source trees and generated manifests | Closed for 55 selected rows |
+| Advertisement and options | `ipsw-diff/ios-18` has a generated 55-row archive README, and the catalog renders all 55 rows with pinned AppleDB labels | Closed for 55 selected rows |
+| Dispatch and transport | One explicit 55-spec batch staged 55,821 files and 55 manifests with no unexpected paths | Closed for 55 selected rows |
+| State transition | Shard PR #1 merged before catalog entries were generated against immutable shard `main` | Closed for 55 selected rows |
+| Outcome oracle | The merge tree equals the reviewed migration tree, and the 129-entry remote catalog audit re-verifies every source and destination | Closed for 55 selected rows; 8 source rows unresolved |
 
 ## Expected inventory
 
@@ -80,8 +81,9 @@ than silently represented as a single-device diff.
 A path name is not enough to reconstruct missing IPSW inputs. Matching version
 or build text does not prove matching device identity. A structurally valid
 README does not make a cross-device comparison representable by the existing
-single-device catalog schema. The absent `ios-18` repository and catalog rows
-do not indicate that any source payload was copied or verified.
+single-device catalog schema. Fifty-five green destination verifications do not
+prove that the eight excluded or blocked source rows migrated; they remain
+outside the published selection and visible above.
 
 ## Verification and mutation evidence
 
@@ -91,6 +93,17 @@ do not indicate that any source payload was copied or verified.
   payload classifications, 247,123 files, and 8,475,687,492 logical bytes.
 - Planner write followed by `--check` produces 55 canonical specs.
 - Spec source paths and IDs both have cardinality 55.
+- Atomic staging and independent pre-commit revalidation both report 55
+  payloads, 55,821 files, 355,604,076 logical bytes, and 55 manifests.
+- All 55 payloads pass post-commit source-to-destination verification.
+- Shard merge commit `1b95b2b8bed3efaac679421c1a8a6b3111957280`
+  and reviewed migration commit `277a9a9136c01509d646b7002871aad1a4407be7`
+  have the same tree `51397bf03ef8f738d6bfaeef18fc7e18affa98cc`.
+- The generated catalog contains 55 iOS 18 entries at that one destination
+  commit, with 55 distinct integrity trees and matching aggregate files/bytes.
+- The pinned AppleDB registry covers all 59 unique iOS 18 endpoint builds used
+  by the entries: 30 beta, 7 RC, and 22 release records.
+- The full remote audit passes for all 129 catalog entries.
 - Tests reject an unreviewed exclusion, a missing reviewed exclusion, device
   mismatch, route ambiguity, source drift, stale scope, and unresolved ID
   collision; one reviewed device-qualified path resolves the real collision,
@@ -98,13 +111,15 @@ do not indicate that any source payload was copied or verified.
 
 ## Stop conditions
 
-Do not create or populate the shard if selected, excluded, or blocked
+Do not expand the published iOS 18 set if selected, excluded, or blocked
 cardinalities drift; a missing README is guessed; a cross-device row is
 silently coerced to one device; a spec fails source validation; staging changes
-a source tree; or a destination or catalog audit fails.
+a source tree; or a destination, release-metadata, or catalog audit fails.
 
 ## Bounded conclusion
 
-The selection-to-spec lifecycle is closed for 55 iOS 18 rows. Eight source
-rows remain explicitly unresolved, and every destination and publication stage
-remains open. No payload has been copied or published by this planning change.
+The frozen-source-to-catalog lifecycle is closed for 55 iOS 18 rows. They are
+published at one immutable shard commit and independently re-verified by the
+catalog audit. Eight source rows remain explicitly unresolved, so this does not
+claim that every iOS 18 source candidate migrated; the legacy corpus remains
+authoritative for those rows.

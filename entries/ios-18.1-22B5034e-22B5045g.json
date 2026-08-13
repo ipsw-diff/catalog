@@ -1,0 +1,34 @@
+{
+  "destination": {
+    "commit": "1b95b2b8bed3efaac679421c1a8a6b3111957280",
+    "entrypoint": "diffs/18_1_22B5034e__vs_18_1_22B5045g/README.md",
+    "manifest_path": "manifests/18_1_22B5034e__vs_18_1_22B5045g.json",
+    "payload_path": "diffs/18_1_22B5034e__vs_18_1_22B5045g",
+    "repository": "https://github.com/ipsw-diff/ios-18"
+  },
+  "device": "iPhone16,2",
+  "from": {
+    "build": "22B5034e",
+    "input": "iPhone16,2_18.1_22B5034e_Restore.ipsw",
+    "version": "18.1"
+  },
+  "id": "ios-18.1-22B5034e-22B5045g",
+  "integrity": {
+    "git_tree": "c9d75fe06c9f527d2656a0ccbb69cd354e36847a",
+    "logical_bytes": 11357242,
+    "tracked_file_count": 1762
+  },
+  "major_version": 18,
+  "platform": "iOS",
+  "schema_version": 1,
+  "source": {
+    "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+    "path": "18_1_22B5034e__vs_18_1_22B5045g",
+    "repository": "https://github.com/blacktop/ipsw-diffs"
+  },
+  "to": {
+    "build": "22B5045g",
+    "input": "iPhone16,2_18.1_22B5045g_Restore.ipsw",
+    "version": "18.1"
+  }
+}

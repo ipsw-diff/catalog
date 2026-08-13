@@ -1,0 +1,34 @@
+{
+  "destination": {
+    "commit": "1b95b2b8bed3efaac679421c1a8a6b3111957280",
+    "entrypoint": "diffs/18_6_1_22G90__vs_18_6_2_22G100/README.md",
+    "manifest_path": "manifests/18_6_1_22G90__vs_18_6_2_22G100.json",
+    "payload_path": "diffs/18_6_1_22G90__vs_18_6_2_22G100",
+    "repository": "https://github.com/ipsw-diff/ios-18"
+  },
+  "device": "iPhone17,1",
+  "from": {
+    "build": "22G90",
+    "input": "iPhone17,1_18.6.1_22G90_Restore.ipsw",
+    "version": "18.6.1"
+  },
+  "id": "ios-18.6.2-22G90-22G100",
+  "integrity": {
+    "git_tree": "0ec30c2f8013c30dcde4b97e66c7c98c5e612855",
+    "logical_bytes": 3505,
+    "tracked_file_count": 1
+  },
+  "major_version": 18,
+  "platform": "iOS",
+  "schema_version": 1,
+  "source": {
+    "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+    "path": "18_6_1_22G90__vs_18_6_2_22G100",
+    "repository": "https://github.com/blacktop/ipsw-diffs"
+  },
+  "to": {
+    "build": "22G100",
+    "input": "iPhone17,1_18.6.2_22G100_Restore.ipsw",
+    "version": "18.6.2"
+  }
+}
