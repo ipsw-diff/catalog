@@ -103,9 +103,9 @@ and X automation.
 
 Recorded: 2026-08-12
 
-Claim: the generated landing page places each platform's newest major-version
-diffs side by side and newest first, while retaining every catalog entry in a
-collapsed, versioned integrity table.
+Claim: the generated landing page places up to three of each platform's newest
+major-version diffs in compact vertical lists, while retaining every catalog
+entry in a collapsed, versioned integrity table.
 
 - First lifecycle stage: load the complete, schema-validated catalog entry set.
 - Last lifecycle stage: deterministically render the README with a compact
@@ -118,7 +118,7 @@ collapsed, versioned integrity table.
 | Selection and trigger | All checked-in entries are loaded before grouping | Closed |
 | Inputs and resources | Platform, major, version, build, links, and integrity facts come from validated entries | Closed |
 | Transformation | Current major is selected independently per platform; comparisons use deterministic release/build ordering | Closed |
-| Advertisement | The top table exposes at most five iOS and five macOS links together; collapsed platform groups contain collapsed major-version groups in descending order | Closed |
+| Advertisement | Vertical latest lists expose up to three iOS and three macOS links; visible platform headings contain flat major-version groups in descending order | Closed |
 | Dispatch and transport | Every link remains commit-pinned and uses the existing comparison renderer | Closed |
 | State transition | Rendering does not mutate entries, specifications, or shard state | Closed |
 | Outcome oracle | Tests and generated-output checks prove ordering, grouping, balanced disclosure blocks, and deterministic output | Closed |

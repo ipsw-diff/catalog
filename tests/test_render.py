@@ -107,7 +107,7 @@ def test_mismatched_entry_filename_is_rejected(
         load_entries(entries)
 
 
-def test_readme_puts_both_latest_platforms_first_and_collapses_all_groups() -> None:
+def test_readme_uses_vertical_latest_lists_and_flat_version_groups() -> None:
     ios_entries = tuple(
         _entry(
             f"ios-27-{index}",
@@ -135,27 +135,27 @@ def test_readme_puts_both_latest_platforms_first_and_collapses_all_groups() -> N
     latest = readme.split("## Latest diffs\n", maxsplit=1)[1].split(
         "## Browse all diffs\n", maxsplit=1
     )[0]
-    assert "| iOS 27 | macOS 27 |" in latest
+    assert "### iOS 27" in latest
+    assert "### macOS 27" in latest
+    assert "| iOS 27 | macOS 27 |" not in latest
     assert latest.index("diffs/ios-27-5/") < latest.index("diffs/ios-27-4/")
-    assert "diffs/ios-27-0/" not in latest
-    assert "diffs/ios-27-0/" in readme
+    assert "[`24A5306a`](" in latest
+    assert "← `24A5305a`" in latest
+    expected_latest_ios = 3
+    assert latest.count("diffs/ios-27-") == expected_latest_ios
+    assert "diffs/ios-27-2/" not in latest
+    assert "diffs/ios-27-2/" in readme
     assert "diffs/ios-26-old/" not in latest
-    expected_groups = 5
+    expected_groups = 3
     assert readme.count("<details>") == expected_groups
     assert readme.count("</details>") == expected_groups
-    ios_summary = "<summary><strong>iOS</strong> · 7 diffs</summary>"
     ios_27_summary = "<summary><strong>iOS 27</strong> · 6 diffs</summary>"
-    assert ios_summary in readme
-    assert "<summary><strong>macOS</strong> · 1 diff</summary>" in readme
-    assert readme.index("<summary><strong>iOS</strong>") < readme.index(
-        "<summary><strong>macOS</strong>"
-    )
-    assert f"{ios_summary}\n\n<details>\n{ios_27_summary}" in readme
+    assert "### iOS\n\n<details>" in readme
+    assert "### macOS\n\n<details>" in readme
     assert ios_27_summary in readme
     assert "<summary><strong>macOS 27</strong> · 1 diff</summary>" in readme
     assert "<summary><strong>iOS 26</strong> · 1 diff</summary>" in readme
     assert readme.index("<summary><strong>iOS 27</strong>") < readme.index(
         "<summary><strong>iOS 26</strong>"
     )
-    expected_tables = 3
-    assert readme.count("| Device | Comparison | Integrity |") == expected_tables
+    assert readme.count("| Device | Comparison | Integrity |") == expected_groups
