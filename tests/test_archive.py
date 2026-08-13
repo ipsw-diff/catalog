@@ -144,6 +144,45 @@ def test_archive_accepts_multiple_immutable_source_commits(
     assert "diffs/later-source-diff/README.md" in rendered
 
 
+def test_archive_accepts_multiple_immutable_source_repositories(
+    repositories: Repositories,
+    tmp_path: Path,
+) -> None:
+    specs = tmp_path / "specs"
+    specs.mkdir()
+    (specs / f"{repositories.spec.identifier}.json").write_text(
+        json.dumps(repositories.spec.to_object()),
+        encoding="utf-8",
+    )
+    later = replace(
+        repositories.spec,
+        identifier="ios-1.0-a2-a3",
+        source=replace(
+            repositories.spec.source,
+            repository="https://github.com/ipsw-diff/ios-1",
+            commit="d" * 40,
+            path="later-source-diff",
+        ),
+        destination=replace(
+            repositories.spec.destination,
+            payload_path="diffs/later-source-diff",
+            entrypoint="diffs/later-source-diff/README.md",
+            manifest_path="manifests/later-source-diff.json",
+        ),
+    )
+    (specs / f"{later.identifier}.json").write_text(
+        json.dumps(later.to_object()),
+        encoding="utf-8",
+    )
+
+    loaded = load_archive_specs(specs, repositories.spec.destination.repository)
+    rendered = archive_readme(loaded)
+
+    assert "diffs/source-diff/README.md" in rendered
+    assert "diffs/later-source-diff/README.md" in rendered
+    assert "immutable source and Git tree identity" in rendered
+
+
 def test_archive_links_explicit_toc_entrypoint(repositories: Repositories) -> None:
     toc = replace(
         repositories.spec,

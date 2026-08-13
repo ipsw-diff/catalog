@@ -317,7 +317,9 @@ move to `specs/` beside their matching catalog entries.
 `render-archive` selects one exact destination repository from reviewed specs
 and writes or checks its deterministic shard README. Rows are grouped by device
 and source path without claiming that branched historical data is one release
-sequence. It does not inspect a directory name to infer a route.
+sequence. Specs may name multiple immutable source repositories, but must share
+one platform, major version, and destination repository. It does not inspect a
+directory name to infer a route.
 
 ## Mechanical staging
 
