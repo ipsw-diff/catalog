@@ -4694,6 +4694,74 @@
     },
     {
       "destination": {
+        "commit": "3ee5b908fd4e21f8379aa62fc335d4ab2a8f44e7",
+        "entrypoint": "diffs/16_7_13_20H365__vs_16_7_14_20H370/README.md",
+        "manifest_path": "manifests/16_7_13_20H365__vs_16_7_14_20H370.json",
+        "payload_path": "diffs/16_7_13_20H365__vs_16_7_14_20H370",
+        "repository": "https://github.com/ipsw-diff/ios-16"
+      },
+      "device": "iPhone10,3,iPhone10,6",
+      "from": {
+        "build": "20H365",
+        "input": "iPhone10,3,iPhone10,6_16.7.13_20H365_Restore.ipsw",
+        "version": "16.7.13"
+      },
+      "id": "ios-16.7.14-20H365-20H370",
+      "integrity": {
+        "git_tree": "2442f3cdd9416a5e89b3cfd4d46cd88030b22db6",
+        "logical_bytes": 557,
+        "tracked_file_count": 1
+      },
+      "major_version": 16,
+      "platform": "iOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+        "path": "16_7_13_20H365__vs_16_7_14_20H370",
+        "repository": "https://github.com/blacktop/ipsw-diffs"
+      },
+      "to": {
+        "build": "20H370",
+        "input": "iPhone10,3,iPhone10,6_16.7.14_20H370_Restore.ipsw",
+        "version": "16.7.14"
+      }
+    },
+    {
+      "destination": {
+        "commit": "3ee5b908fd4e21f8379aa62fc335d4ab2a8f44e7",
+        "entrypoint": "diffs/16_7_14_20H370__vs_16_7_15_20H380/README.md",
+        "manifest_path": "manifests/16_7_14_20H370__vs_16_7_15_20H380.json",
+        "payload_path": "diffs/16_7_14_20H370__vs_16_7_15_20H380",
+        "repository": "https://github.com/ipsw-diff/ios-16"
+      },
+      "device": "iPhone10,3,iPhone10,6",
+      "from": {
+        "build": "20H370",
+        "input": "iPhone10,3,iPhone10,6_16.7.14_20H370_Restore.ipsw",
+        "version": "16.7.14"
+      },
+      "id": "ios-16.7.15-20H370-20H380",
+      "integrity": {
+        "git_tree": "52ef7212cfd8353d38f0f74f3da1cc48911c341f",
+        "logical_bytes": 10678,
+        "tracked_file_count": 1
+      },
+      "major_version": 16,
+      "platform": "iOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+        "path": "16_7_14_20H370__vs_16_7_15_20H380",
+        "repository": "https://github.com/blacktop/ipsw-diffs"
+      },
+      "to": {
+        "build": "20H380",
+        "input": "iPhone10,3,iPhone10,6_16.7.15_20H380_Restore.ipsw",
+        "version": "16.7.15"
+      }
+    },
+    {
+      "destination": {
         "commit": "57d0ea0143913199c0585265319d6800d858fc39",
         "entrypoint": "diffs/15_8_6_19H402__vs_15_8_7_19H411/README.md",
         "manifest_path": "manifests/15_8_6_19H402__vs_15_8_7_19H411.json",
@@ -5166,6 +5234,74 @@
         "build": "25G82",
         "input": "UniversalMac_26.6.2_25G82_Restore.ipsw",
         "version": "26.6.2"
+      }
+    },
+    {
+      "destination": {
+        "commit": "ba046ef569c7720f90236324bec58cd908346237",
+        "entrypoint": "diffs/15_3_2_24D81__vs_15_4_24E248/README.md",
+        "manifest_path": "manifests/15_3_2_24D81__vs_15_4_24E248.json",
+        "payload_path": "diffs/15_3_2_24D81__vs_15_4_24E248",
+        "repository": "https://github.com/ipsw-diff/macos-15"
+      },
+      "device": "UniversalMac",
+      "from": {
+        "build": "24D81",
+        "input": "UniversalMac_15.3.2_24D81_Restore.ipsw",
+        "version": "15.3.2"
+      },
+      "id": "macos-15.4-24D81-24E248",
+      "integrity": {
+        "git_tree": "7ff83e3092b48840eafda969a8c0464e8d23c6ba",
+        "logical_bytes": 218638978,
+        "tracked_file_count": 7660
+      },
+      "major_version": 15,
+      "platform": "macOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+        "path": "15_3_2_24D81__vs_15_4_24E248",
+        "repository": "https://github.com/blacktop/ipsw-diffs"
+      },
+      "to": {
+        "build": "24E248",
+        "input": "UniversalMac_15.4_24E248_Restore.ipsw",
+        "version": "15.4"
+      }
+    },
+    {
+      "destination": {
+        "commit": "ba046ef569c7720f90236324bec58cd908346237",
+        "entrypoint": "diffs/15_4_24E248__vs_15_5_24F5042g/README.md",
+        "manifest_path": "manifests/15_4_24E248__vs_15_5_24F5042g.json",
+        "payload_path": "diffs/15_4_24E248__vs_15_5_24F5042g",
+        "repository": "https://github.com/ipsw-diff/macos-15"
+      },
+      "device": "UniversalMac",
+      "from": {
+        "build": "24E248",
+        "input": "UniversalMac_15.4_24E248_Restore.ipsw",
+        "version": "15.4"
+      },
+      "id": "macos-15.5-24E248-24F5042g",
+      "integrity": {
+        "git_tree": "75de4ad3a1104de53862220b80a7acf6d14fb88d",
+        "logical_bytes": 19499337,
+        "tracked_file_count": 1350
+      },
+      "major_version": 15,
+      "platform": "macOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+        "path": "15_4_24E248__vs_15_5_24F5042g",
+        "repository": "https://github.com/blacktop/ipsw-diffs"
+      },
+      "to": {
+        "build": "24F5042g",
+        "input": "UniversalMac_15.5_24F5042g_Restore.ipsw",
+        "version": "15.5"
       }
     }
   ],
