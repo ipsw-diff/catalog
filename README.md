@@ -168,6 +168,19 @@ Full comparison and integrity details are in the version browser below.
 
 </details>
 
+<details>
+<summary><strong>iOS 17</strong> · 5 diffs</summary>
+
+| Device | Comparison | Integrity |
+| --- | --- | --- |
+| `iPad` | [17.7.7 (21H433) → 17.7.8 (21H440)](https://github.com/ipsw-diff/ios-17/blob/28fd3d571d396c6030354e4a5cab91ab75aba685/diffs/17_7_7_21H433__vs_17_7_8_21H440/README.md) | `5dc6be01ccd3` · 1 files · 3,377 bytes · [manifest](https://github.com/ipsw-diff/ios-17/blob/28fd3d571d396c6030354e4a5cab91ab75aba685/manifests/17_7_7_21H433__vs_17_7_8_21H440.json) |
+| `iPad` | [17.7.5 (21H420) → 17.7.6 (21H423)](https://github.com/ipsw-diff/ios-17/blob/28fd3d571d396c6030354e4a5cab91ab75aba685/diffs/17_7_5_21H420__vs_17_7_6_21H423/README.md) | `6b1622a19fce` · 68 files · 147,199 bytes · [manifest](https://github.com/ipsw-diff/ios-17/blob/28fd3d571d396c6030354e4a5cab91ab75aba685/manifests/17_7_5_21H420__vs_17_7_6_21H423.json) |
+| `iPhone16,2` | [17.6.1 (21G101) → 17.7 (21H16)](https://github.com/ipsw-diff/ios-17/blob/28fd3d571d396c6030354e4a5cab91ab75aba685/diffs/17_6_1_21G101__vs_17_7_21H16/README.md) | `070950a3055b` · 61 files · 114,267 bytes · [manifest](https://github.com/ipsw-diff/ios-17/blob/28fd3d571d396c6030354e4a5cab91ab75aba685/manifests/17_6_1_21G101__vs_17_7_21H16.json) |
+| `iPhone16,2` | [17.6.1 (21G93) → 17.6.1 (21G101)](https://github.com/ipsw-diff/ios-17/blob/28fd3d571d396c6030354e4a5cab91ab75aba685/diffs/17_6_1_21G93__vs_17_6_1_21G101/README.md) | `ea95642fe65b` · 1 files · 5,920 bytes · [manifest](https://github.com/ipsw-diff/ios-17/blob/28fd3d571d396c6030354e4a5cab91ab75aba685/manifests/17_6_1_21G93__vs_17_6_1_21G101.json) |
+| `iPhone16,2` | [17.6 (21G80) → 17.6.1 (21G93)](https://github.com/ipsw-diff/ios-17/blob/28fd3d571d396c6030354e4a5cab91ab75aba685/diffs/17_6_21G79__vs_17_6_1_21G93/README.md) | `b3a0bfe0b10b` · 1 files · 27,521 bytes · [manifest](https://github.com/ipsw-diff/ios-17/blob/28fd3d571d396c6030354e4a5cab91ab75aba685/manifests/17_6_21G79__vs_17_6_1_21G93.json) |
+
+</details>
+
 ### macOS
 
 <details>
@@ -261,8 +274,11 @@ diff, or publish anything.
 ## Curated release metadata
 
 `release-metadata` enumerates every unique `(platform, build)` endpoint in the
-validated catalog, then requires one exact record below `osFiles/iOS` or
-`osFiles/macOS` at a caller-supplied AppleDB Git commit. It records AppleDB's
+validated catalog, then requires one exact record below the device-selected
+AppleDB root at a caller-supplied Git commit. iPad devices select
+`osFiles/iPadOS`; other iOS devices select `osFiles/iOS`; macOS selects
+`osFiles/macOS`. The registry retains catalog platform `iOS` for iPad rows.
+It records AppleDB's
 human-curated display version, beta/RC flags, release date, and exact source
 path in [the release registry](metadata/releases.json).
 

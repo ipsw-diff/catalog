@@ -2,6 +2,86 @@
   "releases": [
     {
       "beta": false,
+      "build": "21G101",
+      "channel": "release",
+      "display_version": "17.6.1",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2024-08-19",
+      "source_path": "osFiles/iOS/21x - 17.x/21G101.json"
+    },
+    {
+      "beta": false,
+      "build": "21G80",
+      "channel": "release",
+      "display_version": "17.6",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2024-07-29",
+      "source_path": "osFiles/iOS/21x - 17.x/21G80.json"
+    },
+    {
+      "beta": false,
+      "build": "21G93",
+      "channel": "release",
+      "display_version": "17.6.1",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2024-08-07",
+      "source_path": "osFiles/iOS/21x - 17.x/21G93.json"
+    },
+    {
+      "beta": false,
+      "build": "21H16",
+      "channel": "release",
+      "display_version": "17.7",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2024-09-16",
+      "source_path": "osFiles/iOS/21x - 17.x/21H16.json"
+    },
+    {
+      "beta": false,
+      "build": "21H420",
+      "channel": "release",
+      "display_version": "17.7.5",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-02-10",
+      "source_path": "osFiles/iPadOS/21x - 17.x/21H420.json"
+    },
+    {
+      "beta": false,
+      "build": "21H423",
+      "channel": "release",
+      "display_version": "17.7.6",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-03-31",
+      "source_path": "osFiles/iPadOS/21x - 17.x/21H423.json"
+    },
+    {
+      "beta": false,
+      "build": "21H433",
+      "channel": "release",
+      "display_version": "17.7.7",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-05-12",
+      "source_path": "osFiles/iPadOS/21x - 17.x/21H433.json"
+    },
+    {
+      "beta": false,
+      "build": "21H440",
+      "channel": "release",
+      "display_version": "17.7.8",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-05-19",
+      "source_path": "osFiles/iPadOS/21x - 17.x/21H440.json"
+    },
+    {
+      "beta": false,
       "build": "22A3354",
       "channel": "release",
       "display_version": "18.0",

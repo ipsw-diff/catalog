@@ -7,6 +7,7 @@ from pathlib import Path, PurePosixPath
 from typing import cast
 
 from ipsw_diff_catalog.model import CatalogEntry, CatalogError, JsonObject, read_json_object
+from ipsw_diff_catalog.release_source import appledb_platform
 
 _APPLEDB_REPOSITORY = "https://github.com/littlebyteorg/appledb"
 _FULL_OID = re.compile(r"[0-9a-f]{40}")
@@ -26,6 +27,13 @@ class ReleaseLabel:
     build: str
     display_version: str
     channel: str
+    source_path: str
+
+
+@dataclass(frozen=True)
+class _RequiredEndpoint:
+    version: str
+    appledb_platform: str
 
 
 def _exact_keys(value: JsonObject, expected: set[str], context: str) -> None:
@@ -83,18 +91,22 @@ def _validate_released(value: object, context: str) -> None:
         raise CatalogError(f"{context} must be an ISO 8601 date or timestamp") from error
 
 
-def _validate_source_path(value: object, platform: str, build: str, context: str) -> None:
+def _validate_source_path(value: object, platform: str, build: str, context: str) -> str:
     raw = _string(value, context)
     source_path = PurePosixPath(raw)
-    root = PurePosixPath("osFiles", platform)
+    allowed_platforms = {platform} if platform == "macOS" else {"iOS", "iPadOS"}
+    roots = tuple(PurePosixPath("osFiles", item) for item in sorted(allowed_platforms))
     if (
         source_path.is_absolute()
         or str(source_path) != raw
         or ".." in source_path.parts
         or source_path.name != f"{build}.json"
-        or not source_path.is_relative_to(root)
+        or not any(source_path.is_relative_to(root) for root in roots)
     ):
-        raise CatalogError(f"{context} must identify {build}.json below {root}")
+        raise CatalogError(
+            f"{context} must identify {build}.json below {', '.join(str(root) for root in roots)}"
+        )
+    return raw
 
 
 def _release_label(value: object, index: int) -> ReleaseLabel:
@@ -140,27 +152,32 @@ def _release_label(value: object, index: int) -> ReleaseLabel:
     elif qualifier is None or expected_qualifier.fullmatch(qualifier) is None:
         raise CatalogError(f"{context}.display_version qualifier conflicts with channel")
     _validate_released(record["released"], f"{context}.released")
-    _validate_source_path(record["source_path"], platform, build, f"{context}.source_path")
+    source_path = _validate_source_path(
+        record["source_path"], platform, build, f"{context}.source_path"
+    )
     return ReleaseLabel(
         platform=platform,
         build=build,
         display_version=display_version,
         channel=channel,
+        source_path=source_path,
     )
 
 
-def _required_endpoints(entries: tuple[CatalogEntry, ...]) -> dict[ReleaseKey, str]:
-    required: dict[ReleaseKey, str] = {}
+def _required_endpoints(entries: tuple[CatalogEntry, ...]) -> dict[ReleaseKey, _RequiredEndpoint]:
+    required: dict[ReleaseKey, _RequiredEndpoint] = {}
     for entry in entries:
+        source_platform = appledb_platform(entry.platform, entry.device)
         for release in (entry.previous, entry.next):
             key = (entry.platform, release.build)
             observed = required.get(key)
-            if observed is not None and observed != release.version:
+            expected = _RequiredEndpoint(release.version, source_platform)
+            if observed is not None and observed != expected:
                 raise CatalogError(
-                    f"catalog endpoint {entry.platform} {release.build} has conflicting "
-                    f"versions: {observed} and {release.version}"
+                    f"catalog endpoint {entry.platform} {release.build} conflicts: "
+                    f"{observed} and {expected}"
                 )
-            required[key] = release.version
+            required[key] = expected
     return required
 
 
@@ -191,13 +208,19 @@ def load_release_labels(
         raise CatalogError(
             f"release registry coverage differs: missing={missing}, unexpected={unexpected}"
         )
-    for key, expected_version in required.items():
+    for key, requirement in required.items():
         display_version = labels[key].display_version
         base_version = display_version.partition(" ")[0]
-        if base_version != expected_version:
+        if base_version != requirement.version:
             platform, build = key
             raise CatalogError(
                 f"release registry {platform} {build} differs: expected base "
-                f"{expected_version}, got {display_version}"
+                f"{requirement.version}, got {display_version}"
+            )
+        expected_root = PurePosixPath("osFiles", requirement.appledb_platform)
+        if not PurePosixPath(labels[key].source_path).is_relative_to(expected_root):
+            platform, build = key
+            raise CatalogError(
+                f"release registry {platform} {build} source path must be below {expected_root}"
             )
     return labels

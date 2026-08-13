@@ -10,9 +10,10 @@ from ipsw_diff_catalog.git import (
     ensure_repository,
     require_origin,
     resolve_commit,
-    tree_entries,
+    tree_paths,
 )
 from ipsw_diff_catalog.model import CatalogError, JsonObject, canonical_json, parse_json_object
+from ipsw_diff_catalog.release_source import appledb_platform
 from ipsw_diff_catalog.render import load_entries
 
 _APPLEDB_REPOSITORY = "https://github.com/littlebyteorg/appledb"
@@ -33,6 +34,14 @@ class ReleaseMetadataResult:
 
 
 @dataclass(frozen=True)
+class _RequiredRelease:
+    catalog_platform: str
+    build: str
+    version: str
+    appledb_platform: str
+
+
+@dataclass(frozen=True)
 class AppleDBRecord:
     platform: str
     build: str
@@ -47,9 +56,7 @@ class AppleDBRecord:
         cls,
         raw: bytes,
         *,
-        expected_platform: str,
-        expected_build: str,
-        expected_version: str,
+        expected: _RequiredRelease,
         source_path: str,
     ) -> AppleDBRecord:
         context = f"AppleDB {source_path}"
@@ -59,20 +66,20 @@ class AppleDBRecord:
         if missing:
             raise CatalogError(f"{context} is missing required keys: {sorted(missing)}")
         platform = _string(data["osStr"], f"{context}.osStr")
-        if platform != expected_platform:
+        if platform != expected.appledb_platform:
             raise CatalogError(
-                f"{context}.osStr differs: expected {expected_platform}, got {platform}"
+                f"{context}.osStr differs: expected {expected.appledb_platform}, got {platform}"
             )
         build = _string(data["build"], f"{context}.build")
-        if build != expected_build or _BUILD.fullmatch(build) is None:
-            raise CatalogError(f"{context}.build differs: expected {expected_build}, got {build}")
+        if build != expected.build or _BUILD.fullmatch(build) is None:
+            raise CatalogError(f"{context}.build differs: expected {expected.build}, got {build}")
         display_version = _string(data["version"], f"{context}.version")
         base_version, separator, raw_qualifier = display_version.partition(" ")
         if _BASE_VERSION.fullmatch(base_version) is None:
             raise CatalogError(f"{context}.version has an unsupported base version")
-        if base_version != expected_version:
+        if base_version != expected.version:
             raise CatalogError(
-                f"{context}.version differs: expected base {expected_version}, "
+                f"{context}.version differs: expected base {expected.version}, "
                 f"got {display_version}"
             )
         beta = _boolean(data.get("beta", False), f"{context}.beta")
@@ -88,7 +95,7 @@ class AppleDBRecord:
             raise CatalogError(f"{context}.version qualifier conflicts with release flags")
         released = _released(data["released"], f"{context}.released")
         return cls(
-            platform=platform,
+            platform=expected.catalog_platform,
             build=build,
             display_version=display_version,
             released=released,
@@ -135,46 +142,54 @@ def _released(value: object, context: str) -> str:
     return released
 
 
-def _required_releases(entries_dir: Path) -> dict[tuple[str, str], str]:
-    required: dict[tuple[str, str], str] = {}
+def _required_releases(entries_dir: Path) -> dict[tuple[str, str], _RequiredRelease]:
+    required: dict[tuple[str, str], _RequiredRelease] = {}
     for entry in load_entries(entries_dir):
+        source_platform = appledb_platform(entry.platform, entry.device)
         for release in (entry.previous, entry.next):
             key = (entry.platform, release.build)
             observed = required.get(key)
-            if observed is not None and observed != release.version:
+            expected = _RequiredRelease(
+                catalog_platform=entry.platform,
+                build=release.build,
+                version=release.version,
+                appledb_platform=source_platform,
+            )
+            if observed is not None and observed != expected:
                 raise CatalogError(
-                    f"catalog build {entry.platform} {release.build} has conflicting "
-                    f"versions: {observed} and {release.version}"
+                    f"catalog build {entry.platform} {release.build} conflicts: "
+                    f"{observed} and {expected}"
                 )
-            required[key] = release.version
+            required[key] = expected
     return required
 
 
 def _candidate_paths(
     repo: Path,
     commit: str,
-    required: dict[tuple[str, str], str],
+    required: dict[tuple[str, str], _RequiredRelease],
 ) -> dict[tuple[str, str], list[str]]:
     candidates = {key: [] for key in required}
-    required_platforms = {platform for platform, _build in required}
-    for platform in _PLATFORM_ORDER:
-        if platform not in required_platforms:
-            continue
-        root = f"osFiles/{platform}"
-        for entry in tree_entries(repo, commit, root):
-            path = PurePosixPath(entry.path)
+    keys_by_platform_and_build: dict[tuple[str, str], list[tuple[str, str]]] = {}
+    for key, requirement in required.items():
+        keys_by_platform_and_build.setdefault((requirement.appledb_platform, key[1]), []).append(
+            key
+        )
+    for source_platform in sorted({item[0] for item in keys_by_platform_and_build}):
+        root = f"osFiles/{source_platform}"
+        for entry_path in tree_paths(repo, commit, root):
+            path = PurePosixPath(entry_path)
             if path.suffix != ".json":
                 continue
-            key = (platform, path.stem)
-            if key in candidates:
-                candidates[key].append(entry.path)
+            for key in keys_by_platform_and_build.get((source_platform, path.stem), []):
+                candidates[key].append(entry_path)
     return candidates
 
 
 def _load_records(
     repo: Path,
     commit: str,
-    required: dict[tuple[str, str], str],
+    required: dict[tuple[str, str], _RequiredRelease],
 ) -> tuple[AppleDBRecord, ...]:
     candidates = _candidate_paths(repo, commit, required)
     missing = sorted(key for key, paths in candidates.items() if not paths)
@@ -182,14 +197,12 @@ def _load_records(
     if missing or ambiguous:
         raise CatalogError(f"AppleDB coverage differs: missing={missing}, ambiguous={ambiguous}")
     records: list[AppleDBRecord] = []
-    for (platform, build), expected_version in required.items():
+    for (platform, build), requirement in required.items():
         source_path = candidates[(platform, build)][0]
         records.append(
             AppleDBRecord.from_blob(
                 blob_at_path(repo, commit, source_path),
-                expected_platform=platform,
-                expected_build=build,
-                expected_version=expected_version,
+                expected=requirement,
                 source_path=source_path,
             )
         )

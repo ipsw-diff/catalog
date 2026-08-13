@@ -4,18 +4,19 @@ Recorded: 2026-08-12
 
 ## Claim and scope
 
-Question: which frozen legacy iOS 17 payloads can be deterministically planned
-for an `ios-17` shard without guessing facts absent from the source corpus?
+Question: can the five eligible frozen legacy iOS 17 payloads be copied into a
+reviewed `ios-17` archive shard, merged, then cataloged without guessing facts
+absent from the source corpus?
 
 - First lifecycle stage: classify the complete frozen-census destination-major-17
   set and reconcile it with the reviewed selected paths.
-- Last lifecycle stage in this change: produce canonical migration specs for
-  every eligible selected path and retain blocked rows as visible stop conditions.
-- Supported claim after this stage: the named five rows are ready for later
-  source-to-destination staging and verification.
-- Excluded: repository creation, copying, commits, pushes, catalog publication,
-  deletion of legacy data, repair of missing READMEs, and any final migration
-  claim.
+- Last lifecycle stage in this change: every catalog entry independently verifies
+  its frozen source subtree against the immutable shard default-branch commit.
+- Supported claim after the catalog PR merges unchanged: the named five rows are
+  faithfully migrated and cataloged.
+- Excluded: deletion of legacy data, repair of missing READMEs, new firmware
+  generation, scheduled publication, external announcements, and any claim that
+  the four blocked path candidates were migrated.
 
 ## Authority map
 
@@ -26,6 +27,9 @@ for an `ios-17` shard without guessing facts absent from the source corpus?
 | iOS routes and future shard | Exact iPad and iPhone input-prefix routes in `migration/major-17.json` |
 | Device identity | Device token parsed independently from both census IPSW inputs |
 | Versions, builds, paths, trees, counts, bytes, and modes | Frozen census and immutable legacy Git objects |
+| Destination identity | Merged `ipsw-diff/ios-17` default-branch commit and independently measured subtrees |
+| Release display labels | Exact records at pinned AppleDB commit `3051f8643eaf5d6d7196fb3c01a0f9ade46f1dc7` |
+| Publication | Catalog entries and deterministic rendered indexes |
 
 ## Closure matrix
 
@@ -33,11 +37,11 @@ for an `ios-17` shard without guessing facts absent from the source corpus?
 | --- | --- | --- |
 | Selection and trigger | All five ordinary destination-major-17 rows equal the five reviewed planned paths | Closed |
 | Inputs and resources | Planned rows have matching input devices; four no-README rows remain visible | Closed for 5 planned rows; 4 rows unresolved |
-| Transformation | Deterministic planner writes and checks five unique specs | Closed for planning only |
-| Advertisement and options | `ipsw-diff/ios-17` exists with an archive README | Unresolved |
-| Dispatch and transport | Every planned source tree is staged into a bounded shard batch | Unresolved |
-| State transition | Shard merge precedes catalog publication | Unresolved |
-| Outcome oracle | Destination trees and catalog entries independently equal source trees | Unresolved |
+| Transformation | Deterministic planning and atomic batch staging reproduce five source trees and manifests | Closed |
+| Advertisement and options | The archive README lists exactly the five reviewed rows; no discovery workflow is enabled | Closed |
+| Dispatch and transport | One unsigned shard commit contains exactly five payloads, five manifests, and the archive README | Closed |
+| State transition | Shard PR 1 merged before catalog recording; all entries pin its immutable default-branch commit | Closed |
+| Outcome oracle | Five source and destination trees pass local audit; catalog publication must still merge unchanged and pass default-branch CI | Unresolved |
 
 ## Expected inventory
 
@@ -51,6 +55,12 @@ The planned rows contain five distinct source paths, five distinct spec IDs,
 and five distinct source trees. Three rows use matching `iPhone16,2` inputs.
 Two use matching `iPad_64bit_TouchID_ASTC` inputs, represented by the source
 format's leading device token `iPad`; both raw IPSW names remain in each spec.
+
+The merged shard commit is
+`28fd3d571d396c6030354e4a5cab91ab75aba685`. Its root tree
+`c66455f1450db13f61dcff06cc8e77eaa0a27c0e` exactly equals reviewed migration
+commit `caecb657a790e592d475fc846d7a7eb3d45cc9d2`. The five destination subtrees
+retain 132 files and 298,284 logical bytes in total.
 
 `17_6_21G79__vs_17_6_1_21G93` is intentionally not renamed or rewritten. Its
 validated README identifies the from IPSW build as `21G80`, so the generated
@@ -88,16 +98,25 @@ or verified.
 - Spec source paths, IDs, and trees each have cardinality five.
 - Tests reject route ambiguity, device mismatch, source drift, stale scope, and
   an unresolved identifier collision.
+- Shard PR 1 merged one unsigned bulk commit; the reviewed head and merge commit
+  have the same root tree.
+- All five specs re-verify against source commit
+  `d881e84676308404c6947d0218c11f347a6f3a89` and destination commit
+  `28fd3d571d396c6030354e4a5cab91ab75aba685`.
+- Eight unique release endpoints resolve at the pinned AppleDB commit. iPhone
+  endpoints come from `osFiles/iOS`; iPad endpoints come from
+  `osFiles/iPadOS`, with exact source paths retained in the registry.
 
 ## Stop conditions
 
-Do not create or populate the shard if selected or blocked cardinalities drift;
-a missing README is guessed; path text replaces validated README facts; a spec
-fails source validation; staging changes a source tree; or a destination or
-catalog audit fails.
+Do not publish if selected or blocked cardinalities drift; a missing README is
+guessed; path text replaces validated README facts; a spec fails source
+validation; staging changes a source tree; a metadata root is selected from a
+build name instead of device identity; or a destination or catalog audit fails.
 
 ## Bounded conclusion
 
-The selection-to-spec lifecycle is closed for five iOS 17 rows. Four source
-rows remain explicitly unresolved, and every destination and publication stage
-remains open. No payload has been copied or published by this planning change.
+Selection through merged shard state and local catalog verification are closed
+for five iOS 17 rows. Four source rows remain explicitly unresolved. Final
+publication remains open until this catalog PR merges unchanged and its
+default-branch audit passes.
