@@ -8,17 +8,24 @@ source-to-default-branch verification recorded here.
 
 ## Latest diffs
 
-Up to five newest diffs per platform are side by side and sorted newest-first.
-Full integrity details are folded into the version browser below.
+Up to three newest diffs per platform, sorted newest-first.
+Full comparison and integrity details are in the version browser below.
 
-| iOS 27 | macOS 27 |
-| --- | --- |
-| [27.0 (24A5390f) → 27.0 (24A5408d)](https://github.com/ipsw-diff/ios-27/blob/2ed100600c64666ae0347694e17e0aa2f80cb63e/diffs/27_0_24A5390f_vs_27_0_24A5408d/README.md)<br>[27.0 (24A5380h) → 27.0 (24A5390f)](https://github.com/ipsw-diff/ios-27/blob/148f4599b7caf915be62d6c68b121e8cf8362fd7/diffs/27_0_24A5380h_vs_27_0_24A5390f/README.md)<br>[27.0 (24A5370h) → 27.0 (24A5380h)](https://github.com/ipsw-diff/ios-27/blob/148f4599b7caf915be62d6c68b121e8cf8362fd7/diffs/27_0_24A5370h_vs_27_0_24A5380h/README.md)<br>[27.0 (24A5355q) → 27.0 (24A5370h)](https://github.com/ipsw-diff/ios-27/blob/148f4599b7caf915be62d6c68b121e8cf8362fd7/diffs/27_0_24A5355q_vs_27_0_24A5370h/README.md)<br>[26.5 (23F77) → 27.0 (24A5355q)](https://github.com/ipsw-diff/ios-27/blob/148f4599b7caf915be62d6c68b121e8cf8362fd7/diffs/26_5_23F77_vs_27_0_24A5355q/README.md) | [27.0 (26A5378n) → 27.0 (26A5388g)](https://github.com/ipsw-diff/macos-27/blob/52185c99752b8f29fd6f344738b8289b88be28f1/diffs/27_0_26A5378n_vs_27_0_26A5388g/README.md)<br>[27.0 (26A5378j) → 27.0 (26A5378n)](https://github.com/ipsw-diff/macos-27/blob/2c87c1970492719b2083e391c178c6c10fc00ddc/diffs/27_0_26A5378j_vs_27_0_26A5378n/README.md)<br>[27.0 (26A5368g) → 27.0 (26A5378j)](https://github.com/ipsw-diff/macos-27/blob/2c87c1970492719b2083e391c178c6c10fc00ddc/diffs/27_0_26A5368g_vs_27_0_26A5378j/README.md)<br>[27.0 (26A5353q) → 27.0 (26A5368g)](https://github.com/ipsw-diff/macos-27/blob/2c87c1970492719b2083e391c178c6c10fc00ddc/diffs/27_0_26A5353q_vs_27_0_26A5368g/README.md) |
+### iOS 27
+
+- [`24A5408d`](https://github.com/ipsw-diff/ios-27/blob/2ed100600c64666ae0347694e17e0aa2f80cb63e/diffs/27_0_24A5390f_vs_27_0_24A5408d/README.md) ← `24A5390f`
+- [`24A5390f`](https://github.com/ipsw-diff/ios-27/blob/148f4599b7caf915be62d6c68b121e8cf8362fd7/diffs/27_0_24A5380h_vs_27_0_24A5390f/README.md) ← `24A5380h`
+- [`24A5380h`](https://github.com/ipsw-diff/ios-27/blob/148f4599b7caf915be62d6c68b121e8cf8362fd7/diffs/27_0_24A5370h_vs_27_0_24A5380h/README.md) ← `24A5370h`
+
+### macOS 27
+
+- [`26A5388g`](https://github.com/ipsw-diff/macos-27/blob/52185c99752b8f29fd6f344738b8289b88be28f1/diffs/27_0_26A5378n_vs_27_0_26A5388g/README.md) ← `26A5378n`
+- [`26A5378n`](https://github.com/ipsw-diff/macos-27/blob/2c87c1970492719b2083e391c178c6c10fc00ddc/diffs/27_0_26A5378j_vs_27_0_26A5378n/README.md) ← `26A5378j`
+- [`26A5378j`](https://github.com/ipsw-diff/macos-27/blob/2c87c1970492719b2083e391c178c6c10fc00ddc/diffs/27_0_26A5368g_vs_27_0_26A5378j/README.md) ← `26A5368g`
 
 ## Browse all diffs
 
-<details>
-<summary><strong>iOS</strong> · 62 diffs</summary>
+### iOS
 
 <details>
 <summary><strong>iOS 27</strong> · 5 diffs</summary>
@@ -98,10 +105,7 @@ Full integrity details are folded into the version browser below.
 
 </details>
 
-</details>
-
-<details>
-<summary><strong>macOS</strong> · 12 diffs</summary>
+### macOS
 
 <details>
 <summary><strong>macOS 27</strong> · 4 diffs</summary>
@@ -128,8 +132,6 @@ Full integrity details are folded into the version browser below.
 | `UniversalMac` | [26.5 (25F71) → 26.5.1 (25F80)](https://github.com/ipsw-diff/macos-26/blob/21b19bf3a6e32c240be5ffd7abc3b78ce2c38a5b/diffs/26_5_25F71__vs_26_5_1_25F80/README.md) | `d33808d3d71d` · 1 files · 13,137 bytes · [manifest](https://github.com/ipsw-diff/macos-26/blob/21b19bf3a6e32c240be5ffd7abc3b78ce2c38a5b/manifests/26_5_25F71__vs_26_5_1_25F80.json) |
 | `UniversalMac` | [26.4 (25E246) → 26.4.1 (25E253)](https://github.com/ipsw-diff/macos-26/blob/21b19bf3a6e32c240be5ffd7abc3b78ce2c38a5b/diffs/26_4_25E246_vs_26_4_1_25E253/README.md) | `7dbc428e1692` · 1 files · 2,213 bytes · [manifest](https://github.com/ipsw-diff/macos-26/blob/21b19bf3a6e32c240be5ffd7abc3b78ce2c38a5b/manifests/26_4_25E246_vs_26_4_1_25E253.json) |
 | `UniversalMac` | [26.3 (25D5087f) → 26.3 (25D5101c)](https://github.com/ipsw-diff/macos-26/blob/21b19bf3a6e32c240be5ffd7abc3b78ce2c38a5b/diffs/26_3_25D5087f__vs_26_3_25D5101c/README.md) | `7dd96306e3e0` · 628 files · 8,353,916 bytes · [manifest](https://github.com/ipsw-diff/macos-26/blob/21b19bf3a6e32c240be5ffd7abc3b78ce2c38a5b/manifests/26_3_25D5087f__vs_26_3_25D5101c.json) |
-
-</details>
 
 </details>
 

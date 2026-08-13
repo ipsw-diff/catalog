@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 _APPLE_BUILD = re.compile(r"(\d+)([A-Z])(\d+)([A-Za-z]*)")
 _APPLE_BETA_BUILD_FLOOR = 1000
-_LATEST_PER_PLATFORM = 5
+_LATEST_PER_PLATFORM = 3
 _TABLE_HEADER = (
     "| Device | Comparison | Integrity |",
     "| --- | --- | --- |",
@@ -129,11 +129,15 @@ def _comparison_link(entry: CatalogEntry) -> str:
     )
 
 
-def _latest_cell(entries: list[CatalogEntry]) -> str:
+def _latest_lines(entries: list[CatalogEntry]) -> list[str]:
     if not entries:
-        return "—"
+        return ["_No diffs indexed._"]
     newest = sorted(entries, key=_release_key, reverse=True)[:_LATEST_PER_PLATFORM]
-    return "<br>".join(_comparison_link(entry) for entry in newest)
+    return [
+        f"- [`{entry.next.build}`]({entry.destination_repository}/blob/"
+        f"{entry.destination_commit}/{entry.entrypoint}) ← `{entry.previous.build}`"
+        for entry in newest
+    ]
 
 
 def render_readme(entries: tuple[CatalogEntry, ...]) -> str:
@@ -148,8 +152,8 @@ def render_readme(entries: tuple[CatalogEntry, ...]) -> str:
         "",
         "## Latest diffs",
         "",
-        "Up to five newest diffs per platform are side by side and sorted newest-first.",
-        "Full integrity details are folded into the version browser below.",
+        "Up to three newest diffs per platform, sorted newest-first.",
+        "Full comparison and integrity details are in the version browser below.",
     ]
 
     grouped: dict[tuple[str, int], list[CatalogEntry]] = {}
@@ -164,19 +168,11 @@ def render_readme(entries: tuple[CatalogEntry, ...]) -> str:
         major = max(majors) if majors else None
         latest_major[platform] = major
         latest_entries[platform] = grouped[(platform, major)] if major is not None else []
-    ios_label = f"iOS {latest_major['iOS']}" if latest_major["iOS"] is not None else "iOS"
-    macos_label = f"macOS {latest_major['macOS']}" if latest_major["macOS"] is not None else "macOS"
-    lines.extend(
-        [
-            "",
-            f"| {ios_label} | {macos_label} |",
-            "| --- | --- |",
-            f"| {_latest_cell(latest_entries['iOS'])} | {_latest_cell(latest_entries['macOS'])} |",
-            "",
-            "## Browse all diffs",
-            "",
-        ]
-    )
+    for platform in platforms:
+        major = latest_major[platform]
+        label = f"{platform} {major}" if major is not None else platform
+        lines.extend(["", f"### {label}", "", *_latest_lines(latest_entries[platform])])
+    lines.extend(["", "## Browse all diffs", ""])
     for platform in platforms:
         platform_groups = sorted(
             (
@@ -189,16 +185,7 @@ def render_readme(entries: tuple[CatalogEntry, ...]) -> str:
         )
         if not platform_groups:
             continue
-        platform_count = sum(len(group_entries) for _, group_entries in platform_groups)
-        platform_label = "diff" if platform_count == 1 else "diffs"
-        platform_total = f"{platform_count} {platform_label}"
-        lines.extend(
-            [
-                "<details>",
-                f"<summary><strong>{platform}</strong> · {platform_total}</summary>",
-                "",
-            ]
-        )
+        lines.extend([f"### {platform}", ""])
         for major, group_entries in platform_groups:
             diff_label = "diff" if len(group_entries) == 1 else "diffs"
             group_name = f"{platform} {major}"
@@ -207,7 +194,6 @@ def render_readme(entries: tuple[CatalogEntry, ...]) -> str:
             lines.extend(["<details>", summary, ""])
             _append_table(lines, group_entries)
             lines.extend(["", "</details>", ""])
-        lines.extend(["</details>", ""])
     lines.extend(
         [
             "## Integrity model",
