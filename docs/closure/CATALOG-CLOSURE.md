@@ -98,3 +98,31 @@ outputs, remote audit fails, or any success-critical row above is unresolved.
 The one-entry catalog pilot is published and complete within the lifecycle scope
 defined above. This does not establish bulk-migration safety or activate shard
 and X automation.
+
+## Landing-page navigation extension
+
+Recorded: 2026-08-12
+
+Claim: the generated landing page places each platform's newest major-version
+diffs side by side and newest first, while retaining every catalog entry in a
+collapsed, versioned integrity table.
+
+- First lifecycle stage: load the complete, schema-validated catalog entry set.
+- Last lifecycle stage: deterministically render the README with a compact
+  latest section and one complete browser group per platform and major version.
+- Excluded: GitHub responsive styling, claims that disconnected historical
+  comparisons form one release sequence, and publication or merge state.
+
+| Stage | Evidence | Status |
+| --- | --- | --- |
+| Selection and trigger | All checked-in entries are loaded before grouping | Closed |
+| Inputs and resources | Platform, major, version, build, links, and integrity facts come from validated entries | Closed |
+| Transformation | Current major is selected independently per platform; comparisons use deterministic release/build ordering | Closed |
+| Advertisement | The top table exposes at most five iOS and five macOS links together; every full group is a closed `details` block | Closed |
+| Dispatch and transport | Every link remains commit-pinned and uses the existing comparison renderer | Closed |
+| State transition | Rendering does not mutate entries, specifications, or shard state | Closed |
+| Outcome oracle | Tests and generated-output checks prove ordering, grouping, balanced disclosure blocks, and deterministic output | Closed |
+
+The navigation layer is intentionally derived from catalog records rather than
+maintained by hand. Moving supporting Markdown into `docs/` changes repository
+navigation only; it does not delete audit evidence or alter catalog authority.
