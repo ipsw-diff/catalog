@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "source": {
+    "repository": "https://github.com/blacktop/ipsw-diffs",
+    "commit": "d881e84676308404c6947d0218c11f347a6f3a89"
+  },
+  "selection": {
+    "classification": "ordinary-two-ipsw",
+    "destination_major": 17,
+    "expected_source_paths": [
+      "17_6_1_21G101__vs_17_7_21H16",
+      "17_6_1_21G93__vs_17_6_1_21G101",
+      "17_6_21G79__vs_17_6_1_21G93",
+      "17_7_5_21H420__vs_17_7_6_21H423",
+      "17_7_7_21H433__vs_17_7_8_21H440"
+    ]
+  },
+  "routes": [
+    {
+      "input_device_prefix": "iPad",
+      "platform": "iOS",
+      "repository": "https://github.com/ipsw-diff/ios-17"
+    },
+    {
+      "input_device_prefix": "iPhone",
+      "platform": "iOS",
+      "repository": "https://github.com/ipsw-diff/ios-17"
+    }
+  ]
+}

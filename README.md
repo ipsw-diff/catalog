@@ -299,6 +299,11 @@ uv run ipsw-diff-catalog census \
   --output migration/census.json \
   --check
 uv run ipsw-diff-catalog plan \
+  --policy migration/major-17.json \
+  --census migration/census.json \
+  --output migration/specs-17 \
+  --check
+uv run ipsw-diff-catalog plan \
   --policy migration/major-18.json \
   --census migration/census.json \
   --output migration/specs-18 \
