@@ -197,6 +197,24 @@ Full comparison and integrity details are in the version browser below.
 
 </details>
 
+<details>
+<summary><strong>iOS 15</strong> · 1 diff</summary>
+
+| Device | Comparison | Integrity |
+| --- | --- | --- |
+| `iPodtouch_7` | [15.8.6 (19H402) → 15.8.7 (19H411)](https://github.com/ipsw-diff/ios-15/blob/57d0ea0143913199c0585265319d6800d858fc39/diffs/15_8_6_19H402__vs_15_8_7_19H411/README.md) | `721ca55fb96c` · 1 files · 10,605 bytes · [manifest](https://github.com/ipsw-diff/ios-15/blob/57d0ea0143913199c0585265319d6800d858fc39/manifests/15_8_6_19H402__vs_15_8_7_19H411.json) |
+
+</details>
+
+<details>
+<summary><strong>iOS 12</strong> · 1 diff</summary>
+
+| Device | Comparison | Integrity |
+| --- | --- | --- |
+| `iPhone_5.5` | [12.5.7 (16H81) → 12.5.8 (16H88)](https://github.com/ipsw-diff/ios-12/blob/7a2d48af608bbe9fdd0325b192518d79bdc62bca/diffs/12_5_7_16H81__vs_12_5_8_16H88/README.md) | `75d983d5b0fc` · 1 files · 43,191 bytes · [manifest](https://github.com/ipsw-diff/ios-12/blob/7a2d48af608bbe9fdd0325b192518d79bdc62bca/manifests/12_5_7_16H81__vs_12_5_8_16H88.json) |
+
+</details>
+
 ### macOS
 
 <details>
