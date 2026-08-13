@@ -2,6 +2,176 @@
   "releases": [
     {
       "beta": false,
+      "build": "21A329",
+      "channel": "release",
+      "display_version": "17.0",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2023-09-18",
+      "source_path": "osFiles/iOS/21x - 17.x/21A329.json"
+    },
+    {
+      "beta": false,
+      "build": "21A340",
+      "channel": "release",
+      "display_version": "17.0.1",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2023-09-21",
+      "source_path": "osFiles/iOS/21x - 17.x/21A340.json"
+    },
+    {
+      "beta": false,
+      "build": "21A350",
+      "channel": "release",
+      "display_version": "17.0.2",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2023-09-21",
+      "source_path": "osFiles/iOS/21x - 17.x/21A350.json"
+    },
+    {
+      "beta": false,
+      "build": "21A351",
+      "channel": "release",
+      "display_version": "17.0.2",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2023-09-26",
+      "source_path": "osFiles/iOS/21x - 17.x/21A351.json"
+    },
+    {
+      "beta": false,
+      "build": "21A360",
+      "channel": "release",
+      "display_version": "17.0.3",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2023-10-04",
+      "source_path": "osFiles/iOS/21x - 17.x/21A360.json"
+    },
+    {
+      "beta": false,
+      "build": "21B101",
+      "channel": "release",
+      "display_version": "17.1.2",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2023-11-30",
+      "source_path": "osFiles/iOS/21x - 17.x/21B101.json"
+    },
+    {
+      "beta": false,
+      "build": "21B80",
+      "channel": "release",
+      "display_version": "17.1",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2023-10-25",
+      "source_path": "osFiles/iOS/21x - 17.x/21B80.json"
+    },
+    {
+      "beta": false,
+      "build": "21B91",
+      "channel": "release",
+      "display_version": "17.1.1",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2023-11-07",
+      "source_path": "osFiles/iOS/21x - 17.x/21B91.json"
+    },
+    {
+      "beta": false,
+      "build": "21C62",
+      "channel": "release",
+      "display_version": "17.2",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2023-12-11",
+      "source_path": "osFiles/iOS/21x - 17.x/21C62.json"
+    },
+    {
+      "beta": false,
+      "build": "21C66",
+      "channel": "release",
+      "display_version": "17.2.1",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2023-12-19",
+      "source_path": "osFiles/iOS/21x - 17.x/21C66.json"
+    },
+    {
+      "beta": false,
+      "build": "21D50",
+      "channel": "release",
+      "display_version": "17.3",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2024-01-22",
+      "source_path": "osFiles/iOS/21x - 17.x/21D50.json"
+    },
+    {
+      "beta": false,
+      "build": "21D61",
+      "channel": "release",
+      "display_version": "17.3.1",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2024-02-08",
+      "source_path": "osFiles/iOS/21x - 17.x/21D61.json"
+    },
+    {
+      "beta": false,
+      "build": "21E219",
+      "channel": "release",
+      "display_version": "17.4",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2024-03-05",
+      "source_path": "osFiles/iOS/21x - 17.x/21E219.json"
+    },
+    {
+      "beta": false,
+      "build": "21E236",
+      "channel": "release",
+      "display_version": "17.4.1",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2024-03-21",
+      "source_path": "osFiles/iOS/21x - 17.x/21E236.json"
+    },
+    {
+      "beta": false,
+      "build": "21E237",
+      "channel": "release",
+      "display_version": "17.4.1",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2024-03-26",
+      "source_path": "osFiles/iOS/21x - 17.x/21E237.json"
+    },
+    {
+      "beta": false,
+      "build": "21F79",
+      "channel": "release",
+      "display_version": "17.5",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2024-05-13",
+      "source_path": "osFiles/iOS/21x - 17.x/21F79.json"
+    },
+    {
+      "beta": false,
+      "build": "21F90",
+      "channel": "release",
+      "display_version": "17.5.1",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2024-05-20",
+      "source_path": "osFiles/iOS/21x - 17.x/21F90.json"
+    },
+    {
+      "beta": false,
       "build": "21G101",
       "channel": "release",
       "display_version": "17.6.1",

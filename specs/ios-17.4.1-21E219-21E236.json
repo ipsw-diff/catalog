@@ -1,0 +1,27 @@
+{
+  "destination": {
+    "manifest_path": "manifests/17_4_21E219__vs_17_4_1_21E236.json",
+    "payload_path": "diffs/17_4_21E219__vs_17_4_1_21E236",
+    "repository": "https://github.com/ipsw-diff/ios-17"
+  },
+  "device": "iPhone16,1",
+  "from": {
+    "build": "21E219",
+    "input": "iPhone16,1_17.4_21E219_Restore.ipsw",
+    "version": "17.4"
+  },
+  "id": "ios-17.4.1-21E219-21E236",
+  "major_version": 17,
+  "platform": "iOS",
+  "schema_version": 1,
+  "source": {
+    "commit": "707bb335823a7869c2ec6f41f0ef88e6dc701183",
+    "path": "17_4_21E219__vs_17_4_1_21E236",
+    "repository": "https://github.com/blacktop/ipsw-diffs"
+  },
+  "to": {
+    "build": "21E236",
+    "input": "iPhone16,1_17.4.1_21E236_Restore.ipsw",
+    "version": "17.4.1"
+  }
+}
