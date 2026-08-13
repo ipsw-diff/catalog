@@ -198,6 +198,16 @@ Full comparison and integrity details are in the version browser below.
 </details>
 
 <details>
+<summary><strong>iOS 16</strong> · 2 diffs</summary>
+
+| Device | Comparison | Integrity |
+| --- | --- | --- |
+| `iPhone10,3,iPhone10,6` | [16.7.14 (20H370) → 16.7.15 (20H380)](https://github.com/ipsw-diff/ios-16/blob/3ee5b908fd4e21f8379aa62fc335d4ab2a8f44e7/diffs/16_7_14_20H370__vs_16_7_15_20H380/README.md) | `52ef7212cfd8` · 1 files · 10,678 bytes · [manifest](https://github.com/ipsw-diff/ios-16/blob/3ee5b908fd4e21f8379aa62fc335d4ab2a8f44e7/manifests/16_7_14_20H370__vs_16_7_15_20H380.json) |
+| `iPhone10,3,iPhone10,6` | [16.7.13 (20H365) → 16.7.14 (20H370)](https://github.com/ipsw-diff/ios-16/blob/3ee5b908fd4e21f8379aa62fc335d4ab2a8f44e7/diffs/16_7_13_20H365__vs_16_7_14_20H370/README.md) | `2442f3cdd941` · 1 files · 557 bytes · [manifest](https://github.com/ipsw-diff/ios-16/blob/3ee5b908fd4e21f8379aa62fc335d4ab2a8f44e7/manifests/16_7_13_20H365__vs_16_7_14_20H370.json) |
+
+</details>
+
+<details>
 <summary><strong>iOS 15</strong> · 1 diff</summary>
 
 | Device | Comparison | Integrity |
@@ -242,6 +252,16 @@ Full comparison and integrity details are in the version browser below.
 | `UniversalMac` | [26.5 (25F71) → 26.5.1 (25F80)](https://github.com/ipsw-diff/macos-26/blob/21b19bf3a6e32c240be5ffd7abc3b78ce2c38a5b/diffs/26_5_25F71__vs_26_5_1_25F80/README.md) | `d33808d3d71d` · 1 files · 13,137 bytes · [manifest](https://github.com/ipsw-diff/macos-26/blob/21b19bf3a6e32c240be5ffd7abc3b78ce2c38a5b/manifests/26_5_25F71__vs_26_5_1_25F80.json) |
 | `UniversalMac` | [26.4 (25E246) → 26.4.1 (25E253)](https://github.com/ipsw-diff/macos-26/blob/21b19bf3a6e32c240be5ffd7abc3b78ce2c38a5b/diffs/26_4_25E246_vs_26_4_1_25E253/README.md) | `7dbc428e1692` · 1 files · 2,213 bytes · [manifest](https://github.com/ipsw-diff/macos-26/blob/21b19bf3a6e32c240be5ffd7abc3b78ce2c38a5b/manifests/26_4_25E246_vs_26_4_1_25E253.json) |
 | `UniversalMac` | [26.3 beta (25D5087f) → 26.3 beta 2 (25D5101c)](https://github.com/ipsw-diff/macos-26/blob/21b19bf3a6e32c240be5ffd7abc3b78ce2c38a5b/diffs/26_3_25D5087f__vs_26_3_25D5101c/README.md) | `7dd96306e3e0` · 628 files · 8,353,916 bytes · [manifest](https://github.com/ipsw-diff/macos-26/blob/21b19bf3a6e32c240be5ffd7abc3b78ce2c38a5b/manifests/26_3_25D5087f__vs_26_3_25D5101c.json) |
+
+</details>
+
+<details>
+<summary><strong>macOS 15</strong> · 2 diffs</summary>
+
+| Device | Comparison | Integrity |
+| --- | --- | --- |
+| `UniversalMac` | [15.4 (24E248) → 15.5 beta (24F5042g)](https://github.com/ipsw-diff/macos-15/blob/ba046ef569c7720f90236324bec58cd908346237/diffs/15_4_24E248__vs_15_5_24F5042g/README.md) | `75de4ad3a110` · 1,350 files · 19,499,337 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/ba046ef569c7720f90236324bec58cd908346237/manifests/15_4_24E248__vs_15_5_24F5042g.json) |
+| `UniversalMac` | [15.3.2 (24D81) → 15.4 (24E248)](https://github.com/ipsw-diff/macos-15/blob/ba046ef569c7720f90236324bec58cd908346237/diffs/15_3_2_24D81__vs_15_4_24E248/README.md) | `7ff83e3092b4` · 7,660 files · 218,638,978 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/ba046ef569c7720f90236324bec58cd908346237/manifests/15_3_2_24D81__vs_15_4_24E248.json) |
 
 </details>
 
