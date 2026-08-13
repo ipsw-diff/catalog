@@ -67,6 +67,11 @@ def _parser() -> argparse.ArgumentParser:
 
     render_parser = commands.add_parser("render", help="render deterministic catalog outputs")
     render_parser.add_argument("--entries-dir", type=Path, default=Path("entries"))
+    render_parser.add_argument(
+        "--release-metadata",
+        type=Path,
+        default=Path("metadata/releases.json"),
+    )
     render_parser.add_argument("--readme", type=Path, default=Path("README.md"))
     render_parser.add_argument("--catalog", type=Path, default=Path("catalog.json"))
     render_parser.add_argument("--check", action="store_true")
@@ -224,7 +229,13 @@ def _run(arguments: argparse.Namespace) -> None:
         print(f"Audited {count} catalog entr{'y' if count == 1 else 'ies'}")
         return
     if arguments.command == "render":
-        render(arguments.entries_dir, arguments.readme, arguments.catalog, check=arguments.check)
+        render(
+            arguments.entries_dir,
+            arguments.release_metadata,
+            arguments.readme,
+            arguments.catalog,
+            check=arguments.check,
+        )
         print(
             f"{'Checked' if arguments.check else 'Rendered'} "
             f"{arguments.readme} and {arguments.catalog}"

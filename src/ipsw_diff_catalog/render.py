@@ -10,10 +10,13 @@ from ipsw_diff_catalog.model import (
     canonical_json,
     read_json_object,
 )
+from ipsw_diff_catalog.release_registry import ReleaseKey, ReleaseLabel, load_release_labels
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
     from pathlib import Path
+
+    from ipsw_diff_catalog.model import Release
 
 _APPLE_BUILD = re.compile(r"(\d+)([A-Z])(\d+)([A-Za-z]*)")
 _APPLE_BETA_BUILD_FLOOR = 1000
@@ -106,7 +109,25 @@ def _release_key(entry: CatalogEntry) -> tuple[object, ...]:
     )
 
 
-def _append_table(lines: list[str], entries: list[CatalogEntry]) -> None:
+def _release_text(
+    platform: str,
+    release: Release,
+    labels: dict[ReleaseKey, ReleaseLabel],
+    *,
+    code_build: bool,
+) -> str:
+    label = labels.get((platform, release.build))
+    if label is None:
+        raise CatalogError(f"release label is missing: {platform} {release.build}")
+    build = f"`{release.build}`" if code_build else release.build
+    return f"{label.display_version} ({build})"
+
+
+def _append_table(
+    lines: list[str],
+    entries: list[CatalogEntry],
+    labels: dict[ReleaseKey, ReleaseLabel],
+) -> None:
     lines.extend(_TABLE_HEADER)
     for entry in sorted(entries, key=_release_key, reverse=True):
         manifest = (
@@ -117,30 +138,44 @@ def _append_table(lines: list[str], entries: list[CatalogEntry]) -> None:
             f"`{entry.inventory.tree[:12]}` · {entry.inventory.file_count:,} files · "
             f"{entry.inventory.logical_bytes:,} bytes · {manifest}"
         )
-        lines.append(f"| `{entry.device}` | {_comparison_link(entry)} | {integrity} |")
+        lines.append(f"| `{entry.device}` | {_comparison_link(entry, labels)} | {integrity} |")
 
 
-def _comparison_link(entry: CatalogEntry) -> str:
+def _comparison_link(
+    entry: CatalogEntry,
+    labels: dict[ReleaseKey, ReleaseLabel],
+) -> str:
+    previous = _release_text(entry.platform, entry.previous, labels, code_build=False)
+    following = _release_text(entry.platform, entry.next, labels, code_build=False)
     return (
-        f"[{entry.previous.version} ({entry.previous.build}) → "
-        f"{entry.next.version} ({entry.next.build})]"
+        f"[{previous} → {following}]"
         f"({entry.destination_repository}/blob/"
         f"{entry.destination_commit}/{entry.entrypoint})"
     )
 
 
-def _latest_lines(entries: list[CatalogEntry]) -> list[str]:
+def _latest_lines(
+    entries: list[CatalogEntry],
+    labels: dict[ReleaseKey, ReleaseLabel],
+) -> list[str]:
     if not entries:
         return ["_No diffs indexed._"]
     newest = sorted(entries, key=_release_key, reverse=True)[:_LATEST_PER_PLATFORM]
-    return [
-        f"- [`{entry.next.build}`]({entry.destination_repository}/blob/"
-        f"{entry.destination_commit}/{entry.entrypoint}) ← `{entry.previous.build}`"
-        for entry in newest
-    ]
+    lines: list[str] = []
+    for entry in newest:
+        previous = _release_text(entry.platform, entry.previous, labels, code_build=True)
+        following = _release_text(entry.platform, entry.next, labels, code_build=True)
+        lines.append(
+            f"- [{following}]({entry.destination_repository}/blob/"
+            f"{entry.destination_commit}/{entry.entrypoint}) ← {previous}"
+        )
+    return lines
 
 
-def render_readme(entries: tuple[CatalogEntry, ...]) -> str:
+def render_readme(
+    entries: tuple[CatalogEntry, ...],
+    labels: dict[ReleaseKey, ReleaseLabel],
+) -> str:
     lines = [
         "# ipsw-diff catalog",
         "",
@@ -171,7 +206,7 @@ def render_readme(entries: tuple[CatalogEntry, ...]) -> str:
     for platform in platforms:
         major = latest_major[platform]
         label = f"{platform} {major}" if major is not None else platform
-        lines.extend(["", f"### {label}", "", *_latest_lines(latest_entries[platform])])
+        lines.extend(["", f"### {label}", "", *_latest_lines(latest_entries[platform], labels)])
     lines.extend(["", "## Browse all diffs", ""])
     for platform in platforms:
         platform_groups = sorted(
@@ -192,7 +227,7 @@ def render_readme(entries: tuple[CatalogEntry, ...]) -> str:
             diff_count = f"{len(group_entries)} {diff_label}"
             summary = f"<summary><strong>{group_name}</strong> · {diff_count}</summary>"
             lines.extend(["<details>", summary, ""])
-            _append_table(lines, group_entries)
+            _append_table(lines, group_entries, labels)
             lines.extend(["", "</details>", ""])
     lines.extend(
         [
@@ -266,6 +301,8 @@ def render_readme(entries: tuple[CatalogEntry, ...]) -> str:
             "fails closed on missing or ambiguous builds, platform/build/version conflicts,",
             "invalid dates and flags, a substituted Git remote, or stale output. It does not",
             "infer beta ordinals from build numbers or change catalog payload facts.",
+            "The generated README requires exact registry coverage and displays each",
+            "endpoint's curated label; `catalog.json` remains payload-derived and unchanged.",
             "",
             "## Tooling",
             "",
@@ -324,7 +361,15 @@ def _write_or_check(path: Path, content: str, *, check: bool) -> None:
     path.write_text(content, encoding="utf-8")
 
 
-def render(entries_dir: Path, readme: Path, catalog: Path, *, check: bool) -> None:
+def render(
+    entries_dir: Path,
+    release_metadata: Path,
+    readme: Path,
+    catalog: Path,
+    *,
+    check: bool,
+) -> None:
     entries = load_entries(entries_dir)
-    _write_or_check(readme, render_readme(entries), check=check)
+    labels = load_release_labels(release_metadata, entries)
+    _write_or_check(readme, render_readme(entries, labels), check=check)
     _write_or_check(catalog, canonical_json(catalog_object(entries)), check=check)
