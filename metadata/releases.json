@@ -2,6 +2,46 @@
   "releases": [
     {
       "beta": false,
+      "build": "16H81",
+      "channel": "release",
+      "display_version": "12.5.7",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2023-01-23",
+      "source_path": "osFiles/iOS/16x - 12.x/16H81.json"
+    },
+    {
+      "beta": false,
+      "build": "16H88",
+      "channel": "release",
+      "display_version": "12.5.8",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-01-26",
+      "source_path": "osFiles/iOS/16x - 12.x/16H88.json"
+    },
+    {
+      "beta": false,
+      "build": "19H402",
+      "channel": "release",
+      "display_version": "15.8.6",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-01-26",
+      "source_path": "osFiles/iOS/19x - 15.x/19H402.json"
+    },
+    {
+      "beta": false,
+      "build": "19H411",
+      "channel": "release",
+      "display_version": "15.8.7",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-03-11",
+      "source_path": "osFiles/iOS/19x - 15.x/19H411.json"
+    },
+    {
+      "beta": false,
       "build": "21A329",
       "channel": "release",
       "display_version": "17.0",

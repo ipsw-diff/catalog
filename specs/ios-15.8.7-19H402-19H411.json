@@ -1,0 +1,27 @@
+{
+  "destination": {
+    "manifest_path": "manifests/15_8_6_19H402__vs_15_8_7_19H411.json",
+    "payload_path": "diffs/15_8_6_19H402__vs_15_8_7_19H411",
+    "repository": "https://github.com/ipsw-diff/ios-15"
+  },
+  "device": "iPodtouch_7",
+  "from": {
+    "build": "19H402",
+    "input": "iPodtouch_7_15.8.6_19H402_Restore.ipsw",
+    "version": "15.8.6"
+  },
+  "id": "ios-15.8.7-19H402-19H411",
+  "major_version": 15,
+  "platform": "iOS",
+  "schema_version": 1,
+  "source": {
+    "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+    "path": "15_8_6_19H402__vs_15_8_7_19H411",
+    "repository": "https://github.com/blacktop/ipsw-diffs"
+  },
+  "to": {
+    "build": "19H411",
+    "input": "iPodtouch_7_15.8.7_19H411_Restore.ipsw",
+    "version": "15.8.7"
+  }
+}

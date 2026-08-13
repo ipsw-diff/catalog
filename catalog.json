@@ -4694,6 +4694,74 @@
     },
     {
       "destination": {
+        "commit": "57d0ea0143913199c0585265319d6800d858fc39",
+        "entrypoint": "diffs/15_8_6_19H402__vs_15_8_7_19H411/README.md",
+        "manifest_path": "manifests/15_8_6_19H402__vs_15_8_7_19H411.json",
+        "payload_path": "diffs/15_8_6_19H402__vs_15_8_7_19H411",
+        "repository": "https://github.com/ipsw-diff/ios-15"
+      },
+      "device": "iPodtouch_7",
+      "from": {
+        "build": "19H402",
+        "input": "iPodtouch_7_15.8.6_19H402_Restore.ipsw",
+        "version": "15.8.6"
+      },
+      "id": "ios-15.8.7-19H402-19H411",
+      "integrity": {
+        "git_tree": "721ca55fb96c8b41ba4de83693c2ab40ff229056",
+        "logical_bytes": 10605,
+        "tracked_file_count": 1
+      },
+      "major_version": 15,
+      "platform": "iOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+        "path": "15_8_6_19H402__vs_15_8_7_19H411",
+        "repository": "https://github.com/blacktop/ipsw-diffs"
+      },
+      "to": {
+        "build": "19H411",
+        "input": "iPodtouch_7_15.8.7_19H411_Restore.ipsw",
+        "version": "15.8.7"
+      }
+    },
+    {
+      "destination": {
+        "commit": "7a2d48af608bbe9fdd0325b192518d79bdc62bca",
+        "entrypoint": "diffs/12_5_7_16H81__vs_12_5_8_16H88/README.md",
+        "manifest_path": "manifests/12_5_7_16H81__vs_12_5_8_16H88.json",
+        "payload_path": "diffs/12_5_7_16H81__vs_12_5_8_16H88",
+        "repository": "https://github.com/ipsw-diff/ios-12"
+      },
+      "device": "iPhone_5.5",
+      "from": {
+        "build": "16H81",
+        "input": "iPhone_5.5_12.5.7_16H81_Restore.ipsw",
+        "version": "12.5.7"
+      },
+      "id": "ios-12.5.8-16H81-16H88",
+      "integrity": {
+        "git_tree": "75d983d5b0fc124644e3a543a76abc7d1cadbba4",
+        "logical_bytes": 43191,
+        "tracked_file_count": 1
+      },
+      "major_version": 12,
+      "platform": "iOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+        "path": "12_5_7_16H81__vs_12_5_8_16H88",
+        "repository": "https://github.com/blacktop/ipsw-diffs"
+      },
+      "to": {
+        "build": "16H88",
+        "input": "iPhone_5.5_12.5.8_16H88_Restore.ipsw",
+        "version": "12.5.8"
+      }
+    },
+    {
+      "destination": {
         "commit": "2c87c1970492719b2083e391c178c6c10fc00ddc",
         "entrypoint": "diffs/27_0_26A5353q_vs_27_0_26A5368g/README.md",
         "manifest_path": "manifests/27_0_26A5353q_vs_27_0_26A5368g.json",
