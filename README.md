@@ -191,6 +191,19 @@ the exact policy selector, and emits canonical `current` or `candidate` JSON.
 It does not download firmware, modify a repository, schedule work, generate a
 diff, or publish anything.
 
+## Curated release metadata
+
+`release-metadata` enumerates every unique `(platform, build)` endpoint in the
+validated catalog, then requires one exact record below `osFiles/iOS` or
+`osFiles/macOS` at a caller-supplied AppleDB Git commit. It records AppleDB's
+human-curated display version, beta/RC flags, release date, and exact source
+path in [the release registry](metadata/releases.json).
+
+The importer reads immutable Git objects rather than the AppleDB worktree. It
+fails closed on missing or ambiguous builds, platform/build/version conflicts,
+invalid dates and flags, a substituted Git remote, or stale output. It does not
+infer beta ordinals from build numbers or change catalog payload facts.
+
 ## Tooling
 
 ```console
@@ -204,6 +217,7 @@ uv run ipsw-diff-catalog census --help
 uv run ipsw-diff-catalog plan --help
 uv run ipsw-diff-catalog render-archive --help
 uv run ipsw-diff-catalog discover --help
+uv run ipsw-diff-catalog release-metadata --help
 uv run pytest
 uv run ruff format --check .
 uv run ruff check .
@@ -219,6 +233,11 @@ uv run ipsw-diff-catalog plan \
   --policy migration/major-26.json \
   --census migration/census.json \
   --output migration/specs-26 \
+  --check
+uv run ipsw-diff-catalog release-metadata \
+  --appledb-repo /path/to/appledb \
+  --appledb-commit 3051f8643eaf5d6d7196fb3c01a0f9ade46f1dc7 \
+  --output metadata/releases.json \
   --check
 ```
 

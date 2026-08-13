@@ -10,6 +10,7 @@ from ipsw_diff_catalog.census import census
 from ipsw_diff_catalog.discovery import discover_live
 from ipsw_diff_catalog.model import CatalogError, MigrationSpec
 from ipsw_diff_catalog.planner import plan
+from ipsw_diff_catalog.release_metadata import import_release_metadata
 from ipsw_diff_catalog.render import render
 from ipsw_diff_catalog.stage import (
     stage,
@@ -111,7 +112,27 @@ def _parser() -> argparse.ArgumentParser:
     archive_parser.add_argument("--destination-repository", required=True)
     archive_parser.add_argument("--output", type=Path, required=True)
     archive_parser.add_argument("--check", action="store_true")
+
+    _add_release_metadata_parser(commands)
     return parser
+
+
+def _add_release_metadata_parser(
+    commands: argparse._SubParsersAction[argparse.ArgumentParser],
+) -> None:
+    metadata_parser = commands.add_parser(
+        "release-metadata",
+        help="generate curated release labels from one pinned AppleDB commit",
+    )
+    metadata_parser.add_argument("--entries-dir", type=Path, default=Path("entries"))
+    metadata_parser.add_argument("--appledb-repo", type=Path, required=True)
+    metadata_parser.add_argument("--appledb-commit", required=True)
+    metadata_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("metadata/releases.json"),
+    )
+    metadata_parser.add_argument("--check", action="store_true")
 
 
 def _add_spec_and_repositories(parser: argparse.ArgumentParser, *, destination: bool) -> None:
@@ -163,6 +184,21 @@ def _run_archive(arguments: argparse.Namespace) -> None:
     )
     verb = "Checked" if arguments.check else "Rendered"
     print(f"{verb} {arguments.output}: diffs={count}")
+
+
+def _run_release_metadata(arguments: argparse.Namespace) -> None:
+    result = import_release_metadata(
+        arguments.entries_dir,
+        arguments.appledb_repo,
+        arguments.appledb_commit,
+        arguments.output,
+        check=arguments.check,
+    )
+    verb = "Checked" if result.checked else "Wrote"
+    print(
+        f"{verb} {result.output}: releases={result.release_count} "
+        f"betas={result.beta_count} rcs={result.rc_count}"
+    )
 
 
 def _run_batch(arguments: argparse.Namespace) -> None:
@@ -248,6 +284,8 @@ def _dispatch(arguments: argparse.Namespace) -> None:
         _run_plan(arguments)
     elif arguments.command == "render-archive":
         _run_archive(arguments)
+    elif arguments.command == "release-metadata":
+        _run_release_metadata(arguments)
     elif arguments.command in {"stage-batch", "validate-staged-batch"}:
         _run_batch(arguments)
     else:

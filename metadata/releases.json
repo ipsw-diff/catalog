@@ -1,0 +1,829 @@
+{
+  "releases": [
+    {
+      "beta": false,
+      "build": "22F76",
+      "channel": "release",
+      "display_version": "18.5",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-05-12",
+      "source_path": "osFiles/iOS/22x - 18.x/22F76.json"
+    },
+    {
+      "beta": false,
+      "build": "23A340",
+      "channel": "rc",
+      "display_version": "26.0 RC",
+      "platform": "iOS",
+      "rc": true,
+      "released": "2025-09-09",
+      "source_path": "osFiles/iOS/23x - 26.x/23A340.json"
+    },
+    {
+      "beta": false,
+      "build": "23A341",
+      "channel": "release",
+      "display_version": "26.0",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-09-15",
+      "source_path": "osFiles/iOS/23x - 26.x/23A341.json"
+    },
+    {
+      "beta": false,
+      "build": "23A345",
+      "channel": "release",
+      "display_version": "26.0",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-09-18",
+      "source_path": "osFiles/iOS/23x - 26.x/23A345.json"
+    },
+    {
+      "beta": false,
+      "build": "23A355",
+      "channel": "release",
+      "display_version": "26.0.1",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-09-29",
+      "source_path": "osFiles/iOS/23x - 26.x/23A355.json"
+    },
+    {
+      "beta": true,
+      "build": "23A5260n",
+      "channel": "beta",
+      "display_version": "26.0 beta",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-06-09",
+      "source_path": "osFiles/iOS/23x - 26.x/23A5260n.json"
+    },
+    {
+      "beta": true,
+      "build": "23A5260u",
+      "channel": "beta",
+      "display_version": "26.0 beta",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-06-13",
+      "source_path": "osFiles/iOS/23x - 26.x/23A5260u.json"
+    },
+    {
+      "beta": true,
+      "build": "23A5276f",
+      "channel": "beta",
+      "display_version": "26.0 beta 2",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-06-23",
+      "source_path": "osFiles/iOS/23x - 26.x/23A5276f.json"
+    },
+    {
+      "beta": true,
+      "build": "23A5287g",
+      "channel": "beta",
+      "display_version": "26.0 beta 3",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-07-07",
+      "source_path": "osFiles/iOS/23x - 26.x/23A5287g.json"
+    },
+    {
+      "beta": true,
+      "build": "23A5297i",
+      "channel": "beta",
+      "display_version": "26.0 beta 4",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-07-22",
+      "source_path": "osFiles/iOS/23x - 26.x/23A5297i.json"
+    },
+    {
+      "beta": true,
+      "build": "23A5308g",
+      "channel": "beta",
+      "display_version": "26.0 beta 5",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-08-05",
+      "source_path": "osFiles/iOS/23x - 26.x/23A5308g.json"
+    },
+    {
+      "beta": true,
+      "build": "23A5318c",
+      "channel": "beta",
+      "display_version": "26.0 beta 6",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-08-11",
+      "source_path": "osFiles/iOS/23x - 26.x/23A5318c.json"
+    },
+    {
+      "beta": true,
+      "build": "23A5326a",
+      "channel": "beta",
+      "display_version": "26.0 beta 7",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-08-18",
+      "source_path": "osFiles/iOS/23x - 26.x/23A5326a.json"
+    },
+    {
+      "beta": true,
+      "build": "23A5330a",
+      "channel": "beta",
+      "display_version": "26.0 beta 8",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-08-25",
+      "source_path": "osFiles/iOS/23x - 26.x/23A5330a.json"
+    },
+    {
+      "beta": true,
+      "build": "23A5336a",
+      "channel": "beta",
+      "display_version": "26.0 beta 9",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-09-02",
+      "source_path": "osFiles/iOS/23x - 26.x/23A5336a.json"
+    },
+    {
+      "beta": true,
+      "build": "23B5044l",
+      "channel": "beta",
+      "display_version": "26.1 beta",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-09-22",
+      "source_path": "osFiles/iOS/23x - 26.x/23B5044l.json"
+    },
+    {
+      "beta": true,
+      "build": "23B5059e",
+      "channel": "beta",
+      "display_version": "26.1 beta 2",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-10-06",
+      "source_path": "osFiles/iOS/23x - 26.x/23B5059e.json"
+    },
+    {
+      "beta": true,
+      "build": "23B5064e",
+      "channel": "beta",
+      "display_version": "26.1 beta 3",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-10-13",
+      "source_path": "osFiles/iOS/23x - 26.x/23B5064e.json"
+    },
+    {
+      "beta": true,
+      "build": "23B5073a",
+      "channel": "beta",
+      "display_version": "26.1 beta 4",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-10-20",
+      "source_path": "osFiles/iOS/23x - 26.x/23B5073a.json"
+    },
+    {
+      "beta": false,
+      "build": "23B82",
+      "channel": "rc",
+      "display_version": "26.1 RC",
+      "platform": "iOS",
+      "rc": true,
+      "released": "2025-10-28",
+      "source_path": "osFiles/iOS/23x - 26.x/23B82.json"
+    },
+    {
+      "beta": false,
+      "build": "23B85",
+      "channel": "release",
+      "display_version": "26.1",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-11-03",
+      "source_path": "osFiles/iOS/23x - 26.x/23B85.json"
+    },
+    {
+      "beta": true,
+      "build": "23C5027f",
+      "channel": "beta",
+      "display_version": "26.2 beta",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-11-04",
+      "source_path": "osFiles/iOS/23x - 26.x/23C5027f.json"
+    },
+    {
+      "beta": true,
+      "build": "23C5033h",
+      "channel": "beta",
+      "display_version": "26.2 beta 2",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-11-12",
+      "source_path": "osFiles/iOS/23x - 26.x/23C5033h.json"
+    },
+    {
+      "beta": true,
+      "build": "23C5044b",
+      "channel": "beta",
+      "display_version": "26.2 beta 3",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-11-17",
+      "source_path": "osFiles/iOS/23x - 26.x/23C5044b.json"
+    },
+    {
+      "beta": false,
+      "build": "23C52",
+      "channel": "rc",
+      "display_version": "26.2 RC",
+      "platform": "iOS",
+      "rc": true,
+      "released": "2025-12-03",
+      "source_path": "osFiles/iOS/23x - 26.x/23C52.json"
+    },
+    {
+      "beta": false,
+      "build": "23C54",
+      "channel": "rc",
+      "display_version": "26.2 RC 2",
+      "platform": "iOS",
+      "rc": true,
+      "released": "2025-12-08",
+      "source_path": "osFiles/iOS/23x - 26.x/23C54.json"
+    },
+    {
+      "beta": false,
+      "build": "23C55",
+      "channel": "release",
+      "display_version": "26.2",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-12-12",
+      "source_path": "osFiles/iOS/23x - 26.x/23C55.json"
+    },
+    {
+      "beta": false,
+      "build": "23C71",
+      "channel": "release",
+      "display_version": "26.2.1",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-01-26",
+      "source_path": "osFiles/iOS/23x - 26.x/23C71.json"
+    },
+    {
+      "beta": false,
+      "build": "23D125",
+      "channel": "rc",
+      "display_version": "26.3 RC",
+      "platform": "iOS",
+      "rc": true,
+      "released": "2026-02-04",
+      "source_path": "osFiles/iOS/23x - 26.x/23D125.json"
+    },
+    {
+      "beta": false,
+      "build": "23D127",
+      "channel": "release",
+      "display_version": "26.3",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-02-11",
+      "source_path": "osFiles/iOS/23x - 26.x/23D127.json"
+    },
+    {
+      "beta": true,
+      "build": "23D5089e",
+      "channel": "beta",
+      "display_version": "26.3 beta",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-12-15",
+      "source_path": "osFiles/iOS/23x - 26.x/23D5089e.json"
+    },
+    {
+      "beta": true,
+      "build": "23D5103d",
+      "channel": "beta",
+      "display_version": "26.3 beta 2",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-01-12",
+      "source_path": "osFiles/iOS/23x - 26.x/23D5103d.json"
+    },
+    {
+      "beta": true,
+      "build": "23D5114d",
+      "channel": "beta",
+      "display_version": "26.3 beta 3",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-01-26",
+      "source_path": "osFiles/iOS/23x - 26.x/23D5114d.json"
+    },
+    {
+      "beta": false,
+      "build": "23D8133",
+      "channel": "release",
+      "display_version": "26.3.1",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-03-04",
+      "source_path": "osFiles/iOS/23x - 26.x/23D8133.json"
+    },
+    {
+      "beta": false,
+      "build": "23E244",
+      "channel": "rc",
+      "display_version": "26.4 RC",
+      "platform": "iOS",
+      "rc": true,
+      "released": "2026-03-18",
+      "source_path": "osFiles/iOS/23x - 26.x/23E244.json"
+    },
+    {
+      "beta": false,
+      "build": "23E246",
+      "channel": "release",
+      "display_version": "26.4",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-03-24",
+      "source_path": "osFiles/iOS/23x - 26.x/23E246.json"
+    },
+    {
+      "beta": false,
+      "build": "23E254",
+      "channel": "release",
+      "display_version": "26.4.1",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-04-08",
+      "source_path": "osFiles/iOS/23x - 26.x/23E254.json"
+    },
+    {
+      "beta": false,
+      "build": "23E261",
+      "channel": "release",
+      "display_version": "26.4.2",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-04-22",
+      "source_path": "osFiles/iOS/23x - 26.x/23E261.json"
+    },
+    {
+      "beta": true,
+      "build": "23E5207q",
+      "channel": "beta",
+      "display_version": "26.4 beta",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-02-16",
+      "source_path": "osFiles/iOS/23x - 26.x/23E5207q.json"
+    },
+    {
+      "beta": true,
+      "build": "23E5218e",
+      "channel": "beta",
+      "display_version": "26.4 beta 2",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-02-23",
+      "source_path": "osFiles/iOS/23x - 26.x/23E5218e.json"
+    },
+    {
+      "beta": true,
+      "build": "23E5223f",
+      "channel": "beta",
+      "display_version": "26.4 beta 3",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-03-02",
+      "source_path": "osFiles/iOS/23x - 26.x/23E5223f.json"
+    },
+    {
+      "beta": true,
+      "build": "23E5223k",
+      "channel": "beta",
+      "display_version": "26.4 beta 3",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-03-05",
+      "source_path": "osFiles/iOS/23x - 26.x/23E5223k.json"
+    },
+    {
+      "beta": true,
+      "build": "23E5234a",
+      "channel": "beta",
+      "display_version": "26.4 beta 4",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-03-09",
+      "source_path": "osFiles/iOS/23x - 26.x/23E5234a.json"
+    },
+    {
+      "beta": true,
+      "build": "23F5043g",
+      "channel": "beta",
+      "display_version": "26.5 beta",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-03-30",
+      "source_path": "osFiles/iOS/23x - 26.x/23F5043g.json"
+    },
+    {
+      "beta": true,
+      "build": "23F5043k",
+      "channel": "beta",
+      "display_version": "26.5 beta",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-04-03",
+      "source_path": "osFiles/iOS/23x - 26.x/23F5043k.json"
+    },
+    {
+      "beta": true,
+      "build": "23F5054h",
+      "channel": "beta",
+      "display_version": "26.5 beta 2",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-04-13",
+      "source_path": "osFiles/iOS/23x - 26.x/23F5054h.json"
+    },
+    {
+      "beta": true,
+      "build": "23F5059e",
+      "channel": "beta",
+      "display_version": "26.5 beta 3",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-04-20",
+      "source_path": "osFiles/iOS/23x - 26.x/23F5059e.json"
+    },
+    {
+      "beta": true,
+      "build": "23F5069b",
+      "channel": "beta",
+      "display_version": "26.5 beta 4",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-04-27",
+      "source_path": "osFiles/iOS/23x - 26.x/23F5069b.json"
+    },
+    {
+      "beta": false,
+      "build": "23F75",
+      "channel": "rc",
+      "display_version": "26.5 RC",
+      "platform": "iOS",
+      "rc": true,
+      "released": "2026-05-04",
+      "source_path": "osFiles/iOS/23x - 26.x/23F75.json"
+    },
+    {
+      "beta": false,
+      "build": "23F77",
+      "channel": "release",
+      "display_version": "26.5",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-05-11",
+      "source_path": "osFiles/iOS/23x - 26.x/23F77.json"
+    },
+    {
+      "beta": false,
+      "build": "23F81",
+      "channel": "release",
+      "display_version": "26.5.1",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-06-01",
+      "source_path": "osFiles/iOS/23x - 26.x/23F81.json"
+    },
+    {
+      "beta": false,
+      "build": "23F84",
+      "channel": "release",
+      "display_version": "26.5.2",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-06-29",
+      "source_path": "osFiles/iOS/23x - 26.x/23F84.json"
+    },
+    {
+      "beta": true,
+      "build": "23G5028e",
+      "channel": "beta",
+      "display_version": "26.6 beta",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-05-26",
+      "source_path": "osFiles/iOS/23x - 26.x/23G5028e.json"
+    },
+    {
+      "beta": true,
+      "build": "23G5043d",
+      "channel": "beta",
+      "display_version": "26.6 beta 2",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-06-15",
+      "source_path": "osFiles/iOS/23x - 26.x/23G5043d.json"
+    },
+    {
+      "beta": true,
+      "build": "23G5052d",
+      "channel": "beta",
+      "display_version": "26.6 beta 3",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-06-29",
+      "source_path": "osFiles/iOS/23x - 26.x/23G5052d.json"
+    },
+    {
+      "beta": true,
+      "build": "23G5057c",
+      "channel": "beta",
+      "display_version": "26.6 beta 4",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-07-06",
+      "source_path": "osFiles/iOS/23x - 26.x/23G5057c.json"
+    },
+    {
+      "beta": true,
+      "build": "23G5065a",
+      "channel": "beta",
+      "display_version": "26.6 beta 5",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-07-13",
+      "source_path": "osFiles/iOS/23x - 26.x/23G5065a.json"
+    },
+    {
+      "beta": false,
+      "build": "23G71",
+      "channel": "release",
+      "display_version": "26.6",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-07-27",
+      "source_path": "osFiles/iOS/23x - 26.x/23G71.json"
+    },
+    {
+      "beta": false,
+      "build": "23G82",
+      "channel": "rc",
+      "display_version": "26.6.1 RC",
+      "platform": "iOS",
+      "rc": true,
+      "released": "2026-08-10",
+      "source_path": "osFiles/iOS/23x - 26.x/23G82.json"
+    },
+    {
+      "beta": true,
+      "build": "24A5355q",
+      "channel": "beta",
+      "display_version": "27.0 beta",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-06-08",
+      "source_path": "osFiles/iOS/24x - 27.x/24A5355q.json"
+    },
+    {
+      "beta": true,
+      "build": "24A5370h",
+      "channel": "beta",
+      "display_version": "27.0 beta 2",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-06-22",
+      "source_path": "osFiles/iOS/24x - 27.x/24A5370h.json"
+    },
+    {
+      "beta": true,
+      "build": "24A5380h",
+      "channel": "beta",
+      "display_version": "27.0 beta 3",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-07-06",
+      "source_path": "osFiles/iOS/24x - 27.x/24A5380h.json"
+    },
+    {
+      "beta": true,
+      "build": "24A5390f",
+      "channel": "beta",
+      "display_version": "27.0 beta 4",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-07-20",
+      "source_path": "osFiles/iOS/24x - 27.x/24A5390f.json"
+    },
+    {
+      "beta": true,
+      "build": "24A5408d",
+      "channel": "beta",
+      "display_version": "27.0 beta 5",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-08-10",
+      "source_path": "osFiles/iOS/24x - 27.x/24A5408d.json"
+    },
+    {
+      "beta": true,
+      "build": "25D5087f",
+      "channel": "beta",
+      "display_version": "26.3 beta",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2025-12-15",
+      "source_path": "osFiles/macOS/25x - 26.x/25D5087f.json"
+    },
+    {
+      "beta": true,
+      "build": "25D5101c",
+      "channel": "beta",
+      "display_version": "26.3 beta 2",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2026-01-12",
+      "source_path": "osFiles/macOS/25x - 26.x/25D5101c.json"
+    },
+    {
+      "beta": false,
+      "build": "25E246",
+      "channel": "release",
+      "display_version": "26.4",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2026-03-24",
+      "source_path": "osFiles/macOS/25x - 26.x/25E246.json"
+    },
+    {
+      "beta": false,
+      "build": "25E253",
+      "channel": "release",
+      "display_version": "26.4.1",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2026-04-09",
+      "source_path": "osFiles/macOS/25x - 26.x/25E253.json"
+    },
+    {
+      "beta": false,
+      "build": "25F71",
+      "channel": "release",
+      "display_version": "26.5",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2026-05-11",
+      "source_path": "osFiles/macOS/25x - 26.x/25F71.json"
+    },
+    {
+      "beta": false,
+      "build": "25F80",
+      "channel": "release",
+      "display_version": "26.5.1",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2026-06-01",
+      "source_path": "osFiles/macOS/25x - 26.x/25F80.json"
+    },
+    {
+      "beta": true,
+      "build": "25G5028f",
+      "channel": "beta",
+      "display_version": "26.6 beta",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2026-05-26",
+      "source_path": "osFiles/macOS/25x - 26.x/25G5028f.json"
+    },
+    {
+      "beta": true,
+      "build": "25G5043d",
+      "channel": "beta",
+      "display_version": "26.6 beta 2",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2026-06-15",
+      "source_path": "osFiles/macOS/25x - 26.x/25G5043d.json"
+    },
+    {
+      "beta": true,
+      "build": "25G5052e",
+      "channel": "beta",
+      "display_version": "26.6 beta 3",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2026-06-29",
+      "source_path": "osFiles/macOS/25x - 26.x/25G5052e.json"
+    },
+    {
+      "beta": false,
+      "build": "25G70",
+      "channel": "rc",
+      "display_version": "26.6 RC",
+      "platform": "macOS",
+      "rc": true,
+      "released": "2026-07-20",
+      "source_path": "osFiles/macOS/25x - 26.x/25G70.json"
+    },
+    {
+      "beta": false,
+      "build": "25G72",
+      "channel": "release",
+      "display_version": "26.6",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2026-07-27",
+      "source_path": "osFiles/macOS/25x - 26.x/25G72.json"
+    },
+    {
+      "beta": false,
+      "build": "25G76",
+      "channel": "release",
+      "display_version": "26.6.1",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2026-08-06",
+      "source_path": "osFiles/macOS/25x - 26.x/25G76.json"
+    },
+    {
+      "beta": false,
+      "build": "25G82",
+      "channel": "rc",
+      "display_version": "26.6.2 RC",
+      "platform": "macOS",
+      "rc": true,
+      "released": "2026-08-10",
+      "source_path": "osFiles/macOS/25x - 26.x/25G82.json"
+    },
+    {
+      "beta": true,
+      "build": "26A5353q",
+      "channel": "beta",
+      "display_version": "27.0 beta",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2026-06-08",
+      "source_path": "osFiles/macOS/26x - 27.x/26A5353q.json"
+    },
+    {
+      "beta": true,
+      "build": "26A5368g",
+      "channel": "beta",
+      "display_version": "27.0 beta 2",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2026-06-22",
+      "source_path": "osFiles/macOS/26x - 27.x/26A5368g.json"
+    },
+    {
+      "beta": true,
+      "build": "26A5378j",
+      "channel": "beta",
+      "display_version": "27.0 beta 3",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2026-07-06",
+      "source_path": "osFiles/macOS/26x - 27.x/26A5378j.json"
+    },
+    {
+      "beta": true,
+      "build": "26A5378n",
+      "channel": "beta",
+      "display_version": "27.0 beta 3",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2026-07-13",
+      "source_path": "osFiles/macOS/26x - 27.x/26A5378n.json"
+    },
+    {
+      "beta": true,
+      "build": "26A5388g",
+      "channel": "beta",
+      "display_version": "27.0 beta 4",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2026-07-20",
+      "source_path": "osFiles/macOS/26x - 27.x/26A5388g.json"
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "commit": "3051f8643eaf5d6d7196fb3c01a0f9ade46f1dc7",
+    "repository": "https://github.com/littlebyteorg/appledb"
+  }
+}
