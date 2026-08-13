@@ -1,0 +1,27 @@
+{
+  "destination": {
+    "manifest_path": "manifests/17_0_1_21A340__vs_17_0_2_21A351.json",
+    "payload_path": "diffs/17_0_1_21A340__vs_17_0_2_21A351",
+    "repository": "https://github.com/ipsw-diff/ios-17"
+  },
+  "device": "iPhone15,2",
+  "from": {
+    "build": "21A340",
+    "input": "iPhone15,2_17.0.1_21A340_Restore.ipsw",
+    "version": "17.0.1"
+  },
+  "id": "ios-17.0.2-21A340-21A351",
+  "major_version": 17,
+  "platform": "iOS",
+  "schema_version": 1,
+  "source": {
+    "commit": "707bb335823a7869c2ec6f41f0ef88e6dc701183",
+    "path": "17_0_1_21A340__vs_17_0_2_21A351",
+    "repository": "https://github.com/blacktop/ipsw-diffs"
+  },
+  "to": {
+    "build": "21A351",
+    "input": "iPhone15,2_17.0.2_21A351_Restore.ipsw",
+    "version": "17.0.2"
+  }
+}

@@ -51,11 +51,6 @@ def _validated_archive_specs(
     )
     _require_shared_value(
         specifications,
-        "source commit",
-        lambda spec: spec.source.commit,
-    )
-    _require_shared_value(
-        specifications,
         "destination repository",
         lambda spec: spec.destination.repository,
     )

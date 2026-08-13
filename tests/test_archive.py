@@ -119,6 +119,30 @@ def test_archive_readme_rejects_mixed_platforms(repositories: Repositories) -> N
         archive_readme((repositories.spec, mixed))
 
 
+def test_archive_accepts_multiple_immutable_source_commits(
+    repositories: Repositories,
+) -> None:
+    later = replace(
+        repositories.spec,
+        identifier="ios-1.0-a2-a3",
+        source=replace(
+            repositories.spec.source,
+            commit="d" * 40,
+            path="later-source-diff",
+        ),
+        destination=replace(
+            repositories.spec.destination,
+            payload_path="diffs/later-source-diff",
+            manifest_path="manifests/later-source-diff.json",
+        ),
+    )
+
+    rendered = archive_readme((repositories.spec, later))
+
+    assert "diffs/source-diff/README.md" in rendered
+    assert "diffs/later-source-diff/README.md" in rendered
+
+
 def test_archive_rejects_duplicate_source_and_destination_path(
     repositories: Repositories,
     tmp_path: Path,
