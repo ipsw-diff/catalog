@@ -1,0 +1,34 @@
+{
+  "destination": {
+    "commit": "181d2d99f2d683c3e4df8a62949568c109785dc1",
+    "entrypoint": "diffs/26_0_23A5330a__vs_26_0_23A5336a/README.md",
+    "manifest_path": "manifests/26_0_23A5330a__vs_26_0_23A5336a.json",
+    "payload_path": "diffs/26_0_23A5330a__vs_26_0_23A5336a",
+    "repository": "https://github.com/ipsw-diff/ios-26"
+  },
+  "device": "iPhone17,1",
+  "from": {
+    "build": "23A5330a",
+    "input": "iPhone17,1_26.0_23A5330a_Restore.ipsw",
+    "version": "26.0"
+  },
+  "id": "ios-26.0-23A5330a-23A5336a",
+  "integrity": {
+    "git_tree": "f1663e7d80ef5c3dc939ed50fe8412ca08f4605a",
+    "logical_bytes": 3145159,
+    "tracked_file_count": 1705
+  },
+  "major_version": 26,
+  "platform": "iOS",
+  "schema_version": 1,
+  "source": {
+    "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+    "path": "26_0_23A5330a__vs_26_0_23A5336a",
+    "repository": "https://github.com/blacktop/ipsw-diffs"
+  },
+  "to": {
+    "build": "23A5336a",
+    "input": "iPhone17,1_26.0_23A5336a_Restore.ipsw",
+    "version": "26.0"
+  }
+}

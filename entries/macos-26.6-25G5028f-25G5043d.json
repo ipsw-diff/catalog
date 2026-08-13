@@ -1,0 +1,34 @@
+{
+  "destination": {
+    "commit": "21b19bf3a6e32c240be5ffd7abc3b78ce2c38a5b",
+    "entrypoint": "diffs/26_6_25G5028f_vs_26_6_25G5043d/README.md",
+    "manifest_path": "manifests/26_6_25G5028f_vs_26_6_25G5043d.json",
+    "payload_path": "diffs/26_6_25G5028f_vs_26_6_25G5043d",
+    "repository": "https://github.com/ipsw-diff/macos-26"
+  },
+  "device": "UniversalMac",
+  "from": {
+    "build": "25G5028f",
+    "input": "UniversalMac_26.6_25G5028f_Restore.ipsw",
+    "version": "26.6"
+  },
+  "id": "macos-26.6-25G5028f-25G5043d",
+  "integrity": {
+    "git_tree": "ff203d549e5ad0926ab04b368bfbe936b8e57cd3",
+    "logical_bytes": 2673152,
+    "tracked_file_count": 599
+  },
+  "major_version": 26,
+  "platform": "macOS",
+  "schema_version": 1,
+  "source": {
+    "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+    "path": "26_6_25G5028f_vs_26_6_25G5043d",
+    "repository": "https://github.com/blacktop/ipsw-diffs"
+  },
+  "to": {
+    "build": "25G5043d",
+    "input": "UniversalMac_26.6_25G5043d_Restore.ipsw",
+    "version": "26.6"
+  }
+}
