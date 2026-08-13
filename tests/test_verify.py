@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 import pytest
 
 from ipsw_diff_catalog.model import CatalogError, MigrationSpec
-from ipsw_diff_catalog.verify import record, validate_source, verify
+from ipsw_diff_catalog.verify import materialize_manifest, record, validate_source, verify
 from tests.helpers import commit_all, git, populate_destination
 
 if TYPE_CHECKING:
@@ -43,6 +43,53 @@ def test_verify_and_record_round_trip(repositories: Repositories, tmp_path: Path
     entry = json.loads(entry_path.read_text(encoding="utf-8"))
     assert entry["destination"]["commit"] == destination_commit
     assert entry["integrity"]["git_tree"] == result.source.tree
+
+
+def test_materialize_manifest_from_immutable_source(
+    repositories: Repositories,
+    tmp_path: Path,
+) -> None:
+    output = tmp_path / repositories.spec.destination.manifest_path
+    inventory = materialize_manifest(
+        repositories.spec,
+        repositories.source,
+        output,
+        check=False,
+    )
+
+    assert json.loads(output.read_text(encoding="utf-8")) == repositories.spec.manifest(inventory)
+    assert (
+        materialize_manifest(
+            repositories.spec,
+            repositories.source,
+            output,
+            check=True,
+        )
+        == inventory
+    )
+
+
+def test_materialize_manifest_refuses_differing_output(
+    repositories: Repositories,
+    tmp_path: Path,
+) -> None:
+    output = tmp_path / "manifest.json"
+    output.write_text("{}\n", encoding="utf-8")
+
+    with pytest.raises(CatalogError, match="refusing to overwrite differing manifest"):
+        materialize_manifest(
+            repositories.spec,
+            repositories.source,
+            output,
+            check=False,
+        )
+    with pytest.raises(CatalogError, match="manifest differs from measured source facts"):
+        materialize_manifest(
+            repositories.spec,
+            repositories.source,
+            output,
+            check=True,
+        )
 
 
 def test_readme_metadata_mismatch_fails(repositories: Repositories) -> None:

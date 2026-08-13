@@ -138,3 +138,27 @@ def record(
         return path
     path.write_text(content, encoding="utf-8")
     return path
+
+
+def materialize_manifest(
+    spec: MigrationSpec,
+    source_repo: Path,
+    output: Path,
+    *,
+    check: bool,
+) -> TreeInventory:
+    inventory = validate_source(spec, source_repo)
+    content = canonical_json(spec.manifest(inventory))
+    if check:
+        if not output.is_file():
+            raise CatalogError(f"manifest does not exist: {output}")
+        if output.read_text(encoding="utf-8") != content:
+            raise CatalogError(f"manifest differs from measured source facts: {output}")
+        return inventory
+    if output.exists():
+        if output.is_file() and output.read_text(encoding="utf-8") == content:
+            return inventory
+        raise CatalogError(f"refusing to overwrite differing manifest {output}")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(content, encoding="utf-8")
+    return inventory
