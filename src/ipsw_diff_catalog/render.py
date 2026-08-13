@@ -370,7 +370,7 @@ def render_readme(
             "  --check",
             "uv run ipsw-diff-catalog release-metadata \\",
             "  --appledb-repo /path/to/appledb \\",
-            "  --appledb-commit 3051f8643eaf5d6d7196fb3c01a0f9ade46f1dc7 \\",
+            "  --appledb-commit ff4db9a3836c567087dc7f2efda2b27877664ebb \\",
             "  --output metadata/releases.json \\",
             "  --check",
             "```",

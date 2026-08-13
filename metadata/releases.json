@@ -1879,11 +1879,21 @@
       "rc": false,
       "released": "2026-07-20",
       "source_path": "osFiles/macOS/26x - 27.x/26A5388g.json"
+    },
+    {
+      "beta": true,
+      "build": "26A5406e",
+      "channel": "beta",
+      "display_version": "27.0 beta 5",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2026-08-10",
+      "source_path": "osFiles/macOS/26x - 27.x/26A5406e.json"
     }
   ],
   "schema_version": 1,
   "source": {
-    "commit": "3051f8643eaf5d6d7196fb3c01a0f9ade46f1dc7",
+    "commit": "ff4db9a3836c567087dc7f2efda2b27877664ebb",
     "repository": "https://github.com/littlebyteorg/appledb"
   }
 }
