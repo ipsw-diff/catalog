@@ -19,9 +19,9 @@ Full comparison and integrity details are in the version browser below.
 
 ### macOS 27
 
+- [27.0 beta 5 (`26A5406e`)](https://github.com/ipsw-diff/macos-27/blob/317343def47d4173c9605fb7f38726256e0bfbbc/diffs/27_0_26A5388g_vs_27_0_26A5406e/README.md) ← 27.0 beta 4 (`26A5388g`)
 - [27.0 beta 4 (`26A5388g`)](https://github.com/ipsw-diff/macos-27/blob/52185c99752b8f29fd6f344738b8289b88be28f1/diffs/27_0_26A5378n_vs_27_0_26A5388g/README.md) ← 27.0 beta 3 (`26A5378n`)
 - [27.0 beta 3 (`26A5378n`)](https://github.com/ipsw-diff/macos-27/blob/2c87c1970492719b2083e391c178c6c10fc00ddc/diffs/27_0_26A5378j_vs_27_0_26A5378n/README.md) ← 27.0 beta 3 (`26A5378j`)
-- [27.0 beta 3 (`26A5378j`)](https://github.com/ipsw-diff/macos-27/blob/2c87c1970492719b2083e391c178c6c10fc00ddc/diffs/27_0_26A5368g_vs_27_0_26A5378j/README.md) ← 27.0 beta 2 (`26A5368g`)
 
 ## Browse all diffs
 
@@ -239,10 +239,11 @@ Full comparison and integrity details are in the version browser below.
 ### macOS
 
 <details>
-<summary><strong>macOS 27</strong> · 4 diffs</summary>
+<summary><strong>macOS 27</strong> · 5 diffs</summary>
 
 | Device | Comparison | Integrity |
 | --- | --- | --- |
+| `Mac17,6` | [27.0 beta 4 (26A5388g) → 27.0 beta 5 (26A5406e)](https://github.com/ipsw-diff/macos-27/blob/317343def47d4173c9605fb7f38726256e0bfbbc/diffs/27_0_26A5388g_vs_27_0_26A5406e/README.md) | `ce3233a4f0a5` · 7,172 files · 76,302,937 bytes · [manifest](https://github.com/ipsw-diff/macos-27/blob/317343def47d4173c9605fb7f38726256e0bfbbc/manifests/27_0_26A5388g_vs_27_0_26A5406e.json) |
 | `Mac17,6` | [27.0 beta 3 (26A5378n) → 27.0 beta 4 (26A5388g)](https://github.com/ipsw-diff/macos-27/blob/52185c99752b8f29fd6f344738b8289b88be28f1/diffs/27_0_26A5378n_vs_27_0_26A5388g/README.md) | `59f11312d306` · 7,166 files · 70,386,271 bytes · [manifest](https://github.com/ipsw-diff/macos-27/blob/52185c99752b8f29fd6f344738b8289b88be28f1/manifests/27_0_26A5378n_vs_27_0_26A5388g.json) |
 | `Mac17,6` | [27.0 beta 3 (26A5378j) → 27.0 beta 3 (26A5378n)](https://github.com/ipsw-diff/macos-27/blob/2c87c1970492719b2083e391c178c6c10fc00ddc/diffs/27_0_26A5378j_vs_27_0_26A5378n/README.md) | `90d0b727c340` · 100 files · 48,875 bytes · [manifest](https://github.com/ipsw-diff/macos-27/blob/2c87c1970492719b2083e391c178c6c10fc00ddc/manifests/27_0_26A5378j_vs_27_0_26A5378n.json) |
 | `Mac17,6` | [27.0 beta 2 (26A5368g) → 27.0 beta 3 (26A5378j)](https://github.com/ipsw-diff/macos-27/blob/2c87c1970492719b2083e391c178c6c10fc00ddc/diffs/27_0_26A5368g_vs_27_0_26A5378j/README.md) | `3e839b7724a5` · 7,872 files · 77,398,592 bytes · [manifest](https://github.com/ipsw-diff/macos-27/blob/2c87c1970492719b2083e391c178c6c10fc00ddc/manifests/27_0_26A5368g_vs_27_0_26A5378j.json) |
@@ -416,7 +417,7 @@ uv run ipsw-diff-catalog plan \
   --check
 uv run ipsw-diff-catalog release-metadata \
   --appledb-repo /path/to/appledb \
-  --appledb-commit 3051f8643eaf5d6d7196fb3c01a0f9ade46f1dc7 \
+  --appledb-commit ff4db9a3836c567087dc7f2efda2b27877664ebb \
   --output metadata/releases.json \
   --check
 ```

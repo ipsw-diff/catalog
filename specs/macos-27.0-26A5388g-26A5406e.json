@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "id": "macos-27.0-26A5388g-26A5406e",
+  "platform": "macOS",
+  "major_version": 27,
+  "device": "Mac17,6",
+  "from": {
+    "version": "27.0",
+    "build": "26A5388g",
+    "input": "UniversalMac_27.0_26A5388g_Restore.ipsw"
+  },
+  "to": {
+    "version": "27.0",
+    "build": "26A5406e",
+    "input": "UniversalMac_27.0_26A5406e_Restore.ipsw"
+  },
+  "source": {
+    "repository": "https://github.com/ipsw-diff/macos-27",
+    "commit": "79b016493a2b0e5b0719ef722af873554474572b",
+    "path": "27_0_26A5388g_vs_27_0_26A5406e"
+  },
+  "destination": {
+    "repository": "https://github.com/ipsw-diff/macos-27",
+    "payload_path": "diffs/27_0_26A5388g_vs_27_0_26A5406e",
+    "manifest_path": "manifests/27_0_26A5388g_vs_27_0_26A5406e.json"
+  }
+}
