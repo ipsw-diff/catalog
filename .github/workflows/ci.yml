@@ -53,5 +53,28 @@ jobs:
           --output migration/specs-26
           --check
 
+      - name: Fetch pinned AppleDB metadata commit
+        env:
+          APPLEDB_COMMIT: 3051f8643eaf5d6d7196fb3c01a0f9ade46f1dc7
+        run: |
+          set -euo pipefail
+          git init --quiet --object-format=sha1 appledb
+          git -C appledb remote add origin https://github.com/littlebyteorg/appledb.git
+          git -C appledb sparse-checkout init --cone
+          git -C appledb sparse-checkout set osFiles/iOS osFiles/macOS
+          git -C appledb -c protocol.version=2 fetch \
+            --no-tags --depth=1 --filter=blob:none origin "$APPLEDB_COMMIT"
+          observed="$(git -C appledb rev-parse FETCH_HEAD)"
+          test "$observed" = "$APPLEDB_COMMIT"
+          git -C appledb checkout --quiet --detach "$APPLEDB_COMMIT"
+
+      - name: Check curated release metadata
+        run: >-
+          uv run ipsw-diff-catalog release-metadata
+          --appledb-repo appledb
+          --appledb-commit 3051f8643eaf5d6d7196fb3c01a0f9ade46f1dc7
+          --output metadata/releases.json
+          --check
+
       - name: Re-audit immutable source and destination commits
         run: uv run ipsw-diff-catalog audit
