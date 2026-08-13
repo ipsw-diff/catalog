@@ -53,6 +53,14 @@ jobs:
           --output migration/specs-26
           --check
 
+      - name: Check major 18 migration plan
+        run: >-
+          uv run ipsw-diff-catalog plan
+          --policy migration/major-18.json
+          --census migration/census.json
+          --output migration/specs-18
+          --check
+
       - name: Fetch pinned AppleDB metadata commit
         env:
           APPLEDB_COMMIT: 3051f8643eaf5d6d7196fb3c01a0f9ade46f1dc7
