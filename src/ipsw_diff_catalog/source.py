@@ -21,7 +21,7 @@ _INPUT_COUNT = 2
 
 
 class SourceReadmeError(CatalogError):
-    """A source README that cannot satisfy the ordinary two-IPSW contract."""
+    """A source report that cannot satisfy the ordinary two-IPSW contract."""
 
     def __init__(self, code: str, detail: str) -> None:
         super().__init__(detail)
@@ -45,12 +45,12 @@ class SourceReadme:
 
 def _parse_title(line: str) -> re.Match[str]:
     if line.startswith(_REDIRECT_PREFIX):
-        raise SourceReadmeError("redirect-readme", "source README redirects to another diff")
+        raise SourceReadmeError("redirect-readme", "source report redirects to another diff")
     title = _TITLE.fullmatch(line)
     if title is None:
         raise SourceReadmeError(
             "unsupported-readme",
-            f"source README has an unsupported title: {line!r}",
+            f"source report has an unsupported title: {line!r}",
         )
     return title
 
@@ -64,7 +64,7 @@ def _parse_inputs(lines: list[str]) -> tuple[str, tuple[str, str]]:
     if len(headings) != 1:
         raise SourceReadmeError(
             "unsupported-readme",
-            "source README must have exactly one '## Inputs' or '## IPSWs' section; "
+            "source report must have exactly one '## Inputs' or '## IPSWs' section; "
             f"found {len(headings)}",
         )
 
@@ -78,7 +78,7 @@ def _parse_inputs(lines: list[str]) -> tuple[str, tuple[str, str]]:
     if len(section) != _INPUT_COUNT:
         raise SourceReadmeError(
             "unsupported-readme",
-            "source README inputs differ: the input section must contain exactly two bullets",
+            "source report inputs differ: the input section must contain exactly two bullets",
         )
 
     input_names: list[str] = []
@@ -87,13 +87,13 @@ def _parse_inputs(lines: list[str]) -> tuple[str, tuple[str, str]]:
         if match is None:
             raise SourceReadmeError(
                 "unsupported-readme",
-                "source README inputs differ: each input must be one exact code-formatted bullet",
+                "source report inputs differ: each input must be one exact code-formatted bullet",
             )
         input_names.append(match.group(1))
     if any(not input_name.endswith(".ipsw") for input_name in input_names):
         raise SourceReadmeError(
             "non-ipsw-inputs",
-            "source README input section contains a non-IPSW artifact",
+            "source report input section contains a non-IPSW artifact",
         )
     return label, (input_names[0], input_names[1])
 
@@ -107,14 +107,14 @@ def _release(version: str, build: str, input_name: str, context: str) -> Release
     except CatalogError as error:
         raise SourceReadmeError(
             "unsupported-readme",
-            f"source README release metadata is invalid: {error}",
+            f"source report release metadata is invalid: {error}",
         ) from error
 
 
 def parse_source_readme(readme: str) -> SourceReadme:
     lines = readme.splitlines()
     if not lines:
-        raise SourceReadmeError("unsupported-readme", "source README is empty")
+        raise SourceReadmeError("unsupported-readme", "source report is empty")
     title = _parse_title(lines[0])
     label, input_names = _parse_inputs(lines)
 
@@ -122,12 +122,12 @@ def parse_source_readme(readme: str) -> SourceReadme:
         title.group("previous_version"),
         title.group("previous_build"),
         input_names[0],
-        "source README from",
+        "source report from",
     )
     next_release = _release(
         title.group("next_version"),
         title.group("next_build"),
         input_names[1],
-        "source README to",
+        "source report to",
     )
     return SourceReadme(input_section=label, previous=previous, next=next_release)

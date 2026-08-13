@@ -133,6 +133,7 @@ def test_archive_accepts_multiple_immutable_source_commits(
         destination=replace(
             repositories.spec.destination,
             payload_path="diffs/later-source-diff",
+            entrypoint="diffs/later-source-diff/README.md",
             manifest_path="manifests/later-source-diff.json",
         ),
     )
@@ -141,6 +142,21 @@ def test_archive_accepts_multiple_immutable_source_commits(
 
     assert "diffs/source-diff/README.md" in rendered
     assert "diffs/later-source-diff/README.md" in rendered
+
+
+def test_archive_links_explicit_toc_entrypoint(repositories: Repositories) -> None:
+    toc = replace(
+        repositories.spec,
+        destination=replace(
+            repositories.spec.destination,
+            entrypoint="diffs/source-diff/TOC.md",
+        ),
+    )
+
+    rendered = archive_readme((toc,))
+
+    assert "diffs/source-diff/TOC.md" in rendered
+    assert "diffs/source-diff/README.md" not in rendered
 
 
 def test_archive_rejects_duplicate_source_and_destination_path(

@@ -78,6 +78,7 @@
   "payloads": [
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "75d983d5b0fc124644e3a543a76abc7d1cadbba4",
         "logical_bytes": 43191,
@@ -103,7 +104,8 @@
       "reason": null
     },
     {
-      "classification": "blocked",
+      "classification": "ordinary-two-ipsw",
+      "entrypoint": "TOC.md",
       "integrity": {
         "git_tree": "45d4eceea4d70b513f4b91feb0558d9def8c1876",
         "logical_bytes": 41697639,
@@ -113,14 +115,24 @@
         "tracked_file_count": 2308
       },
       "path": "15_0_24A5279h__vs_15_0_24A5289g",
-      "readme": null,
-      "reason": {
-        "code": "missing-readme",
-        "detail": "payload has no tracked README.md"
-      }
+      "readme": {
+        "from": {
+          "build": "24A5279h",
+          "input": "UniversalMac_15.0_24A5279h_Restore.ipsw",
+          "version": "15.0"
+        },
+        "input_section": "IPSWs",
+        "to": {
+          "build": "24A5289g",
+          "input": "UniversalMac_15.0_24A5289g_Restore.ipsw",
+          "version": "15.0"
+        }
+      },
+      "reason": null
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "7ff83e3092b48840eafda969a8c0464e8d23c6ba",
         "logical_bytes": 218638978,
@@ -147,6 +159,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "75de4ad3a1104de53862220b80a7acf6d14fb88d",
         "logical_bytes": 19499337,
@@ -173,6 +186,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "721ca55fb96c8b41ba4de83693c2ab40ff229056",
         "logical_bytes": 10605,
@@ -199,6 +213,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "2442f3cdd9416a5e89b3cfd4d46cd88030b22db6",
         "logical_bytes": 557,
@@ -225,6 +240,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "52ef7212cfd8353d38f0f74f3da1cc48911c341f",
         "logical_bytes": 10678,
@@ -250,7 +266,8 @@
       "reason": null
     },
     {
-      "classification": "blocked",
+      "classification": "ordinary-two-ipsw",
+      "entrypoint": "TOC.md",
       "integrity": {
         "git_tree": "dc7eee175e0817136fd66a37acbc03af1f956925",
         "logical_bytes": 15279563,
@@ -260,14 +277,24 @@
         "tracked_file_count": 5737
       },
       "path": "17_5_1_21F90__vs_18_0_22A5282m",
-      "readme": null,
-      "reason": {
-        "code": "missing-readme",
-        "detail": "payload has no tracked README.md"
-      }
+      "readme": {
+        "from": {
+          "build": "21F90",
+          "input": "iPhone16,2_17.5.1_21F90_Restore.ipsw",
+          "version": "17.5.1"
+        },
+        "input_section": "IPSWs",
+        "to": {
+          "build": "22A5282m",
+          "input": "iPhone16,2_18.0_22A5282m_Restore.ipsw",
+          "version": "18.0"
+        }
+      },
+      "reason": null
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "070950a3055b891bfc45edc1f86c4205aca45caf",
         "logical_bytes": 114267,
@@ -294,6 +321,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "ea95642fe65b8a4857cd281e4b422508bf466c5f",
         "logical_bytes": 5920,
@@ -319,7 +347,8 @@
       "reason": null
     },
     {
-      "classification": "blocked",
+      "classification": "ordinary-two-ipsw",
+      "entrypoint": "TOC.md",
       "integrity": {
         "git_tree": "c888756eb245b35dc81bcde5b092820b2c4829b0",
         "logical_bytes": 305928,
@@ -329,14 +358,24 @@
         "tracked_file_count": 238
       },
       "path": "17_6_21G5052e__vs_17_6_21G5061c",
-      "readme": null,
-      "reason": {
-        "code": "missing-readme",
-        "detail": "payload has no tracked README.md"
-      }
+      "readme": {
+        "from": {
+          "build": "21G5052e",
+          "input": "iPhone16,2_17.6_21G5052e_Restore.ipsw",
+          "version": "17.6"
+        },
+        "input_section": "IPSWs",
+        "to": {
+          "build": "21G5061c",
+          "input": "iPhone16,2_17.6_21G5061c_Restore.ipsw",
+          "version": "17.6"
+        }
+      },
+      "reason": null
     },
     {
-      "classification": "blocked",
+      "classification": "ordinary-two-ipsw",
+      "entrypoint": "TOC.md",
       "integrity": {
         "git_tree": "0a914537c66d4e94ecf97a1f3b03740b32ae84db",
         "logical_bytes": 244747,
@@ -346,14 +385,24 @@
         "tracked_file_count": 194
       },
       "path": "17_6_21G5061c__vs_17_6_21G5066d",
-      "readme": null,
-      "reason": {
-        "code": "missing-readme",
-        "detail": "payload has no tracked README.md"
-      }
+      "readme": {
+        "from": {
+          "build": "21G5061c",
+          "input": "iPhone16,2_17.6_21G5061c_Restore.ipsw",
+          "version": "17.6"
+        },
+        "input_section": "IPSWs",
+        "to": {
+          "build": "21G5066d",
+          "input": "iPhone16,2_17.6_21G5066d_Restore.ipsw",
+          "version": "17.6"
+        }
+      },
+      "reason": null
     },
     {
-      "classification": "blocked",
+      "classification": "ordinary-two-ipsw",
+      "entrypoint": "TOC.md",
       "integrity": {
         "git_tree": "70a109f3299c8ea0ba068bdbb783fe263130b876",
         "logical_bytes": 81363528,
@@ -363,14 +412,24 @@
         "tracked_file_count": 163
       },
       "path": "17_6_21G5066d__vs_17_6_21G5075a",
-      "readme": null,
-      "reason": {
-        "code": "missing-readme",
-        "detail": "payload has no tracked README.md"
-      }
+      "readme": {
+        "from": {
+          "build": "21G5066d",
+          "input": "iPhone16,2_17.6_21G5066d_Restore.ipsw",
+          "version": "17.6"
+        },
+        "input_section": "IPSWs",
+        "to": {
+          "build": "21G5075a",
+          "input": "iPhone16,2_17.6_21G5075a_Restore.ipsw",
+          "version": "17.6"
+        }
+      },
+      "reason": null
     },
     {
-      "classification": "blocked",
+      "classification": "ordinary-two-ipsw",
+      "entrypoint": "TOC.md",
       "integrity": {
         "git_tree": "b9be1689c552c482c0d6695982b50b01ebb2850b",
         "logical_bytes": 108395591,
@@ -380,14 +439,24 @@
         "tracked_file_count": 398
       },
       "path": "17_6_21G5075a__vs_17_6_21G79",
-      "readme": null,
-      "reason": {
-        "code": "missing-readme",
-        "detail": "payload has no tracked README.md"
-      }
+      "readme": {
+        "from": {
+          "build": "21G5075a",
+          "input": "iPhone16,2_17.6_21G5075a_Restore.ipsw",
+          "version": "17.6"
+        },
+        "input_section": "IPSWs",
+        "to": {
+          "build": "21G79",
+          "input": "iPhone16,2_17.6_21G79_Restore.ipsw",
+          "version": "17.6"
+        }
+      },
+      "reason": null
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "b3a0bfe0b10be855d51c588b2251f13598de29b8",
         "logical_bytes": 27521,
@@ -414,6 +483,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "6b1622a19fcec3e2911f0f5a714cf89241a5e466",
         "logical_bytes": 147199,
@@ -440,6 +510,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "5dc6be01ccd37a434ed2e5ecad70c54401d4bfd3",
         "logical_bytes": 3377,
@@ -466,6 +537,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "ed65bf98a2a511fb058fdd249a7cd0cf9889b8d7",
         "logical_bytes": 80645,
@@ -491,7 +563,8 @@
       "reason": null
     },
     {
-      "classification": "blocked",
+      "classification": "ordinary-two-ipsw",
+      "entrypoint": "TOC.md",
       "integrity": {
         "git_tree": "aa3d65ea0975f5149d4c4c7bcb44f6c2fea48952",
         "logical_bytes": 5118342,
@@ -501,14 +574,24 @@
         "tracked_file_count": 2861
       },
       "path": "18_0_22A5282m__vs_18_0_22A5297f",
-      "readme": null,
-      "reason": {
-        "code": "missing-readme",
-        "detail": "payload has no tracked README.md"
-      }
+      "readme": {
+        "from": {
+          "build": "22A5282m",
+          "input": "iPhone16,2_18.0_22A5282m_Restore.ipsw",
+          "version": "18.0"
+        },
+        "input_section": "IPSWs",
+        "to": {
+          "build": "22A5297f",
+          "input": "iPhone16,2_18.0_22A5297f_Restore.ipsw",
+          "version": "18.0"
+        }
+      },
+      "reason": null
     },
     {
-      "classification": "blocked",
+      "classification": "ordinary-two-ipsw",
+      "entrypoint": "TOC.md",
       "integrity": {
         "git_tree": "fc097b0be6fe90db6b9d46a674a269f96b288029",
         "logical_bytes": 4126975,
@@ -518,14 +601,24 @@
         "tracked_file_count": 2481
       },
       "path": "18_0_22A5297f__vs_18_0_22A5307f",
-      "readme": null,
-      "reason": {
-        "code": "missing-readme",
-        "detail": "payload has no tracked README.md"
-      }
+      "readme": {
+        "from": {
+          "build": "22A5297f",
+          "input": "iPhone16,2_18.0_22A5297f_Restore.ipsw",
+          "version": "18.0"
+        },
+        "input_section": "IPSWs",
+        "to": {
+          "build": "22A5307f",
+          "input": "iPhone16,2_18.0_22A5307f_Restore.ipsw",
+          "version": "18.0"
+        }
+      },
+      "reason": null
     },
     {
-      "classification": "blocked",
+      "classification": "ordinary-two-ipsw",
+      "entrypoint": "TOC.md",
       "integrity": {
         "git_tree": "c6dfc04ae103817b616e232bff2082e244a7d2c1",
         "logical_bytes": 5756821,
@@ -535,14 +628,24 @@
         "tracked_file_count": 21
       },
       "path": "18_0_22A5307f__vs_18_0_22A5307i",
-      "readme": null,
-      "reason": {
-        "code": "missing-readme",
-        "detail": "payload has no tracked README.md"
-      }
+      "readme": {
+        "from": {
+          "build": "22A5307f",
+          "input": "iPhone16,2_18.0_22A5307f_Restore.ipsw",
+          "version": "18.0"
+        },
+        "input_section": "IPSWs",
+        "to": {
+          "build": "22A5307i",
+          "input": "iPhone16,2_18.0_22A5307i_Restore.ipsw",
+          "version": "18.0"
+        }
+      },
+      "reason": null
     },
     {
-      "classification": "blocked",
+      "classification": "ordinary-two-ipsw",
+      "entrypoint": "TOC.md",
       "integrity": {
         "git_tree": "15bff5e8ca1d404501aec3336f06f9f327f88506",
         "logical_bytes": 402565755,
@@ -552,14 +655,24 @@
         "tracked_file_count": 2107
       },
       "path": "18_0_22A5307i__vs_18_0_22A5316j",
-      "readme": null,
-      "reason": {
-        "code": "missing-readme",
-        "detail": "payload has no tracked README.md"
-      }
+      "readme": {
+        "from": {
+          "build": "22A5307i",
+          "input": "iPhone16,2_18.0_22A5307i_Restore.ipsw",
+          "version": "18.0"
+        },
+        "input_section": "IPSWs",
+        "to": {
+          "build": "22A5316j",
+          "input": "iPhone16,2_18.0_22A5316j_Restore.ipsw",
+          "version": "18.0"
+        }
+      },
+      "reason": null
     },
     {
-      "classification": "blocked",
+      "classification": "ordinary-two-ipsw",
+      "entrypoint": "TOC.md",
       "integrity": {
         "git_tree": "6f16724324615b4a486161fd13c524a05a200ff0",
         "logical_bytes": 505181977,
@@ -569,14 +682,24 @@
         "tracked_file_count": 3362
       },
       "path": "18_0_22A5316k__vs_18_0_22A5326f",
-      "readme": null,
-      "reason": {
-        "code": "missing-readme",
-        "detail": "payload has no tracked README.md"
-      }
+      "readme": {
+        "from": {
+          "build": "22A5316k",
+          "input": "iPhone16,2_18.0_22A5316k_Restore.ipsw",
+          "version": "18.0"
+        },
+        "input_section": "IPSWs",
+        "to": {
+          "build": "22A5326f",
+          "input": "iPhone16,2_18.0_22A5326f_Restore.ipsw",
+          "version": "18.0"
+        }
+      },
+      "reason": null
     },
     {
-      "classification": "blocked",
+      "classification": "ordinary-two-ipsw",
+      "entrypoint": "TOC.md",
       "integrity": {
         "git_tree": "c7b0605ce5878ead9dff926af9e8c9816f78af31",
         "logical_bytes": 82948106,
@@ -586,14 +709,24 @@
         "tracked_file_count": 816
       },
       "path": "18_0_22A5316k__vs_18_1_22B5007p",
-      "readme": null,
-      "reason": {
-        "code": "missing-readme",
-        "detail": "payload has no tracked README.md"
-      }
+      "readme": {
+        "from": {
+          "build": "22A5316k",
+          "input": "iPhone16,2_18.0_22A5316k_Restore.ipsw",
+          "version": "18.0"
+        },
+        "input_section": "IPSWs",
+        "to": {
+          "build": "22B5007p",
+          "input": "iPhone16,2_18.1_22B5007p_Restore.ipsw",
+          "version": "18.1"
+        }
+      },
+      "reason": null
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "1105711039ea9a19ad0f2fecb04784ce32a93e90",
         "logical_bytes": 7235730,
@@ -620,6 +753,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "de98dc9dba6ff6eddece1d82121bb7c5e0172ce2",
         "logical_bytes": 200762,
@@ -646,6 +780,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "93b2d66c57a0360c848de842bb06c40c9a8274d6",
         "logical_bytes": 18124,
@@ -672,6 +807,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "e77ef75e499bf128eace9a11b1b95bce7dd760f2",
         "logical_bytes": 2624184,
@@ -698,6 +834,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "c540033fea2796af6ffac37f12d46d70aef6c5c3",
         "logical_bytes": 26690279,
@@ -724,6 +861,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "f8d99ad389f0b410dfb8e796ba20945409c259c0",
         "logical_bytes": 12079908,
@@ -750,6 +888,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "c9d75fe06c9f527d2656a0ccbb69cd354e36847a",
         "logical_bytes": 11357242,
@@ -776,6 +915,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "fe90ac9077b3807d6c3b800a238b7d2294fbf9fa",
         "logical_bytes": 612358,
@@ -802,6 +942,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "bdf8c7540d1b0f93b3ac62cc923131e30df1662a",
         "logical_bytes": 9144997,
@@ -828,6 +969,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "aca4c00a790545d8eb2de6d4b2891302f04b6550",
         "logical_bytes": 6624284,
@@ -854,6 +996,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "33c7cb5c128483c22691576ae1a9647ce9273117",
         "logical_bytes": 335270,
@@ -880,6 +1023,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "b6d4f9e918ea2f0b8eb1e1870250d1bb92902290",
         "logical_bytes": 1378859,
@@ -906,6 +1050,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "6bd65e85762dde63732eb132309b31deb8b2af38",
         "logical_bytes": 59520,
@@ -932,6 +1077,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "92e34860e99fc035559a5c15414f932d5da00769",
         "logical_bytes": 32319782,
@@ -958,6 +1104,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "2f5f4e20a7b024866a0abc851d7a7c4a29d0488f",
         "logical_bytes": 4960,
@@ -984,6 +1131,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "2e795afb00f4ddf74ad86bd150576b24db5312a8",
         "logical_bytes": 9683,
@@ -1010,6 +1158,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "abb990a7f60c529a2b9d2d7addfb0eaaa7458515",
         "logical_bytes": 12822,
@@ -1036,6 +1185,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "0df765478813e547e85a86f8c4c12e96e80b6612",
         "logical_bytes": 3946614,
@@ -1062,6 +1212,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "18229877da08d19a536e7475c646d6028477749b",
         "logical_bytes": 11857076,
@@ -1088,6 +1239,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "6d388524e2fba0aebe34d937e881a3b4bfc0fa34",
         "logical_bytes": 11025607,
@@ -1114,6 +1266,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "afd8e4674fdb3260a89ed9dfa62400933e7b5d82",
         "logical_bytes": 5292064,
@@ -1140,6 +1293,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "dd65a9d85a81f56ed9b2bcceebbb78c8c6ebdcf6",
         "logical_bytes": 903121,
@@ -1166,6 +1320,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "828b26b57906465f5761941ea626027b1836bea9",
         "logical_bytes": 41550,
@@ -1192,6 +1347,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "cc3bc9aed41f521443d57137b9c1ee6a3c60f419",
         "logical_bytes": 56566826,
@@ -1218,6 +1374,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "aa1caea3ed5fdba706d3acb1851d75afebe21108",
         "logical_bytes": 59659777,
@@ -1244,6 +1401,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "f73456600fa13fbd51e7347173264e7576e2c746",
         "logical_bytes": 2567863,
@@ -1270,6 +1428,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "c00be432719516dd733c4e534fb41bfb9336c5a8",
         "logical_bytes": 1217106,
@@ -1296,6 +1455,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "e0b618fb0f5a3df575cd4ba21b070062bde72058",
         "logical_bytes": 838649,
@@ -1322,6 +1482,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "0ea030de05f3063301df0c63aadfeb38ba923931",
         "logical_bytes": 19005,
@@ -1348,6 +1509,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "a07929257ddca8a470c56087843a843467bebcad",
         "logical_bytes": 23882,
@@ -1374,6 +1536,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "a18828186e15bd44982359e11d47c3ef3a5d0eba",
         "logical_bytes": 4025,
@@ -1400,6 +1563,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "e729cc02d5fae39637c743af7b34066b5760f999",
         "logical_bytes": 4523,
@@ -1426,6 +1590,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "2396cdcd70f52ba3538dde86ed643ba0451bfe71",
         "logical_bytes": 16787,
@@ -1452,6 +1617,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "d9a36e3174a72cc476b4c7cbc296b153059160e4",
         "logical_bytes": 10854179,
@@ -1478,6 +1644,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "736330e61471593a3755da59b91a68b4cbd688c5",
         "logical_bytes": 11827951,
@@ -1504,6 +1671,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "19cc76819ce842dd8bbf483e19b1f138bfcf786f",
         "logical_bytes": 8474151,
@@ -1530,6 +1698,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "4df8c5e8101ea0370e72396b9d25c85351e82e95",
         "logical_bytes": 1686794,
@@ -1556,6 +1725,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "c56cb59964c28fdc69e6c96941d8a1009b567942",
         "logical_bytes": 1215461,
@@ -1582,6 +1752,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "e95eec07a039b4eddfe527d453e1cb3fe863472f",
         "logical_bytes": 5833054,
@@ -1608,6 +1779,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "2769a933064c8c9a609530923b7775ec62094c6a",
         "logical_bytes": 6508520,
@@ -1634,6 +1806,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "9088757fae34d51b3bf444127c97fc6ca8a89055",
         "logical_bytes": 2363027,
@@ -1660,6 +1833,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "8bb87890b5d876d6299a53c2e501c6e9f9ae318b",
         "logical_bytes": 2275285,
@@ -1686,6 +1860,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "de00bd27fb9ca746e6464add60bdb2f0b778130e",
         "logical_bytes": 1537,
@@ -1712,6 +1887,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "9f6ea8f74e99e55661364f41fad852fcf2d5df9b",
         "logical_bytes": 11944155,
@@ -1738,6 +1914,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "815f56759b8ebc6d3934356c1fd6e41b1110dd13",
         "logical_bytes": 369818486,
@@ -1764,6 +1941,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "0ec30c2f8013c30dcde4b97e66c7c98c5e612855",
         "logical_bytes": 3505,
@@ -1790,6 +1968,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "20d0e164a0336f329946c3633f6332eff199c1b2",
         "logical_bytes": 6649123,
@@ -1816,6 +1995,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "97aea97e056450e98a6cd85bb50e4515663da526",
         "logical_bytes": 5140854,
@@ -1842,6 +2022,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "17d30b1aaa61a684eb51cebcbb1eac4dd6b852ba",
         "logical_bytes": 5814376,
@@ -1868,6 +2049,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "318019fee069267efba25b478ddba420d707a245",
         "logical_bytes": 5319,
@@ -1894,6 +2076,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "a69d4fdaff77f119670e43a59f9c6de995e2c4b0",
         "logical_bytes": 213425,
@@ -1920,6 +2103,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "f0471ff3e5fb417d8f7cfba1f02d60665bb12be4",
         "logical_bytes": 483758,
@@ -1946,6 +2130,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "0c5ccd31a82d5a8fd209a4a607f7fa434e29b1af",
         "logical_bytes": 1700761,
@@ -1972,6 +2157,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "0399c3754ed7fe634ba07914b59cda2aaab404dc",
         "logical_bytes": 204043,
@@ -1998,6 +2184,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "e0d9bb199dd54a480718c3b3fe7c157c82275a78",
         "logical_bytes": 678,
@@ -2024,6 +2211,7 @@
     },
     {
       "classification": "blocked",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "39f2558c644e795a31490ec1f5b9373115681566",
         "logical_bytes": 42340,
@@ -2036,11 +2224,12 @@
       "readme": null,
       "reason": {
         "code": "unsupported-readme",
-        "detail": "source README has an unsupported title: '# 23D8133 .vs 23D771330a'"
+        "detail": "source report has an unsupported title: '# 23D8133 .vs 23D771330a'"
       }
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "c8142aa4c95fffed3179d6ab0584a2a3348e4d0f",
         "logical_bytes": 4624,
@@ -2067,6 +2256,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "dfcc52d275211f56b77a0263099b426544c5ed4f",
         "logical_bytes": 1564,
@@ -2093,6 +2283,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "1dd029bf23623c75ce7f70940220460c37cd5e6d",
         "logical_bytes": 114899,
@@ -2119,6 +2310,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "d77670de93027306bc6b339c1e624be89e24a404",
         "logical_bytes": 61969780,
@@ -2145,6 +2337,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "0248c3f0915bfa5f4d6640b067adcda4403f0b32",
         "logical_bytes": 4446,
@@ -2171,6 +2364,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "889f663e22544013961fc18af7b0dd3e877d5909",
         "logical_bytes": 79466902,
@@ -2197,6 +2391,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "3a6af7ffbca77a851bf1e40e1c00997a0e565f72",
         "logical_bytes": 63421538,
@@ -2223,6 +2418,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "d4ba1a438126488c5d01e5fe084822b422ac3e06",
         "logical_bytes": 45051885,
@@ -2249,6 +2445,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "41752f29b52872b2d2fa63cd6103816360fc36c7",
         "logical_bytes": 51501716,
@@ -2275,6 +2472,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "a2ef667941f4d7cfa8a69f181e21d9f8e47ba484",
         "logical_bytes": 12735280,
@@ -2301,6 +2499,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "230e8a95fa811078437760e6b8669f1b627ba577",
         "logical_bytes": 1421590,
@@ -2327,6 +2526,7 @@
     },
     {
       "classification": "blocked",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "6698a5e0796f5b92d345ed2ad272e82992a1c887",
         "logical_bytes": 82,
@@ -2339,11 +2539,12 @@
       "readme": null,
       "reason": {
         "code": "redirect-readme",
-        "detail": "source README redirects to another diff"
+        "detail": "source report redirects to another diff"
       }
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "e63687939ae468efdf6c826bf3cbe164707dc9ce",
         "logical_bytes": 19655,
@@ -2370,6 +2571,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "f1663e7d80ef5c3dc939ed50fe8412ca08f4605a",
         "logical_bytes": 3145159,
@@ -2396,6 +2598,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "2555e018c8248ca69bc5f9bfa522a5b5427eb978",
         "logical_bytes": 11096465,
@@ -2422,6 +2625,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "670d267ec982affb87c08b887ca0e2da60cd0321",
         "logical_bytes": 30759872,
@@ -2448,6 +2652,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "311d5c4ad600c75966ab8754f9cdd037530df920",
         "logical_bytes": 14854010,
@@ -2474,6 +2679,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "ed761962bc0721dae7d75d393ebfc49865f6b978",
         "logical_bytes": 26633618,
@@ -2500,6 +2706,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "6f04552775fcdf314671471a15d26b24cb6d56e2",
         "logical_bytes": 1496050,
@@ -2526,6 +2733,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "d17f4181a50a42ee474211672c01be1ad4a53308",
         "logical_bytes": 7317,
@@ -2552,6 +2760,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "234ad95c9fd57189d84decc29b55b0525baf9fe0",
         "logical_bytes": 49613479,
@@ -2578,6 +2787,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "baf58570745a3e17de0bafc7a3f4752a9390c24c",
         "logical_bytes": 27045452,
@@ -2604,6 +2814,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "109908ebd7f1a65042eb19b132c292700253d5c3",
         "logical_bytes": 14550046,
@@ -2630,6 +2841,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "259902d4d5b23eb883d105fcb696a9585905d778",
         "logical_bytes": 2091467,
@@ -2656,6 +2868,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "3d7bae398b85be675b8ddab2d585b900f3b13ea5",
         "logical_bytes": 5021,
@@ -2682,6 +2895,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "16dcabc96617776c66d875c62bff376d0348f975",
         "logical_bytes": 1442,
@@ -2708,6 +2922,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "01102fc0f213b6498868e22a3385eda47e337cbe",
         "logical_bytes": 201978,
@@ -2734,6 +2949,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "691d976fb9b6b9caf142b5e86618a649df7187e4",
         "logical_bytes": 32279662,
@@ -2760,6 +2976,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "80abc0b38d7a9a83333c5d212d34c0d484e11ed1",
         "logical_bytes": 2551,
@@ -2786,6 +3003,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "2a3f1d97b56493ffee252a8a4f232b120a851871",
         "logical_bytes": 1307011,
@@ -2812,6 +3030,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "7b03e6e3e00c74b75b86dbebffbe14e063d65a0d",
         "logical_bytes": 331923564,
@@ -2838,6 +3057,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "775b9a336133a372f0b8c87720106f4c89a96ad3",
         "logical_bytes": 6500140,
@@ -2864,6 +3084,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "0a90ce1f1920173f9e7c6427531ce0cb552f1720",
         "logical_bytes": 32994424,
@@ -2890,6 +3111,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "25b6b2230962b89321fb29748e03a8531fe4d381",
         "logical_bytes": 2684664,
@@ -2916,6 +3138,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "7dd96306e3e0f47ae942cc730ddd5358fdda1788",
         "logical_bytes": 8353916,
@@ -2942,6 +3165,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "595d79555cadc2f5e29ed583469cbe40a553e1bc",
         "logical_bytes": 30349,
@@ -2968,6 +3192,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "3b78299eed94a7f77f6956b376d3176a06a4df5d",
         "logical_bytes": 392430,
@@ -2994,6 +3219,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "ee795ae4df065cd9b7d672f4ac7aad10f243e5c8",
         "logical_bytes": 40601965,
@@ -3020,6 +3246,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "1e02fa041ac68189c50698cf68a64358e88b0435",
         "logical_bytes": 63804,
@@ -3046,6 +3273,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "fc1e0e923db759a888c6af83b54cbb109a67cbe2",
         "logical_bytes": 53614126,
@@ -3072,6 +3300,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "d224ce7c7c4c126f45bec895f7df40846baedbfe",
         "logical_bytes": 59754435,
@@ -3098,6 +3327,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "e61034e3d47c154e5e12464a1dfe53aed2caba4c",
         "logical_bytes": 3219,
@@ -3124,6 +3354,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "871dc69fed6d8f14f79559d896c79f689ebf5972",
         "logical_bytes": 47875991,
@@ -3150,6 +3381,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "d24392ce2d1ac82b388b0d6dbdfa1eca2abc2c2c",
         "logical_bytes": 21189904,
@@ -3176,6 +3408,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "7dbc428e16921aa33b22a12125b10e2ad0b2878c",
         "logical_bytes": 2213,
@@ -3202,6 +3435,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "29607597e717878e3000981df431ef2f76abd541",
         "logical_bytes": 4457049,
@@ -3228,6 +3462,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "5e4e5912bdbd280482760a57826c01f32f4880c8",
         "logical_bytes": 15895,
@@ -3254,6 +3489,7 @@
     },
     {
       "classification": "blocked",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "c96bc09a0fb35fe9221d03c462d3a9c3381ec3a3",
         "logical_bytes": 13537368,
@@ -3266,11 +3502,12 @@
       "readme": null,
       "reason": {
         "code": "non-ipsw-inputs",
-        "detail": "source README input section contains a non-IPSW artifact"
+        "detail": "source report input section contains a non-IPSW artifact"
       }
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "27cf3ee839ad3d209ed08085f34408d01ff12d44",
         "logical_bytes": 28037277,
@@ -3297,6 +3534,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "36fd2ea3d2805b62368c83baf634417015c80a34",
         "logical_bytes": 22276128,
@@ -3323,6 +3561,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "984fa33a9cdb8e5c3d4c34ba044437cdf735ad38",
         "logical_bytes": 21012535,
@@ -3349,6 +3588,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "a0f6c5ad7d735f0a0e171f8cc3b1926af75ab059",
         "logical_bytes": 9997,
@@ -3375,6 +3615,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "789b12af3b9f352c87db463aee32ef8f98ef2de1",
         "logical_bytes": 631,
@@ -3401,6 +3642,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "8ad282d14fce786b8f43278bbb446bdf2e0c8635",
         "logical_bytes": 34064761,
@@ -3427,6 +3669,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "79941ab9ffe822406eaa6fab01e92a2bc069dfe8",
         "logical_bytes": 771096482,
@@ -3453,6 +3696,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "d33808d3d71d28eaa432edc0be7be8abd6b4a09d",
         "logical_bytes": 13137,
@@ -3479,6 +3723,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "c0a748be29af466fcedc72fcd2754670bbb7213b",
         "logical_bytes": 1043331,
@@ -3505,6 +3750,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "b56977c219ef4e67ab2040bec6bcba74f60177e1",
         "logical_bytes": 1551373983,
@@ -3531,6 +3777,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "60e98bf806f9aea6fd2fc996b815cc5b0957e7c4",
         "logical_bytes": 15666508,
@@ -3557,6 +3804,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "abeeaf9b88b25dbebc45406034288d40a72d7c07",
         "logical_bytes": 12508969,
@@ -3583,6 +3831,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "cdc0fb0e6150c60d7a6dc1d554af234110a05d68",
         "logical_bytes": 6280108,
@@ -3609,6 +3858,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "9b85ab857cf91d7dc215f3ee0066593535b842c9",
         "logical_bytes": 5442837,
@@ -3635,6 +3885,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "e33ba065ee13f37ef7470616e98e8594d1ee0247",
         "logical_bytes": 1692861,
@@ -3661,6 +3912,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "ff203d549e5ad0926ab04b368bfbe936b8e57cd3",
         "logical_bytes": 2673152,
@@ -3687,6 +3939,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "a26acfd0ef5f175d9b6049a9d4c17a8a6c099958",
         "logical_bytes": 1169588627,
@@ -3713,6 +3966,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "da889bdfd51921cf25f16150bce187ff109a6d61",
         "logical_bytes": 2044,
@@ -3739,6 +3993,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "1a9539ae0120fb28d00705ea3ef1e048c9f00651",
         "logical_bytes": 155835,
@@ -3765,6 +4020,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "80203ef2b588d8296cf06143025b3375b2bc10f9",
         "logical_bytes": 510443339,
@@ -3791,6 +4047,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "b18e701d23438ebeffd3092cb72cf6dd0506c9ef",
         "logical_bytes": 76432711,
@@ -3817,6 +4074,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "0f83eb81bd45938f8583ccbe2468761b00e5b5df",
         "logical_bytes": 57188642,
@@ -3843,6 +4101,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "c8b4d57f870c15eedcb953456ab61707ed0e3cbe",
         "logical_bytes": 57800821,
@@ -3869,6 +4128,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "209001a9c89ba3bb2b28227b254f6c378d3326fc",
         "logical_bytes": 610629421,
@@ -3895,6 +4155,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "3e839b7724a5540d6be5b097905b2f45751161b5",
         "logical_bytes": 77398592,
@@ -3921,6 +4182,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "90d0b727c3401f2d8376e3ae670531e68d9dc4cb",
         "logical_bytes": 48875,
@@ -3947,6 +4209,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "59f11312d306e6abf6e6e5a1d4357b16684201bb",
         "logical_bytes": 70386271,
@@ -3973,6 +4236,7 @@
     },
     {
       "classification": "ordinary-two-ipsw",
+      "entrypoint": "README.md",
       "integrity": {
         "git_tree": "63447123f05d3dbb27be1e4e110f2d10f2f32e66",
         "logical_bytes": 8242594,
@@ -4006,13 +4270,12 @@
   },
   "summary": {
     "blocked_by_reason": {
-      "missing-readme": 12,
       "non-ipsw-inputs": 1,
       "redirect-readme": 1,
       "unsupported-readme": 1
     },
-    "blocked_count": 15,
-    "ordinary_two_ipsw_count": 141,
+    "blocked_count": 3,
+    "ordinary_two_ipsw_count": 153,
     "payload_count": 156
   }
 }

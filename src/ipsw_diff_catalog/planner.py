@@ -306,6 +306,7 @@ def _specification(
     qualify_device: bool,
 ) -> MigrationSpec:
     path = _string(payload.get("path"), "census payload.path")
+    entrypoint = _string(payload.get("entrypoint"), f"census payload {path}.entrypoint")
     readme = _object(payload.get("readme"), f"census payload {path}.readme")
     previous = _release(readme.get("from"), f"census payload {path}.readme.from")
     next_release = _release(readme.get("to"), f"census payload {path}.readme.to")
@@ -346,6 +347,7 @@ def _specification(
             "destination": {
                 "repository": route.repository,
                 "payload_path": f"diffs/{path}",
+                "entrypoint": f"diffs/{path}/{entrypoint}",
                 "manifest_path": f"manifests/{path}.json",
             },
         }

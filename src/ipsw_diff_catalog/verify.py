@@ -31,13 +31,13 @@ class Verification:
     destination_commit: str
 
 
-def _validate_source_readme(spec: MigrationSpec, repo: Path, commit: str) -> None:
-    readme_path = f"{spec.source.path}/README.md"
+def _validate_source_entrypoint(spec: MigrationSpec, repo: Path, commit: str) -> None:
+    entrypoint_path = spec.source_entrypoint
     try:
-        readme = blob_at_path(repo, commit, readme_path).decode("utf-8")
+        report = blob_at_path(repo, commit, entrypoint_path).decode("utf-8")
     except UnicodeDecodeError as error:
-        raise CatalogError(f"source README is not UTF-8: {readme_path}") from error
-    _validate_readme(spec, readme)
+        raise CatalogError(f"source entrypoint is not UTF-8: {entrypoint_path}") from error
+    _validate_report(spec, report)
 
 
 def validate_source(spec: MigrationSpec, source_repo: Path) -> TreeInventory:
@@ -46,7 +46,7 @@ def validate_source(spec: MigrationSpec, source_repo: Path) -> TreeInventory:
     if resolved != spec.source.commit:
         raise CatalogError("source.commit did not resolve to itself")
     measured = inventory(repo, resolved, spec.source.path)
-    _validate_source_readme(spec, repo, resolved)
+    _validate_source_entrypoint(spec, repo, resolved)
     return measured
 
 
@@ -56,12 +56,12 @@ def validate_source_identity(spec: MigrationSpec, source_repo: Path) -> TreeIden
     if resolved != spec.source.commit:
         raise CatalogError("source.commit did not resolve to itself")
     measured = identity(repo, resolved, spec.source.path)
-    _validate_source_readme(spec, repo, resolved)
+    _validate_source_entrypoint(spec, repo, resolved)
     return measured
 
 
-def _validate_readme(spec: MigrationSpec, readme: str) -> None:
-    parsed = parse_source_readme(readme)
+def _validate_report(spec: MigrationSpec, report: str) -> None:
+    parsed = parse_source_readme(report)
     observed_title = (
         parsed.previous.version,
         parsed.previous.build,
@@ -76,7 +76,7 @@ def _validate_readme(spec: MigrationSpec, readme: str) -> None:
     )
     if observed_title != expected_title:
         raise CatalogError(
-            f"source README title mismatch: expected '# {spec.title}', "
+            f"source report title mismatch: expected '# {spec.title}', "
             f"got '# {parsed.previous.version} ({parsed.previous.build}) .vs "
             f"{parsed.next.version} ({parsed.next.build})'"
         )
@@ -84,7 +84,7 @@ def _validate_readme(spec: MigrationSpec, readme: str) -> None:
     expected_inputs = (spec.previous.input_name, spec.next.input_name)
     if observed_inputs != expected_inputs:
         raise CatalogError(
-            f"source README inputs differ: expected={expected_inputs!r}, "
+            f"source report inputs differ: expected={expected_inputs!r}, "
             f"observed={observed_inputs!r}"
         )
 

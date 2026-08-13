@@ -1,0 +1,28 @@
+{
+  "destination": {
+    "entrypoint": "diffs/15_0_24A5279h__vs_15_0_24A5289g/TOC.md",
+    "manifest_path": "manifests/15_0_24A5279h__vs_15_0_24A5289g.json",
+    "payload_path": "diffs/15_0_24A5279h__vs_15_0_24A5289g",
+    "repository": "https://github.com/ipsw-diff/macos-15"
+  },
+  "device": "UniversalMac",
+  "from": {
+    "build": "24A5279h",
+    "input": "UniversalMac_15.0_24A5279h_Restore.ipsw",
+    "version": "15.0"
+  },
+  "id": "macos-15.0-24A5279h-24A5289g",
+  "major_version": 15,
+  "platform": "macOS",
+  "schema_version": 1,
+  "source": {
+    "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+    "path": "15_0_24A5279h__vs_15_0_24A5289g",
+    "repository": "https://github.com/blacktop/ipsw-diffs"
+  },
+  "to": {
+    "build": "24A5289g",
+    "input": "UniversalMac_15.0_24A5289g_Restore.ipsw",
+    "version": "15.0"
+  }
+}
