@@ -161,9 +161,11 @@ device, destination shard, or migration route; those remain reviewed spec data.
 `plan` combines a frozen census with an explicit reviewed policy. The policy
 contains the exact source-path allowlist and input-device-prefix routes. The
 command fails closed unless the complete ordinary destination-major set equals
-that allowlist, both IPSW inputs name the same device, and each row matches
-exactly one route. It writes deterministic specs and never copies, commits,
-pushes, or deletes payloads. The reviewed plan remains below `migration/` for
+the reviewed selected plus explicitly excluded paths. Planned rows require both
+IPSW inputs to name the same device and exactly one route; reviewed device-specific
+identifier suffixes preserve otherwise-colliding build pairs. The command writes
+deterministic specs and never copies, commits, pushes, or deletes payloads.
+The reviewed plan remains below `migration/` for
 deterministic planner checks; after destination verification, published copies
 move to `specs/` beside their matching catalog entries.
 
@@ -232,6 +234,11 @@ uv run ipsw-diff-catalog census \
   --policy migration/source-layout.json \
   --source-repo /path/to/ipsw-diffs \
   --output migration/census.json \
+  --check
+uv run ipsw-diff-catalog plan \
+  --policy migration/major-18.json \
+  --census migration/census.json \
+  --output migration/specs-18 \
   --check
 uv run ipsw-diff-catalog plan \
   --policy migration/major-26.json \

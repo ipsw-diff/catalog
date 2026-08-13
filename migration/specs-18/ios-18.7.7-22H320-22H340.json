@@ -1,0 +1,27 @@
+{
+  "destination": {
+    "manifest_path": "manifests/18_7_6_22H320__vs_18_7_7_22H340.json",
+    "payload_path": "diffs/18_7_6_22H320__vs_18_7_7_22H340",
+    "repository": "https://github.com/ipsw-diff/ios-18"
+  },
+  "device": "iPhone11,8",
+  "from": {
+    "build": "22H320",
+    "input": "iPhone11,8_18.7.6_22H320_Restore.ipsw",
+    "version": "18.7.6"
+  },
+  "id": "ios-18.7.7-22H320-22H340",
+  "major_version": 18,
+  "platform": "iOS",
+  "schema_version": 1,
+  "source": {
+    "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+    "path": "18_7_6_22H320__vs_18_7_7_22H340",
+    "repository": "https://github.com/blacktop/ipsw-diffs"
+  },
+  "to": {
+    "build": "22H340",
+    "input": "iPhone11,8_18.7.7_22H340_Restore.ipsw",
+    "version": "18.7.7"
+  }
+}

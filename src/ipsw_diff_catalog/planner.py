@@ -71,32 +71,83 @@ class _SourcePolicy:
 
 
 @dataclass(frozen=True)
+class _ExcludedPath:
+    path: str
+    reason: str
+
+    @classmethod
+    def from_object(cls, value: object, index: int) -> _ExcludedPath:
+        context = f"planning policy.selection.excluded_source_paths[{index}]"
+        data = _object(value, context)
+        _exact_keys(data, {"path", "reason"}, context)
+        return cls(
+            path=_string(data["path"], f"{context}.path"),
+            reason=_string(data["reason"], f"{context}.reason"),
+        )
+
+
+def _sorted_unique_strings(value: object, context: str) -> tuple[str, ...]:
+    items = tuple(_string(item, f"{context}[]") for item in _array(value, context))
+    if items != tuple(sorted(items)):
+        raise CatalogError(f"{context} must be sorted")
+    if len(items) != len(set(items)):
+        raise CatalogError(f"{context} must be unique")
+    return items
+
+
+def _excluded_paths(value: object) -> tuple[_ExcludedPath, ...]:
+    context = "planning policy.selection.excluded_source_paths"
+    excluded = tuple(
+        _ExcludedPath.from_object(item, index) for index, item in enumerate(_array(value, context))
+    )
+    paths = tuple(item.path for item in excluded)
+    if paths != tuple(sorted(paths)):
+        raise CatalogError(f"{context} must be sorted by path")
+    if len(paths) != len(set(paths)):
+        raise CatalogError(f"{context} must be unique")
+    return excluded
+
+
+@dataclass(frozen=True)
 class _SelectionPolicy:
     classification: str
     destination_major: int
     expected_source_paths: tuple[str, ...]
+    excluded_source_paths: tuple[_ExcludedPath, ...]
+    device_qualified_identifier_paths: tuple[str, ...]
 
     @classmethod
     def from_object(cls, value: object) -> _SelectionPolicy:
         data = _object(value, "planning policy.selection")
-        _exact_keys(
-            data,
-            {"classification", "destination_major", "expected_source_paths"},
-            "planning policy.selection",
-        )
-        paths = tuple(
-            _string(item, "planning policy.selection.expected_source_paths[]")
-            for item in _array(
-                data["expected_source_paths"],
-                "planning policy.selection.expected_source_paths",
+        required = {"classification", "destination_major", "expected_source_paths"}
+        optional = {"excluded_source_paths", "device_qualified_identifier_paths"}
+        actual = set(data)
+        if not required.issubset(actual) or not actual.issubset(required | optional):
+            raise CatalogError(
+                "planning policy.selection keys differ: "
+                f"missing={sorted(required - actual)}, "
+                f"extra={sorted(actual - required - optional)}"
             )
+        paths = _sorted_unique_strings(
+            data["expected_source_paths"],
+            "planning policy.selection.expected_source_paths",
         )
         if not paths:
             raise CatalogError("planning policy expected_source_paths must not be empty")
-        if paths != tuple(sorted(paths)):
-            raise CatalogError("planning policy expected_source_paths must be sorted")
-        if len(paths) != len(set(paths)):
-            raise CatalogError("planning policy expected_source_paths must be unique")
+        excluded = _excluded_paths(data.get("excluded_source_paths", []))
+        excluded_paths = tuple(item.path for item in excluded)
+        if set(paths) & set(excluded_paths):
+            raise CatalogError("planning policy selected and excluded source paths overlap")
+        qualified = _sorted_unique_strings(
+            data.get("device_qualified_identifier_paths", []),
+            "planning policy.selection.device_qualified_identifier_paths",
+        )
+        unexpected_qualified = set(qualified) - set(paths)
+        if unexpected_qualified:
+            raise CatalogError(
+                "planning policy device-qualified identifier paths are not selected: "
+                f"{sorted(unexpected_qualified)}"
+            )
         return cls(
             classification=_string(
                 data["classification"],
@@ -107,6 +158,8 @@ class _SelectionPolicy:
                 "planning policy.selection.destination_major",
             ),
             expected_source_paths=paths,
+            excluded_source_paths=excluded,
+            device_qualified_identifier_paths=qualified,
         )
 
 
@@ -229,17 +282,29 @@ def _selected_payloads(census: JsonObject, policy: _PlanningPolicy) -> tuple[Jso
     observed_paths = tuple(
         _string(payload.get("path"), "census payload.path") for payload in selected
     )
-    if observed_paths != policy.selection.expected_source_paths:
-        expected = set(policy.selection.expected_source_paths)
+    excluded_paths = tuple(item.path for item in policy.selection.excluded_source_paths)
+    reviewed_paths = tuple(sorted((*policy.selection.expected_source_paths, *excluded_paths)))
+    if observed_paths != reviewed_paths:
+        expected = set(reviewed_paths)
         observed = set(observed_paths)
         raise CatalogError(
             "selected census paths differ from reviewed allowlist: "
             f"missing={sorted(expected - observed)}, extra={sorted(observed - expected)}"
         )
-    return tuple(selected)
+    excluded = set(excluded_paths)
+    return tuple(
+        payload
+        for payload in selected
+        if _string(payload.get("path"), "census payload.path") not in excluded
+    )
 
 
-def _specification(payload: JsonObject, policy: _PlanningPolicy) -> MigrationSpec:
+def _specification(
+    payload: JsonObject,
+    policy: _PlanningPolicy,
+    *,
+    qualify_device: bool,
+) -> MigrationSpec:
     path = _string(payload.get("path"), "census payload.path")
     readme = _object(payload.get("readme"), f"census payload {path}.readme")
     previous = _release(readme.get("from"), f"census payload {path}.readme.from")
@@ -262,6 +327,8 @@ def _specification(payload: JsonObject, policy: _PlanningPolicy) -> MigrationSpe
         f"{route.platform.lower()}-{next_release['version']}-"
         f"{previous['build']}-{next_release['build']}"
     )
+    if qualify_device:
+        identifier = f"{identifier}-{next_device}"
     return MigrationSpec.from_object(
         {
             "schema_version": 1,
@@ -338,8 +405,35 @@ def _preflight_output(
 def plan(policy_path: Path, census_path: Path, output: Path, *, check: bool) -> PlanResult:
     policy = _PlanningPolicy.from_path(policy_path)
     census = read_json_object(census_path)
+    payloads = _selected_payloads(census, policy)
+    base_specifications = tuple(
+        _specification(payload, policy, qualify_device=False) for payload in payloads
+    )
+    identifier_counts = {
+        identifier: sum(spec.identifier == identifier for spec in base_specifications)
+        for identifier in {spec.identifier for spec in base_specifications}
+    }
+    colliding_paths = {
+        _string(payload.get("path"), "census payload.path")
+        for payload, specification in zip(payloads, base_specifications, strict=True)
+        if identifier_counts[specification.identifier] > 1
+    }
+    unnecessary_qualified = (
+        set(policy.selection.device_qualified_identifier_paths) - colliding_paths
+    )
+    if unnecessary_qualified:
+        raise CatalogError(
+            "planning policy device-qualified paths do not resolve a collision: "
+            f"{sorted(unnecessary_qualified)}"
+        )
+    qualified_paths = set(policy.selection.device_qualified_identifier_paths)
     specifications = tuple(
-        _specification(payload, policy) for payload in _selected_payloads(census, policy)
+        _specification(
+            payload,
+            policy,
+            qualify_device=_string(payload.get("path"), "census payload.path") in qualified_paths,
+        )
+        for payload in payloads
     )
     identifiers = tuple(spec.identifier for spec in specifications)
     if len(identifiers) != len(set(identifiers)):

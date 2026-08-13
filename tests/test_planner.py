@@ -267,3 +267,85 @@ def test_plan_rejects_invalid_unused_route(tmp_path: Path) -> None:
 
     with pytest.raises(CatalogError, match="platform must be exactly"):
         plan(policy, census, output, check=False)
+
+
+def test_plan_records_reviewed_exclusion_without_silently_dropping_it(tmp_path: Path) -> None:
+    rows = [
+        _payload("ios-row", "iPhone18,1", "A1", "A2"),
+        _payload("cross-device", "iPhone18,1", "B1", "B2"),
+    ]
+    readme = rows[1]["readme"]
+    assert isinstance(readme, dict)
+    readme["from"] = _release("iPhone17,1", "26.0", "B1")
+    policy, census, output = _write_inputs(tmp_path, payloads=rows)
+    data = _read_object(policy)
+    selection = data["selection"]
+    assert isinstance(selection, dict)
+    selection["expected_source_paths"] = ["ios-row"]
+    selection["excluded_source_paths"] = [
+        {"path": "cross-device", "reason": "input devices differ"}
+    ]
+    policy.write_text(json.dumps(data), encoding="utf-8")
+
+    result = plan(policy, census, output, check=False)
+
+    assert result.specification_count == 1
+    assert not (output / "ios-26.0-B1-B2.json").exists()
+
+
+def test_plan_rejects_unreviewed_exclusion(tmp_path: Path) -> None:
+    policy, census, output = _write_inputs(tmp_path)
+    data = _read_object(policy)
+    selection = data["selection"]
+    assert isinstance(selection, dict)
+    selection["expected_source_paths"] = ["ios-row"]
+    selection["excluded_source_paths"] = [{"path": "not-in-census", "reason": "unsupported"}]
+    policy.write_text(json.dumps(data), encoding="utf-8")
+
+    with pytest.raises(CatalogError, match=r"missing=.*not-in-census.*extra=.*macos-row"):
+        plan(policy, census, output, check=False)
+
+
+def test_plan_device_qualifies_one_reviewed_identifier_collision(tmp_path: Path) -> None:
+    rows = [
+        _payload("device-a", "iPhone17,1", "A1", "A2"),
+        _payload("device-b", "iPhone17,5", "A1", "A2"),
+    ]
+    policy, census, output = _write_inputs(tmp_path, payloads=rows)
+    data = _read_object(policy)
+    selection = data["selection"]
+    assert isinstance(selection, dict)
+    selection["device_qualified_identifier_paths"] = ["device-b"]
+    policy.write_text(json.dumps(data), encoding="utf-8")
+
+    result = plan(policy, census, output, check=False)
+
+    assert result.specification_count == _EXPECTED_SPECIFICATION_COUNT
+    assert (output / "ios-26.0-A1-A2.json").exists()
+    qualified = output / "ios-26.0-A1-A2-iPhone17,5.json"
+    assert qualified.exists()
+    assert _read_object(qualified)["id"] == "ios-26.0-A1-A2-iPhone17,5"
+
+
+def test_plan_rejects_unselected_device_qualified_path(tmp_path: Path) -> None:
+    policy, census, output = _write_inputs(tmp_path)
+    data = _read_object(policy)
+    selection = data["selection"]
+    assert isinstance(selection, dict)
+    selection["device_qualified_identifier_paths"] = ["not-selected"]
+    policy.write_text(json.dumps(data), encoding="utf-8")
+
+    with pytest.raises(CatalogError, match="identifier paths are not selected"):
+        plan(policy, census, output, check=False)
+
+
+def test_plan_rejects_unnecessary_device_qualified_path(tmp_path: Path) -> None:
+    policy, census, output = _write_inputs(tmp_path)
+    data = _read_object(policy)
+    selection = data["selection"]
+    assert isinstance(selection, dict)
+    selection["device_qualified_identifier_paths"] = ["ios-row"]
+    policy.write_text(json.dumps(data), encoding="utf-8")
+
+    with pytest.raises(CatalogError, match="do not resolve a collision"):
+        plan(policy, census, output, check=False)
