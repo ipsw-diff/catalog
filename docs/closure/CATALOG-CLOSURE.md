@@ -118,7 +118,7 @@ collapsed, versioned integrity table.
 | Selection and trigger | All checked-in entries are loaded before grouping | Closed |
 | Inputs and resources | Platform, major, version, build, links, and integrity facts come from validated entries | Closed |
 | Transformation | Current major is selected independently per platform; comparisons use deterministic release/build ordering | Closed |
-| Advertisement | The top table exposes at most five iOS and five macOS links together; every full group is a closed `details` block | Closed |
+| Advertisement | The top table exposes at most five iOS and five macOS links together; collapsed platform groups contain collapsed major-version groups in descending order | Closed |
 | Dispatch and transport | Every link remains commit-pinned and uses the existing comparison renderer | Closed |
 | State transition | Rendering does not mutate entries, specifications, or shard state | Closed |
 | Outcome oracle | Tests and generated-output checks prove ordering, grouping, balanced disclosure blocks, and deterministic output | Closed |

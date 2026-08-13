@@ -140,9 +140,22 @@ def test_readme_puts_both_latest_platforms_first_and_collapses_all_groups() -> N
     assert "diffs/ios-27-0/" not in latest
     assert "diffs/ios-27-0/" in readme
     assert "diffs/ios-26-old/" not in latest
-    expected_groups = 3
+    expected_groups = 5
     assert readme.count("<details>") == expected_groups
     assert readme.count("</details>") == expected_groups
-    assert "<summary><strong>iOS 27</strong> · 6 diffs</summary>" in readme
+    ios_summary = "<summary><strong>iOS</strong> · 7 diffs</summary>"
+    ios_27_summary = "<summary><strong>iOS 27</strong> · 6 diffs</summary>"
+    assert ios_summary in readme
+    assert "<summary><strong>macOS</strong> · 1 diff</summary>" in readme
+    assert readme.index("<summary><strong>iOS</strong>") < readme.index(
+        "<summary><strong>macOS</strong>"
+    )
+    assert f"{ios_summary}\n\n<details>\n{ios_27_summary}" in readme
+    assert ios_27_summary in readme
     assert "<summary><strong>macOS 27</strong> · 1 diff</summary>" in readme
     assert "<summary><strong>iOS 26</strong> · 1 diff</summary>" in readme
+    assert readme.index("<summary><strong>iOS 27</strong>") < readme.index(
+        "<summary><strong>iOS 26</strong>"
+    )
+    expected_tables = 3
+    assert readme.count("| Device | Comparison | Integrity |") == expected_tables

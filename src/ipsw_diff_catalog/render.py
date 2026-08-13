@@ -177,28 +177,39 @@ def render_readme(entries: tuple[CatalogEntry, ...]) -> str:
             "",
         ]
     )
-    all_groups = sorted(
-        grouped,
-        key=lambda group: (-group[1], platforms.index(group[0])),
-    )
-    for platform, major in all_groups:
-        group_entries = grouped[(platform, major)]
-        diff_label = "diff" if len(group_entries) == 1 else "diffs"
-        group_name = f"{platform} {major}"
-        diff_count = f"{len(group_entries)} {diff_label}"
-        summary = f"<summary><strong>{group_name}</strong> · {diff_count}</summary>"
+    for platform in platforms:
+        platform_groups = sorted(
+            (
+                (major, group_entries)
+                for (candidate, major), group_entries in grouped.items()
+                if candidate == platform
+            ),
+            key=lambda group: group[0],
+            reverse=True,
+        )
+        if not platform_groups:
+            continue
+        platform_count = sum(len(group_entries) for _, group_entries in platform_groups)
+        platform_label = "diff" if platform_count == 1 else "diffs"
+        platform_total = f"{platform_count} {platform_label}"
         lines.extend(
             [
                 "<details>",
-                summary,
+                f"<summary><strong>{platform}</strong> · {platform_total}</summary>",
                 "",
             ]
         )
-        _append_table(lines, group_entries)
-        lines.extend(["", "</details>", ""])
+        for major, group_entries in platform_groups:
+            diff_label = "diff" if len(group_entries) == 1 else "diffs"
+            group_name = f"{platform} {major}"
+            diff_count = f"{len(group_entries)} {diff_label}"
+            summary = f"<summary><strong>{group_name}</strong> · {diff_count}</summary>"
+            lines.extend(["<details>", summary, ""])
+            _append_table(lines, group_entries)
+            lines.extend(["", "</details>", ""])
+        lines.extend(["</details>", ""])
     lines.extend(
         [
-            "",
             "## Integrity model",
             "",
             "Every entry is created only after a fresh destination commit matches its frozen",
