@@ -18,7 +18,7 @@ from ipsw_diff_catalog.stage import (
     validate_staged,
     validate_staged_batch,
 )
-from ipsw_diff_catalog.verify import record, verify
+from ipsw_diff_catalog.verify import materialize_manifest, record, verify
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -109,6 +109,27 @@ def _parser() -> argparse.ArgumentParser:
     plan_parser.add_argument("--output", type=Path, required=True)
     plan_parser.add_argument("--check", action="store_true")
 
+    _add_archive_parser(commands)
+    _add_manifest_parser(commands)
+    _add_release_metadata_parser(commands)
+    return parser
+
+
+def _add_manifest_parser(
+    commands: argparse._SubParsersAction[argparse.ArgumentParser],
+) -> None:
+    manifest_parser = commands.add_parser(
+        "materialize-manifest",
+        help="measure one immutable source payload and write its canonical manifest",
+    )
+    _add_spec_and_repositories(manifest_parser, destination=False)
+    manifest_parser.add_argument("--output", type=Path, required=True)
+    manifest_parser.add_argument("--check", action="store_true")
+
+
+def _add_archive_parser(
+    commands: argparse._SubParsersAction[argparse.ArgumentParser],
+) -> None:
     archive_parser = commands.add_parser(
         "render-archive",
         help="render one deterministic archive-shard README from reviewed specs",
@@ -117,9 +138,6 @@ def _parser() -> argparse.ArgumentParser:
     archive_parser.add_argument("--destination-repository", required=True)
     archive_parser.add_argument("--output", type=Path, required=True)
     archive_parser.add_argument("--check", action="store_true")
-
-    _add_release_metadata_parser(commands)
-    return parser
 
 
 def _add_release_metadata_parser(
@@ -203,6 +221,21 @@ def _run_release_metadata(arguments: argparse.Namespace) -> None:
     print(
         f"{verb} {result.output}: releases={result.release_count} "
         f"betas={result.beta_count} rcs={result.rc_count}"
+    )
+
+
+def _run_manifest(arguments: argparse.Namespace) -> None:
+    spec = MigrationSpec.from_path(arguments.spec)
+    inventory = materialize_manifest(
+        spec,
+        arguments.source_repo,
+        arguments.output,
+        check=arguments.check,
+    )
+    verb = "Checked" if arguments.check else "Materialized"
+    print(
+        f"{verb} {arguments.output}: tree={inventory.tree} "
+        f"files={inventory.file_count} bytes={inventory.logical_bytes}"
     )
 
 
@@ -297,6 +330,8 @@ def _dispatch(arguments: argparse.Namespace) -> None:
         _run_archive(arguments)
     elif arguments.command == "release-metadata":
         _run_release_metadata(arguments)
+    elif arguments.command == "materialize-manifest":
+        _run_manifest(arguments)
     elif arguments.command in {"stage-batch", "validate-staged-batch"}:
         _run_batch(arguments)
     else:
