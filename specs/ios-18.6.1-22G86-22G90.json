@@ -1,0 +1,27 @@
+{
+  "destination": {
+    "manifest_path": "manifests/18_6_22G86__vs_18_6_1_22G90.json",
+    "payload_path": "diffs/18_6_22G86__vs_18_6_1_22G90",
+    "repository": "https://github.com/ipsw-diff/ios-18"
+  },
+  "device": "iPhone17,1",
+  "from": {
+    "build": "22G86",
+    "input": "iPhone17,1_18.6_22G86_Restore.ipsw",
+    "version": "18.6"
+  },
+  "id": "ios-18.6.1-22G86-22G90",
+  "major_version": 18,
+  "platform": "iOS",
+  "schema_version": 1,
+  "source": {
+    "commit": "d881e84676308404c6947d0218c11f347a6f3a89",
+    "path": "18_6_22G86__vs_18_6_1_22G90",
+    "repository": "https://github.com/blacktop/ipsw-diffs"
+  },
+  "to": {
+    "build": "22G90",
+    "input": "iPhone17,1_18.6.1_22G90_Restore.ipsw",
+    "version": "18.6.1"
+  }
+}

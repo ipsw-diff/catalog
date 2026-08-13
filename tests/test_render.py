@@ -19,11 +19,11 @@ from tests.helpers import populate_destination
 if TYPE_CHECKING:
     from tests.helpers import Repositories
 
-_EXPECTED_REAL_ENTRIES = 74
-_EXPECTED_REAL_RELEASES = 82
-_EXPECTED_REAL_BETAS = 50
-_EXPECTED_REAL_RCS = 10
-_EXPECTED_REAL_FINAL_RELEASES = 22
+_EXPECTED_REAL_ENTRIES = 129
+_EXPECTED_REAL_RELEASES = 140
+_EXPECTED_REAL_BETAS = 80
+_EXPECTED_REAL_RCS = 17
+_EXPECTED_REAL_FINAL_RELEASES = 43
 
 
 def _record_fixture(repositories: Repositories, entries: Path) -> None:
