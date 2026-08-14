@@ -212,7 +212,7 @@ def identity(repo: Path, revision: str, path: str) -> TreeIdentity:
     )
 
 
-def blob_at_path(repo: Path, revision: str, path: str) -> bytes:
+def blob_oid_at_path(repo: Path, revision: str, path: str) -> str:
     output = run_git(repo, "ls-tree", "-z", revision, "--", path, text=False)
     assert isinstance(output, bytes)
     records = [record for record in output.split(b"\0") if record]
@@ -220,12 +220,22 @@ def blob_at_path(repo: Path, revision: str, path: str) -> bytes:
         raise CatalogError(f"expected one blob at {path}, found {len(records)}")
     try:
         metadata, raw_path = records[0].split(b"\t", 1)
-        _mode, kind, oid = metadata.decode("ascii").split()
+        mode, kind, oid = metadata.decode("ascii").split()
         returned_path = raw_path.decode("utf-8")
     except (UnicodeDecodeError, ValueError) as error:
         raise CatalogError(f"cannot parse Git blob for {path}") from error
-    if kind != "blob" or returned_path != path:
+    if (
+        mode not in {"100644", "100755"}
+        or kind != "blob"
+        or _FULL_OID.fullmatch(oid) is None
+        or returned_path != path
+    ):
         raise CatalogError(f"{path} is not an exact Git blob at {revision}")
+    return oid
+
+
+def blob_at_path(repo: Path, revision: str, path: str) -> bytes:
+    oid = blob_oid_at_path(repo, revision, path)
     data = run_git(repo, "cat-file", "blob", oid, text=False)
     assert isinstance(data, bytes)
     return data

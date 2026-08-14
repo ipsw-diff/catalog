@@ -1702,6 +1702,16 @@
     },
     {
       "beta": true,
+      "build": "24F5053f",
+      "channel": "beta",
+      "display_version": "15.5 beta 2",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2025-04-14",
+      "source_path": "osFiles/macOS/24x - 15.x/24F5053f.json"
+    },
+    {
+      "beta": true,
       "build": "25D5087f",
       "channel": "beta",
       "display_version": "26.3 beta",
@@ -1893,7 +1903,7 @@
   ],
   "schema_version": 1,
   "source": {
-    "commit": "ff4db9a3836c567087dc7f2efda2b27877664ebb",
+    "commit": "8e3f8002f17cb54cb39f050e09e2028d3fdb8270",
     "repository": "https://github.com/littlebyteorg/appledb"
   }
 }
