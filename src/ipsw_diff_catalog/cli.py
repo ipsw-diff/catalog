@@ -7,7 +7,7 @@ from pathlib import Path
 from ipsw_diff_catalog.archive import render_archive
 from ipsw_diff_catalog.audit import audit
 from ipsw_diff_catalog.census import census
-from ipsw_diff_catalog.discovery import discover_live
+from ipsw_diff_catalog.discovery import discover
 from ipsw_diff_catalog.model import CatalogError, MigrationSpec
 from ipsw_diff_catalog.planner import plan
 from ipsw_diff_catalog.release_metadata import import_release_metadata
@@ -85,11 +85,13 @@ def _parser() -> argparse.ArgumentParser:
 
     discover_parser = commands.add_parser(
         "discover",
-        help="classify the latest AppleDB build against one exact track policy",
+        help="queue every missing AppleDB edge after one immutable track anchor",
     )
     discover_parser.add_argument("--policy", type=Path, required=True)
     discover_parser.add_argument("--manifests-dir", type=Path, required=True)
-    discover_parser.add_argument("--ipsw", default="ipsw")
+    discover_parser.add_argument("--appledb-repo", type=Path, required=True)
+    discover_parser.add_argument("--appledb-commit", required=True)
+    discover_parser.add_argument("--ipsw-sources", type=Path, required=True)
 
     census_parser = commands.add_parser(
         "census",
@@ -275,7 +277,13 @@ def _run(arguments: argparse.Namespace) -> None:
         )
         return
     if arguments.command == "discover":
-        decision = discover_live(arguments.policy, arguments.manifests_dir, arguments.ipsw)
+        decision = discover(
+            arguments.policy,
+            arguments.manifests_dir,
+            arguments.appledb_repo,
+            arguments.appledb_commit,
+            arguments.ipsw_sources,
+        )
         print(decision.to_json())
         return
 

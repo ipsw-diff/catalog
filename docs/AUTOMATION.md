@@ -14,24 +14,38 @@ for the tracked tree at one immutable commit and classifies structurally
 ordinary versus blocked payloads, but it does not infer a platform, choose a
 shard, generate specs, or authorize a copy.
 
-The first automation slice is deliberately read-only. `discover` validates one
-explicitly supported iOS 27 or macOS 27 policy against the terminal merged
-manifest, invokes the exact AppleDB selector, and emits either `current` or a
-same-major forward `candidate`. Its reusable workflow is manually invoked until
-generation and publication pass their separate activation gates.
+The shared automation foundation is deliberately read-only. `discover`
+validates a reviewed schema-v2 track against a merged immutable activation
+anchor, reads
+release metadata from the exact AppleDB commit populated by `ipsw`, and matches
+each selected release to the active URL, size, and SHA-256 emitted by
+`ipsw dl appledb`. It emits either `current` or an ordered queue containing
+every consecutive same-major edge after the anchor. Merged manifests supply
+the current head of each version train, preventing maintenance releases from
+being paired with an overlapping beta train. Scheduling, generation,
+pull-request creation, catalog insertion, and announcements remain separate
+activation gates.
 
 ## Planned tracks
 
-| Track | Repository | Exact AppleDB selector | Allowed version | Status |
+| Track | Repository | Exact AppleDB selector | Anchor build | Status |
 | --- | --- | --- | --- | --- |
-| iOS 27 | `ipsw-diff/ios-27` | `os=iOS`, `device=iPhone18,1` | numeric major exactly `27` | Pilot merged; manual read-only discovery; scheduler not enabled |
-| macOS 27 | `ipsw-diff/macos-27` | `os=macOS`, `device=Mac17,6` | numeric major exactly `27` | Pilot and catalog merged; read-only discovery allowed; scheduler not enabled |
+| iOS 12 | `ipsw-diff/ios-12` | `os=iOS`, `device=iPhone7,1`, major `12` | `16H88` | Caller policy pending |
+| iOS 15 | `ipsw-diff/ios-15` | `os=iOS`, `device=iPod9,1`, major `15` | `19H411` | Caller policy pending |
+| iOS 16 | `ipsw-diff/ios-16` | `os=iOS`, `device=iPhone10,3`, major `16` | `20H380` | Caller policy pending |
+| iOS 17 | `ipsw-diff/ios-17` | `os=iPadOS`, `device=iPad7,5`, major `17` | `21H440` | Caller policy pending |
+| iOS 18 | `ipsw-diff/ios-18` | `os=iOS`, `device=iPhone11,8`, major `18` | `22H340` | Caller policy pending |
+| iOS 26 | `ipsw-diff/ios-26` | `os=iOS`, `device=iPhone18,1`, major `26` | `23G82` | Caller policy pending |
+| iOS 27 | `ipsw-diff/ios-27` | `os=iOS`, `device=iPhone18,1`, major `27` | `24A5408d` | Existing caller requires schema-v2 pin update |
+| macOS 15 | `ipsw-diff/macos-15` | `os=macOS`, `device=Mac16,1`, major `15` | `24F5042g` | Caller policy pending |
+| macOS 26 | `ipsw-diff/macos-26` | `os=macOS`, `device=Mac17,6`, major `26` | `25G82` | Caller policy pending |
+| macOS 27 | `ipsw-diff/macos-27` | `os=macOS`, `device=Mac17,6`, major `27` | `26A5406e` | Existing caller and generator require queue pin update |
 
-The selectors come from the existing production workflow. They remain explicit
+The selectors preserve the representative artifacts already cataloged at each
+shard terminal. iOS 17 intentionally keeps catalog platform `iOS` while routing
+firmware discovery through AppleDB `iPadOS`. The selectors remain explicit
 reviewed policy; directory names, build prefixes, and AppleDB result ordering
-are not allowed to assign platform or major-version semantics. Detection passes
-the numeric-major prefix to AppleDB and independently validates the returned
-version, so a later iOS major cannot hide iOS 27 maintenance builds.
+cannot assign platform or major-version semantics.
 
 ## Shard workflow contract
 
@@ -41,22 +55,26 @@ SHA, as recommended by [GitHub's reusable-workflow documentation][reuse].
 
 The reusable workflow must:
 
-1. Query AppleDB using only the exact platform, device, and numeric-major prefix
-   in the shard policy.
-2. Parse the returned version and require its numeric major to equal the exact
-   allowed major before downloading anything. Manual inputs pass the same gate.
-3. Compare only with the last merged baseline from the same track. A first build
-   or a new major records no cross-major diff automatically.
-4. Reject an already-known build, backward release date, open automation branch,
+1. Use `ipsw dl appledb` with only the exact AppleDB platform, device, and
+   numeric-major prefix in the shard policy, retaining its complete source JSON.
+2. Record the exact AppleDB commit populated by that same `ipsw` query and read
+   beta, RC, final-release, build, and date metadata only from its Git objects.
+3. Match every selected compatible record to exactly one active Apple
+   IPSW source with the same URL, size, and SHA-256.
+4. Use merged manifests as the heads of independent numeric version trains.
+   Continue releases, betas, and RCs within their own train; start a new train
+   from the closest earlier final release. Equal-date distinct builds within
+   one train are ambiguous and stop.
+5. Reject a skipped intermediate build, stale anchor, open automation branch,
    existing payload path, ambiguous AppleDB result, or missing input checksum.
-5. Pin and record the `ipsw` version, both IPSW names and SHA-256 hashes, AppleDB
+6. Pin and record the `ipsw` version, both IPSW names and SHA-256 hashes, AppleDB
    metadata, workflow run URL, generated tree ID, file count, byte total, and
    modes in a versioned generation manifest.
-6. Push a deterministic `automation/TRACK/BUILD` branch and open a pull request;
-   never push to `main`, merge, advance the baseline, update the catalog, or
+7. Push a deterministic `automation/TRACK/BUILD` branch and open a pull request;
+   never push to `main`, merge, rewrite the anchor, update the catalog, or
    announce from the generation job.
-7. Run mutation-tested shard CI over the generated payload and manifest. The
-   baseline advances only in the same reviewed PR as the verified diff.
+8. Run mutation-tested shard CI over the generated payload and manifest. The
+   manifest head advances only in the same reviewed PR as the verified diff.
 
 Top-level permissions will be empty. Read-only detection and expensive
 generation are separate jobs; only the publication job receives scoped

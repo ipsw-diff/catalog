@@ -18,6 +18,9 @@ on:
       result:
         description: Canonical discovery decision JSON
         value: ${{ jobs.detect.outputs.result }}
+      appledb_commit:
+        description: Exact AppleDB commit used for release metadata and IPSW lookup
+        value: ${{ jobs.detect.outputs.appledb_commit }}
 
 permissions: {}
 
@@ -30,6 +33,7 @@ jobs:
     outputs:
       status: ${{ steps.discover.outputs.status }}
       result: ${{ steps.discover.outputs.result }}
+      appledb_commit: ${{ steps.discover.outputs.appledb_commit }}
     steps:
       - name: Checkout shard
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -58,13 +62,13 @@ jobs:
       - name: Cache AppleDB
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
-          path: ~/.config/ipsw
-          key: appledb-v1-${{ runner.os }}
+          path: ${{ runner.temp }}/ipsw-config/appledb
+          key: appledb-v2-${{ runner.os }}
 
       - name: Install pinned ipsw
         env:
-          IPSW_URL: https://github.com/blacktop/ipsw/releases/download/v3.1.707/ipsw_3.1.707_linux_x86_64.tar.gz
-          IPSW_SHA256: 002113c7b9eaf4d06d5bb77dcbeb809f9b942ff18ba9fe906f3a8d2aab12df00
+          IPSW_URL: https://github.com/blacktop/ipsw/releases/download/v3.1.708/ipsw_3.1.708_linux_x86_64.tar.gz
+          IPSW_SHA256: 75e697a302a39ac8dc3c9a5a7d5d56b9389d52a9761d5643634e0de7f396cf3c
         run: |
           set -euo pipefail
           archive="$RUNNER_TEMP/ipsw.tar.gz"
@@ -76,18 +80,64 @@ jobs:
           printf '%s\n' "$install_dir" >> "$GITHUB_PATH"
           "$install_dir/ipsw" version
 
-      - name: Detect latest exact-track build
+      - name: Resolve reviewed track selector
+        id: selector
+        env:
+          POLICY_PATH: ${{ inputs.policy-path }}
+        run: |
+          set -euo pipefail
+          policy="shard/$POLICY_PATH"
+          platform="$(jq --exit-status --raw-output \
+            '.appledb_platform | select(. == "iOS" or . == "iPadOS" or . == "macOS")' \
+            "$policy")"
+          device="$(jq --exit-status --raw-output \
+            '.device | select(test("^[A-Za-z0-9][A-Za-z0-9,._-]*$"))' "$policy")"
+          major="$(jq --exit-status --raw-output \
+            '.major_version | select(type == "number" and floor == . and . > 0)' "$policy")"
+          {
+            printf 'platform=%s\n' "$platform"
+            printf 'device=%s\n' "$device"
+            printf 'major=%s\n' "$major"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Query complete exact-track IPSW source inventory
+        env:
+          PLATFORM: ${{ steps.selector.outputs.platform }}
+          DEVICE: ${{ steps.selector.outputs.device }}
+          MAJOR: ${{ steps.selector.outputs.major }}
+        run: |
+          set -euo pipefail
+          config_dir="$RUNNER_TEMP/ipsw-config"
+          mkdir -p "$config_dir"
+          touch "$config_dir/config.yaml"
+          ipsw --config "$config_dir/config.yaml" dl appledb \
+            --os "$PLATFORM" \
+            --device "$DEVICE" \
+            --version "$MAJOR." \
+            --urls \
+            --json \
+            --no-color > "$RUNNER_TEMP/ipsw-sources.json"
+          jq --exit-status 'type == "array" and length > 0' \
+            "$RUNNER_TEMP/ipsw-sources.json" >/dev/null
+          appledb_commit="$(git -C "$config_dir/appledb" rev-parse HEAD)"
+          [[ "$appledb_commit" =~ ^[0-9a-f]{40}$ ]]
+          printf '%s\n' "$appledb_commit" > "$RUNNER_TEMP/appledb-commit"
+
+      - name: Queue every consecutive exact-track build
         id: discover
         working-directory: catalog
         env:
-          GITHUB_TOKEN: ${{ github.token }}
           POLICY_PATH: ${{ inputs.policy-path }}
           MANIFESTS_DIR: ${{ inputs.manifests-dir }}
         run: |
           set -euo pipefail
+          appledb_commit="$(cat "$RUNNER_TEMP/appledb-commit")"
           result="$(uv run ipsw-diff-catalog discover \
             --policy "../shard/$POLICY_PATH" \
-            --manifests-dir "../shard/$MANIFESTS_DIR")"
+            --manifests-dir "../shard/$MANIFESTS_DIR" \
+            --appledb-repo "$RUNNER_TEMP/ipsw-config/appledb" \
+            --appledb-commit "$appledb_commit" \
+            --ipsw-sources "$RUNNER_TEMP/ipsw-sources.json")"
           status="$(printf '%s' "$result" | jq --exit-status --raw-output '.status')"
           if [ "$status" != current ] && [ "$status" != candidate ]; then
             echo "unsupported discovery status: $status" >&2
@@ -97,6 +147,7 @@ jobs:
           {
             printf 'status=%s\n' "$status"
             printf 'result=%s\n' "$result"
+            printf 'appledb_commit=%s\n' "$appledb_commit"
           } >> "$GITHUB_OUTPUT"
 
       - name: Verify repositories unchanged
