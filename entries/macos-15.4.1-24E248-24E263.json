@@ -1,0 +1,34 @@
+{
+  "destination": {
+    "commit": "b8fb5003141a9e25b08b76b0f319f74bad7c5c03",
+    "entrypoint": "diffs/15_4_24E248_vs_15_4_1_24E263/README.md",
+    "manifest_path": "manifests/15_4_24E248_vs_15_4_1_24E263.json",
+    "payload_path": "diffs/15_4_24E248_vs_15_4_1_24E263",
+    "repository": "https://github.com/ipsw-diff/macos-15"
+  },
+  "device": "Mac16,1",
+  "from": {
+    "build": "24E248",
+    "input": "UniversalMac_15.4_24E248_Restore.ipsw",
+    "version": "15.4"
+  },
+  "id": "macos-15.4.1-24E248-24E263",
+  "integrity": {
+    "git_tree": "e7469b5b4c627865c3aa5ede8cd6c8e7571ea836",
+    "logical_bytes": 89282,
+    "tracked_file_count": 160
+  },
+  "major_version": 15,
+  "platform": "macOS",
+  "schema_version": 1,
+  "source": {
+    "commit": "16017099a9f8adf8505442068fce719fa34ad1eb",
+    "path": "15_4_24E248_vs_15_4_1_24E263",
+    "repository": "https://github.com/ipsw-diff/macos-15"
+  },
+  "to": {
+    "build": "24E263",
+    "input": "UniversalMac_15.4.1_24E263_Restore.ipsw",
+    "version": "15.4.1"
+  }
+}

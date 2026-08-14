@@ -89,7 +89,7 @@ second edge, or announce externally.
 | Inputs and resources | One exact AppleDB commit and two detector-selected IPSWs pass size and SHA-256 checks | Closed |
 | Transformation and signing | Pinned `ipsw diff` flags produce one payload and both commits are unsigned | Closed |
 | Advertisement and options | Full workflow pins, bounded token permissions, and repository policy permit PR creation | Closed |
-| Dispatch and transport | Atomic non-overwriting branch/tag push and exactly one ready review PR | Unresolved |
+| Dispatch and transport | Atomic non-overwriting branch/tag push and exactly one ready review PR | Closed |
 | State transition | Payload-only source commit precedes canonical publication commit | Closed |
 | Outcome oracle | Source/destination trees match and the generated destination leaves the queue | Closed |
 
@@ -108,6 +108,29 @@ enabled, and pull request
 recovered the exact generated branch without rewriting it and merged as
 `a3d4e9f54153704fcda18ff24e8b0ad388b3c275`. Manual recovery does not close
 automatic PR transport; a later Actions-created PR must supply that evidence.
+
+Scheduled run
+[31784581929](https://github.com/ipsw-diff/macos-15/actions/runs/31784581929)
+then selected the independent final-release edge from macOS 15.4 (`24E248`) to
+15.4.1 (`24E263`). It used shard commit
+`a3d4e9f54153704fcda18ff24e8b0ad388b3c275`, the same pinned catalog workflow,
+AppleDB commit `8e3f8002f17cb54cb39f050e09e2028d3fdb8270`, and `ipsw`
+3.1.708. The run verified both IPSWs, generated unsigned source commit
+`16017099a9f8adf8505442068fce719fa34ad1eb` and publication commit
+`df5232323200c7ddbe185fbb78b98fc96d0fe027`, proved source and destination tree
+`e7469b5b4c627865c3aa5ede8cd6c8e7571ea836`, atomically pushed the branch and
+tag, and opened ready pull request
+[ipsw-diff/macos-15#6](https://github.com/ipsw-diff/macos-15/pull/6) as
+`github-actions[bot]`. That exact branch merged without rewriting as
+`b8fb5003141a9e25b08b76b0f319f74bad7c5c03`, closing automatic ready-PR
+transport for the bounded macOS 15 pilot.
+
+GitHub placed the pull-request-triggered workflow in an approval-required state
+because the PR was opened with `GITHUB_TOKEN`. The generation run's own
+publication validation passed, but independent PR-event revalidation remains
+approval-gated until the planned scoped GitHub App is installed. This does not
+reopen branch/tag/PR transport, but it remains a stop condition for unattended
+merge readiness.
 
 ## Negative-evidence audit
 
@@ -147,24 +170,27 @@ inventories, and every shard's merged manifests:
 The macOS 15 rehearsal initially exposed a false chronological edge from a
 15.5 beta back to 15.4.1. The final planner instead continues 15.5 betas from
 the 15.5 beta anchor and routes 15.4.1 from merged 15.4 final build `24E248`.
-The first macOS 15 generation and shard-merge transitions are exercised; the
-final catalog merge identity remains unexercised.
+The first two macOS 15 generation and shard-merge transitions are exercised.
+The second exact shard merge is now recorded for catalog review; its catalog
+merge identity remains pending until that review branch lands.
 
 ## Unresolved rows and stop conditions
 
-Automatic ready-PR transport remains unresolved. Generation must stop before
+Broader multi-shard generation remains unresolved. Generation must stop before
 large downloads when repository policy forbids Actions PR creation, and must
 also stop on an ambiguous release order, missing intermediate build, duplicate
 active source, unsupported device, moving dependency revision, existing
 publication ref, or catalog identity mismatch. An authoritative pre-download
-policy query requires the planned admin-readable GitHub App; `GITHUB_TOKEN`
-cannot read that repository setting. Until the App is installed, the enabled
-organization policy remains an externally verified activation prerequisite.
+policy query and unattended PR-event revalidation require the planned
+admin-readable GitHub App; `GITHUB_TOKEN` cannot read that repository setting
+and its PR events require human approval. Until the App is installed, the
+enabled organization policy remains an externally verified activation
+prerequisite and generated PR checks require a reviewer action.
 
 ## Bounded conclusion
 
-The macOS 15 hosted pilot proves selection through validated branch/tag
-publication for one edge, but its ready PR required manual recovery after a
-repository-policy denial. It does not establish automatic PR transport,
-later-edge, or multi-shard generation coverage. This document remains open
-until every success-critical matrix row is closed.
+The macOS 15 hosted pilot now proves scheduled selection through validated
+branch/tag publication and automatic ready-PR creation for one bounded edge.
+It does not establish later-edge or multi-shard generation coverage, automatic
+catalog publication, or unattended PR-event revalidation. This document
+remains open until every success-critical matrix row is closed.

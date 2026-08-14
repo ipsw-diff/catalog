@@ -268,12 +268,13 @@ Full comparison and integrity details are in the version browser below.
 </details>
 
 <details>
-<summary><strong>macOS 15</strong> · 4 diffs</summary>
+<summary><strong>macOS 15</strong> · 5 diffs</summary>
 
 | Device | Comparison | Integrity |
 | --- | --- | --- |
 | `Mac16,1` | [15.5 beta (24F5042g) → 15.5 beta 2 (24F5053f)](https://github.com/ipsw-diff/macos-15/blob/a3d4e9f54153704fcda18ff24e8b0ad388b3c275/diffs/15_5_24F5042g_vs_15_5_24F5053f/README.md) | `157ce93d8278` · 1,483 files · 8,047,620 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/a3d4e9f54153704fcda18ff24e8b0ad388b3c275/manifests/15_5_24F5042g_vs_15_5_24F5053f.json) |
 | `UniversalMac` | [15.4 (24E248) → 15.5 beta (24F5042g)](https://github.com/ipsw-diff/macos-15/blob/ba046ef569c7720f90236324bec58cd908346237/diffs/15_4_24E248__vs_15_5_24F5042g/README.md) | `75de4ad3a110` · 1,350 files · 19,499,337 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/ba046ef569c7720f90236324bec58cd908346237/manifests/15_4_24E248__vs_15_5_24F5042g.json) |
+| `Mac16,1` | [15.4 (24E248) → 15.4.1 (24E263)](https://github.com/ipsw-diff/macos-15/blob/b8fb5003141a9e25b08b76b0f319f74bad7c5c03/diffs/15_4_24E248_vs_15_4_1_24E263/README.md) | `e7469b5b4c62` · 160 files · 89,282 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/b8fb5003141a9e25b08b76b0f319f74bad7c5c03/manifests/15_4_24E248_vs_15_4_1_24E263.json) |
 | `UniversalMac` | [15.3.2 (24D81) → 15.4 (24E248)](https://github.com/ipsw-diff/macos-15/blob/ba046ef569c7720f90236324bec58cd908346237/diffs/15_3_2_24D81__vs_15_4_24E248/README.md) | `7ff83e3092b4` · 7,660 files · 218,638,978 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/ba046ef569c7720f90236324bec58cd908346237/manifests/15_3_2_24D81__vs_15_4_24E248.json) |
 | `UniversalMac` | [15.0 beta 2 (24A5279h) → 15.0 beta 3 (24A5289g)](https://github.com/ipsw-diff/macos-15/blob/34ab75014b9350d2496064da4e8193a491568289/diffs/15_0_24A5279h__vs_15_0_24A5289g/TOC.md) | `45d4eceea4d7` · 2,308 files · 41,697,639 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/34ab75014b9350d2496064da4e8193a491568289/manifests/15_0_24A5279h__vs_15_0_24A5289g.json) |
 
