@@ -209,10 +209,11 @@ Full comparison and integrity details are in the version browser below.
 </details>
 
 <details>
-<summary><strong>iOS 16</strong> · 2 diffs</summary>
+<summary><strong>iOS 16</strong> · 3 diffs</summary>
 
 | Device | Comparison | Integrity |
 | --- | --- | --- |
+| `iPhone10,3` | [16.7.15 (20H380) → 16.7.16 (20H392)](https://github.com/ipsw-diff/ios-16/blob/2df3c7be11dc3694570982fd81ea79e68ee72f8a/diffs/16_7_15_20H380_vs_16_7_16_20H392/README.md) | `4723ed37580b` · 9 files · 14,864 bytes · [manifest](https://github.com/ipsw-diff/ios-16/blob/2df3c7be11dc3694570982fd81ea79e68ee72f8a/manifests/16_7_15_20H380_vs_16_7_16_20H392.json) |
 | `iPhone10,3,iPhone10,6` | [16.7.14 (20H370) → 16.7.15 (20H380)](https://github.com/ipsw-diff/ios-16/blob/3ee5b908fd4e21f8379aa62fc335d4ab2a8f44e7/diffs/16_7_14_20H370__vs_16_7_15_20H380/README.md) | `52ef7212cfd8` · 1 files · 10,678 bytes · [manifest](https://github.com/ipsw-diff/ios-16/blob/3ee5b908fd4e21f8379aa62fc335d4ab2a8f44e7/manifests/16_7_14_20H370__vs_16_7_15_20H380.json) |
 | `iPhone10,3,iPhone10,6` | [16.7.13 (20H365) → 16.7.14 (20H370)](https://github.com/ipsw-diff/ios-16/blob/3ee5b908fd4e21f8379aa62fc335d4ab2a8f44e7/diffs/16_7_13_20H365__vs_16_7_14_20H370/README.md) | `2442f3cdd941` · 1 files · 557 bytes · [manifest](https://github.com/ipsw-diff/ios-16/blob/3ee5b908fd4e21f8379aa62fc335d4ab2a8f44e7/manifests/16_7_13_20H365__vs_16_7_14_20H370.json) |
 
