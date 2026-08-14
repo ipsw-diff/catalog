@@ -100,6 +100,13 @@ immutable shard merge commit, validates the generation manifest, reruns the
 tree/count/bytes/mode oracle, and opens a separate catalog PR containing the new
 entry and deterministic indexes. Only that catalog merge represents publication.
 
+The local `reconcile` command is the fail-closed core of that transition. It
+accepts only an already-fetched shard repository plus a full merge SHA, derives
+missing specs from canonical generated manifests, requires matching provenance
+and immutable source tags, and writes only preflighted spec/entry pairs. It does
+not fetch, render, commit, push, or open a pull request; scheduled discovery and
+write-capable catalog publication remain a separate activation step.
+
 ## X announcement transition
 
 X delivery will be a third PR and remains disabled until an account and app are
