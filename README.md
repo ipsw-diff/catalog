@@ -360,6 +360,19 @@ It fails rather than guessing when dates, sources, or existing publication state
 are ambiguous. It does not download firmware, modify a repository, schedule work,
 generate a diff, open a pull request, or publish anything.
 
+## Deterministic catalog reconciliation
+
+`reconcile` accepts one local shard repository and one full merged commit SHA.
+It classifies every canonical manifest at that commit against the checked-in
+entry IDs. Recorded legacy manifests remain owned by the catalog audit; each
+missing generated manifest must have matching workflow provenance and an
+immutable source tag. The command then reuses the source/destination verifier
+and preflights every canonical spec/entry output before writing any of them.
+
+The caller owns fetching and commit selection. The command does not choose a
+branch, clone, fetch, regenerate release labels or indexes, commit, push, open
+a pull request, or publish anything.
+
 ## Curated release metadata
 
 `release-metadata` enumerates every unique `(platform, build)` endpoint in the
@@ -392,6 +405,7 @@ uv run ipsw-diff-catalog census --help
 uv run ipsw-diff-catalog plan --help
 uv run ipsw-diff-catalog render-archive --help
 uv run ipsw-diff-catalog discover --help
+uv run ipsw-diff-catalog reconcile --help
 uv run ipsw-diff-catalog release-metadata --help
 uv run pytest
 uv run ruff format --check .
@@ -424,6 +438,11 @@ uv run ipsw-diff-catalog plan \
   --census migration/census.json \
   --output migration/specs-26 \
   --check
+uv run ipsw-diff-catalog reconcile \
+  --shard-repo /path/to/shard \
+  --destination-revision FULL_MERGE_SHA \
+  --specs-dir specs \
+  --entries-dir entries
 uv run ipsw-diff-catalog release-metadata \
   --appledb-repo /path/to/appledb \
   --appledb-commit ff4db9a3836c567087dc7f2efda2b27877664ebb \

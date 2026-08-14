@@ -10,6 +10,7 @@ from ipsw_diff_catalog.census import census
 from ipsw_diff_catalog.discovery import discover
 from ipsw_diff_catalog.model import CatalogError, MigrationSpec
 from ipsw_diff_catalog.planner import plan
+from ipsw_diff_catalog.reconcile import reconcile
 from ipsw_diff_catalog.release_metadata import import_release_metadata
 from ipsw_diff_catalog.render import render
 from ipsw_diff_catalog.stage import (
@@ -113,6 +114,7 @@ def _parser() -> argparse.ArgumentParser:
 
     _add_archive_parser(commands)
     _add_manifest_parser(commands)
+    _add_reconcile_parser(commands)
     _add_release_metadata_parser(commands)
     return parser
 
@@ -127,6 +129,19 @@ def _add_manifest_parser(
     _add_spec_and_repositories(manifest_parser, destination=False)
     manifest_parser.add_argument("--output", type=Path, required=True)
     manifest_parser.add_argument("--check", action="store_true")
+
+
+def _add_reconcile_parser(
+    commands: argparse._SubParsersAction[argparse.ArgumentParser],
+) -> None:
+    reconcile_parser = commands.add_parser(
+        "reconcile",
+        help="verify generated shard manifests and write missing specs and entries",
+    )
+    reconcile_parser.add_argument("--shard-repo", type=Path, required=True)
+    reconcile_parser.add_argument("--destination-revision", required=True)
+    reconcile_parser.add_argument("--specs-dir", type=Path, default=Path("specs"))
+    reconcile_parser.add_argument("--entries-dir", type=Path, default=Path("entries"))
 
 
 def _add_archive_parser(
@@ -258,6 +273,19 @@ def _run_batch(arguments: argparse.Namespace) -> None:
     )
 
 
+def _run_reconcile(arguments: argparse.Namespace) -> None:
+    result = reconcile(
+        arguments.shard_repo,
+        arguments.destination_revision,
+        arguments.specs_dir,
+        arguments.entries_dir,
+    )
+    print(
+        f"Reconciled {result.reconciled_count} of {result.manifest_count} manifests "
+        f"at {result.destination_commit}; recorded={result.recorded_count}"
+    )
+
+
 def _run(arguments: argparse.Namespace) -> None:
     if arguments.command == "audit":
         count = audit(arguments.entries_dir, arguments.specs_dir)
@@ -342,6 +370,8 @@ def _dispatch(arguments: argparse.Namespace) -> None:
         _run_manifest(arguments)
     elif arguments.command in {"stage-batch", "validate-staged-batch"}:
         _run_batch(arguments)
+    elif arguments.command == "reconcile":
+        _run_reconcile(arguments)
     else:
         _run(arguments)
 
