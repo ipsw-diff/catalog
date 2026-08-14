@@ -22,24 +22,30 @@ each selected release to the active URL, size, and SHA-256 emitted by
 `ipsw dl appledb`. It emits either `current` or an ordered queue containing
 every consecutive same-major edge after the anchor. Merged manifests supply
 the current head of each version train, preventing maintenance releases from
-being paired with an overlapping beta train. Scheduling, generation,
-pull-request creation, catalog insertion, and announcements remain separate
-activation gates.
+being paired with an overlapping beta train. All ten reviewed shards now run
+this read-only detector on staggered schedules.
 
-## Planned tracks
+The reusable generator is a separate write-capable contract. It re-runs exact
+discovery, accepts only the first queued edge, verifies both selected IPSWs,
+creates an immutable payload source commit and tag, materializes canonical
+publication metadata, proves the source and destination trees match, and opens
+one ready review pull request. It cannot merge, rewrite the activation anchor,
+update the catalog, or announce externally.
+
+## Tracked shards
 
 | Track | Repository | Exact AppleDB selector | Anchor build | Status |
 | --- | --- | --- | --- | --- |
-| iOS 12 | `ipsw-diff/ios-12` | `os=iOS`, `device=iPhone7,1`, major `12` | `16H88` | Caller policy pending |
-| iOS 15 | `ipsw-diff/ios-15` | `os=iOS`, `device=iPod9,1`, major `15` | `19H411` | Caller policy pending |
-| iOS 16 | `ipsw-diff/ios-16` | `os=iOS`, `device=iPhone10,3`, major `16` | `20H380` | Caller policy pending |
-| iOS 17 | `ipsw-diff/ios-17` | `os=iPadOS`, `device=iPad7,5`, major `17` | `21H440` | Caller policy pending |
-| iOS 18 | `ipsw-diff/ios-18` | `os=iOS`, `device=iPhone11,8`, major `18` | `22H340` | Caller policy pending |
-| iOS 26 | `ipsw-diff/ios-26` | `os=iOS`, `device=iPhone18,1`, major `26` | `23G82` | Caller policy pending |
-| iOS 27 | `ipsw-diff/ios-27` | `os=iOS`, `device=iPhone18,1`, major `27` | `24A5408d` | Existing caller requires schema-v2 pin update |
-| macOS 15 | `ipsw-diff/macos-15` | `os=macOS`, `device=Mac16,1`, major `15` | `24F5042g` | Caller policy pending |
-| macOS 26 | `ipsw-diff/macos-26` | `os=macOS`, `device=Mac17,6`, major `26` | `25G82` | Caller policy pending |
-| macOS 27 | `ipsw-diff/macos-27` | `os=macOS`, `device=Mac17,6`, major `27` | `26A5406e` | Existing caller and generator require queue pin update |
+| iOS 12 | `ipsw-diff/ios-12` | `os=iOS`, `device=iPhone7,1`, major `12` | `16H88` | Scheduled discovery merged |
+| iOS 15 | `ipsw-diff/ios-15` | `os=iOS`, `device=iPod9,1`, major `15` | `19H411` | Scheduled discovery merged |
+| iOS 16 | `ipsw-diff/ios-16` | `os=iOS`, `device=iPhone10,3`, major `16` | `20H380` | Scheduled discovery merged |
+| iOS 17 | `ipsw-diff/ios-17` | `os=iPadOS`, `device=iPad7,5`, major `17` | `21H440` | Scheduled discovery merged |
+| iOS 18 | `ipsw-diff/ios-18` | `os=iOS`, `device=iPhone11,8`, major `18` | `22H340` | Scheduled discovery merged |
+| iOS 26 | `ipsw-diff/ios-26` | `os=iOS`, `device=iPhone18,1`, major `26` | `23G82` | Scheduled discovery merged |
+| iOS 27 | `ipsw-diff/ios-27` | `os=iOS`, `device=iPhone18,1`, major `27` | `24A5408d` | Scheduled discovery merged |
+| macOS 15 | `ipsw-diff/macos-15` | `os=macOS`, `device=Mac16,1`, major `15` | `24F5042g` | Scheduled discovery merged |
+| macOS 26 | `ipsw-diff/macos-26` | `os=macOS`, `device=Mac17,6`, major `26` | `25G82` | Scheduled discovery merged |
+| macOS 27 | `ipsw-diff/macos-27` | `os=macOS`, `device=Mac17,6`, major `27` | `26A5406e` | Scheduled discovery and candidate-generation wiring merged |
 
 The selectors preserve the representative artifacts already cataloged at each
 shard terminal. iOS 17 intentionally keeps catalog platform `iOS` while routing
@@ -49,9 +55,9 @@ cannot assign platform or major-version semantics.
 
 ## Shard workflow contract
 
-Each shard will contain a small caller workflow and a machine-readable track
-policy. It will call a reusable workflow from the catalog at an immutable commit
-SHA, as recommended by [GitHub's reusable-workflow documentation][reuse].
+Each shard contains a small caller workflow and a machine-readable track policy.
+Callers pin reusable catalog workflows by immutable commit SHA, as recommended
+by [GitHub's reusable-workflow documentation][reuse].
 
 The reusable workflow must:
 
@@ -70,7 +76,7 @@ The reusable workflow must:
 6. Pin and record the `ipsw` version, both IPSW names and SHA-256 hashes, AppleDB
    metadata, workflow run URL, generated tree ID, file count, byte total, and
    modes in a versioned generation manifest.
-7. Push a deterministic `automation/TRACK/BUILD` branch and open a pull request;
+7. Push a deterministic `generated/TRACK-BUILD` branch and open a pull request;
    never push to `main`, merge, rewrite the anchor, update the catalog, or
    announce from the generation job.
 8. Run mutation-tested shard CI over the generated payload and manifest. The
@@ -124,9 +130,12 @@ environment and recheck [current pricing][x-pricing] at activation time.
 ## Activation gates
 
 - Catalog tool and remote audit merged and green.
-- One generated-diff dry run reproduces locally with recorded input hashes.
-- `ios-27` branch protection requires verifier CI and review.
-- `macos-27` gets its own exact-tree pilot before its scheduler is enabled.
+- Scheduled read-only discovery merged for every reviewed shard.
+- macOS 27 candidate dispatch and ready-PR pilot merged, but no hosted candidate
+  has exercised the costly path yet.
+- The reusable generator passes static and live read-only contract checks.
+- One macOS 15 backlog edge completes a hosted generation run before broader
+  generator activation.
 - Organization GitHub App permissions reviewed and installation scoped.
 - X account/app policy setup complete; environment secrets and spending cap set.
 - A dry-run announcement prints exact JSON and creates no external state.

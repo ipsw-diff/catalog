@@ -33,10 +33,12 @@ without guessed builds or hard-coded IPSW URLs?
 
 ## Feature-closure matrix
 
-| Stage | Required evidence | Initial status |
+| Stage | Required evidence | Status |
 | --- | --- | --- |
-| Selection and trigger | Reviewed policies for all ten shards plus a bounded schedule | Unresolved |
-| Inputs and resources | Exact AppleDB commit and one verified IPSW source per queued build | Unresolved |
+| Discovery selection and trigger | Reviewed policies for all ten shards plus a bounded schedule | Closed |
+| Generation selection and trigger | A candidate dispatches exactly one queued edge on one pilot shard | Unresolved |
+| Discovery inputs and resources | Exact AppleDB commit and one verified IPSW source per selected build | Closed |
+| Generation inputs and resources | Both selected IPSWs pass exact size and SHA-256 checks in a hosted run | Unresolved |
 | Transformation and signing | Consecutive build pairs, verified downloads, pinned generator, unsigned commits | Unresolved |
 | Advertisement and options | Each caller pins the reviewed reusable workflow and generator contract | Unresolved |
 | Dispatch and transport | Candidate queue dispatches one non-overwriting generation branch and opens a PR | Unresolved |
@@ -53,6 +55,43 @@ The reviewed repository set contains ten shards:
 Every shard must be classified as active, intentionally paused with affirmative
 evidence, or blocked with an explicit missing resource. A successful run on one
 major or one platform does not close another row.
+
+The reviewed scheduled-discovery policies and callers are merged at these exact
+default-branch commits:
+
+| Track | Merge commit |
+| --- | --- |
+| iOS 12 | `df992098767a840532b623d707291de636dcf53e` |
+| iOS 15 | `c76c3b55d4e33e86776327c54d57dabc52febb57` |
+| iOS 16 | `99f4bfca44467006135abc23def654918f2d5fba` |
+| iOS 17 | `1d5fb7447a64c6a15cec4450831cca359d69074d` |
+| iOS 18 | `13cb572f327d0bb768e7604b8579348e6983e524` |
+| iOS 26 | `760c616ec6a23bb734a7e73a6964a1bb162ecbe3` |
+| iOS 27 | `02a1347af0fba002b609dc4621e49908d94502e3` |
+| macOS 15 | `cbcc4b65101dd58a82a0d88df9f7c136f5441bad` |
+| macOS 26 | `e74d2042bc3f6dfe3e877df76fc32c6161ffda1b` |
+| macOS 27 | `5ae46bec474cd7c18200bf05e0e2c65cea39f0df` |
+
+## Reusable-generator pilot boundary
+
+The macOS 27 shard now contains the reviewed candidate-dispatch and ready-PR
+pilot, but it had no candidate at merge time. The central reusable workflow
+extracts that exact lifecycle without changing its outcome boundary. Its first
+hosted activation is intentionally limited to the first macOS 15 backlog edge.
+It may download and verify only that edge's two IPSWs, generate one payload,
+push one non-overwriting branch plus immutable source tag, and open one review
+pull request. It may not merge, modify `main`, update the catalog, dispatch a
+second edge, or announce externally.
+
+| Stage | Pilot evidence required | Status |
+| --- | --- | --- |
+| Selection and trigger | A reviewed macOS 15 caller dispatches only when discovery reports `candidate` | Unresolved |
+| Inputs and resources | One exact AppleDB commit and two detector-selected IPSWs pass size and SHA-256 checks | Unresolved |
+| Transformation and signing | Pinned `ipsw diff` flags produce one payload and both commits are unsigned | Unresolved |
+| Advertisement and options | Caller and reusable workflow are pinned by full commit SHA with bounded permissions | Unresolved |
+| Dispatch and transport | Atomic non-overwriting branch/tag push and exactly one ready review PR | Unresolved |
+| State transition | Payload-only source commit precedes canonical publication commit | Unresolved |
+| Outcome oracle | Source/destination trees match and the generated destination leaves the queue | Unresolved |
 
 ## Negative-evidence audit
 
@@ -104,6 +143,7 @@ catalog identity mismatch.
 
 ## Bounded conclusion
 
-The current macOS 27 run proves one manually dispatched path only. It does not
-establish unattended or multi-shard coverage. This document remains open until
-the expected inventory and every success-critical matrix row are closed.
+The merged macOS 27 workflows prove reviewed wiring but did not exercise a
+candidate. They do not establish unattended or multi-shard generation coverage.
+This document remains open until the macOS 15 hosted pilot and every
+success-critical matrix row are closed.
