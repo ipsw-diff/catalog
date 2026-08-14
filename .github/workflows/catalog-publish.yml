@@ -1,0 +1,288 @@
+name: Publish merged shard diffs to catalog
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: catalog-publication
+  cancel-in-progress: false
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    outputs:
+      appledb_commit: ${{ steps.inputs.outputs.appledb_commit }}
+      inventory: ${{ steps.inputs.outputs.inventory }}
+      status: ${{ steps.classify.outputs.status }}
+    steps:
+      - name: Require default-branch event
+        env:
+          DISPATCH_REF: ${{ github.ref }}
+        run: |
+          set -euo pipefail
+          if [[ "$DISPATCH_REF" != refs/heads/main ]]; then
+            echo "catalog publication must run from main, got $DISPATCH_REF" >&2
+            exit 1
+          fi
+
+      - name: Checkout exact catalog event commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.12.3"
+          enable-cache: true
+
+      - name: Sync locked environment
+        run: uv sync --locked --all-groups
+
+      - name: Resolve immutable publication inputs
+        id: inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          jq --exit-status '
+            type == "object" and
+            (keys | sort) == ["schema_version", "shards"] and
+            .schema_version == 1 and
+            (.shards | type == "array" and length == 10) and
+            all(.shards[];
+              type == "object" and
+              (keys | sort) == ["branch", "id", "repository"] and
+              (.id | test("^(ios|macos)-(12|15|16|17|18|26|27)$")) and
+              .repository == ("https://github.com/ipsw-diff/" + .id) and
+              .branch == "main") and
+            ([.shards[].id] | sort) == [
+              "ios-12", "ios-15", "ios-16", "ios-17", "ios-18", "ios-26", "ios-27",
+              "macos-15", "macos-26", "macos-27"
+            ] and
+            ([.shards[].repository] | unique | length) == 10
+          ' automation/shards.json >/dev/null
+
+          inventory='[]'
+          while IFS=$'\t' read -r id repository branch; do
+            slug=${repository#https://github.com/}
+            commit=$(gh api "repos/$slug/commits/$branch" --jq .sha)
+            if [[ ! "$commit" =~ ^[0-9a-f]{40}$ ]]; then
+              echo "$id returned a non-canonical commit: $commit" >&2
+              exit 1
+            fi
+            inventory=$(jq --compact-output --null-input \
+              --argjson current "$inventory" \
+              --arg id "$id" \
+              --arg repository "$repository" \
+              --arg branch "$branch" \
+              --arg commit "$commit" \
+              '$current + [{id: $id, repository: $repository, branch: $branch, commit: $commit}]')
+          done < <(jq --raw-output '.shards[] | [.id, .repository, .branch] | @tsv' \
+            automation/shards.json)
+
+          appledb_commit=$(gh api repos/littlebyteorg/appledb/commits/main --jq .sha)
+          if [[ ! "$appledb_commit" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "AppleDB returned a non-canonical commit: $appledb_commit" >&2
+            exit 1
+          fi
+          printf 'inventory=%s\n' "$inventory" >> "$GITHUB_OUTPUT"
+          printf 'appledb_commit=%s\n' "$appledb_commit" >> "$GITHUB_OUTPUT"
+
+      - name: Reconcile every exact shard commit without remote writes
+        env:
+          INVENTORY: ${{ steps.inputs.outputs.inventory }}
+        run: |
+          set -euo pipefail
+          printf '%s\n' "$INVENTORY" > "$RUNNER_TEMP/shards.json"
+          scripts/reconcile-shards.sh \
+            automation/shards.json \
+            "$RUNNER_TEMP/shards.json" \
+            "$RUNNER_TEMP/shards"
+
+      - name: Classify catalog state
+        id: classify
+        run: |
+          set -euo pipefail
+          changes=$(git status --porcelain -- entries specs)
+          if [[ -n "$changes" ]]; then
+            printf '%s\n' "$changes"
+            echo 'status=candidate' >> "$GITHUB_OUTPUT"
+          else
+            echo 'status=current' >> "$GITHUB_OUTPUT"
+          fi
+
+  publish:
+    needs: detect
+    if: needs.detect.outputs.status == 'candidate'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout exact catalog event commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.12.3"
+          enable-cache: true
+
+      - name: Sync locked environment
+        run: uv sync --locked --all-groups
+
+      - name: Replay exact shard inventory
+        env:
+          INVENTORY: ${{ needs.detect.outputs.inventory }}
+        run: |
+          set -euo pipefail
+          printf '%s\n' "$INVENTORY" > "$RUNNER_TEMP/shards.json"
+          scripts/reconcile-shards.sh \
+            automation/shards.json \
+            "$RUNNER_TEMP/shards.json" \
+            "$RUNNER_TEMP/shards"
+
+      - name: Fetch exact AppleDB metadata commit
+        env:
+          APPLEDB_COMMIT: ${{ needs.detect.outputs.appledb_commit }}
+        run: |
+          set -euo pipefail
+          [[ "$APPLEDB_COMMIT" =~ ^[0-9a-f]{40}$ ]]
+          git init --quiet --object-format=sha1 "$RUNNER_TEMP/appledb"
+          git -C "$RUNNER_TEMP/appledb" remote add origin \
+            https://github.com/littlebyteorg/appledb.git
+          git -C "$RUNNER_TEMP/appledb" sparse-checkout init --cone
+          git -C "$RUNNER_TEMP/appledb" sparse-checkout set \
+            osFiles/iOS osFiles/iPadOS osFiles/macOS
+          git -C "$RUNNER_TEMP/appledb" -c protocol.version=2 fetch \
+            --no-tags --depth=1 --filter=blob:none origin "$APPLEDB_COMMIT"
+          observed=$(git -C "$RUNNER_TEMP/appledb" rev-parse FETCH_HEAD)
+          [[ "$observed" == "$APPLEDB_COMMIT" ]]
+          git -C "$RUNNER_TEMP/appledb" checkout --quiet --detach "$APPLEDB_COMMIT"
+
+      - name: Regenerate labels and deterministic indexes
+        env:
+          APPLEDB_COMMIT: ${{ needs.detect.outputs.appledb_commit }}
+        run: |
+          set -euo pipefail
+          uv run ipsw-diff-catalog release-metadata \
+            --appledb-repo "$RUNNER_TEMP/appledb" \
+            --appledb-commit "$APPLEDB_COMMIT" \
+            --output metadata/releases.json
+          uv run ipsw-diff-catalog render
+
+      - name: Reject unexpected working-tree changes
+        run: |
+          set -euo pipefail
+          changed=$({
+            git diff --name-only
+            git ls-files --others --exclude-standard
+          } | sort --unique)
+          if [[ -z "$changed" ]]; then
+            echo "candidate reconciliation produced no publication changes" >&2
+            exit 1
+          fi
+          while IFS= read -r path; do
+            case "$path" in
+              README.md|catalog.json|metadata/releases.json|entries/*.json|specs/*.json) ;;
+              *) echo "unexpected publication path: $path" >&2; exit 1 ;;
+            esac
+          done <<< "$changed"
+
+      - name: Validate complete publication candidate
+        env:
+          APPLEDB_COMMIT: ${{ needs.detect.outputs.appledb_commit }}
+        run: |
+          set -euo pipefail
+          uv run ruff format --check .
+          uv run ruff check .
+          uv run ty check src tests
+          uv run pytest
+          uv run ipsw-diff-catalog render --check
+          uv run ipsw-diff-catalog release-metadata \
+            --appledb-repo "$RUNNER_TEMP/appledb" \
+            --appledb-commit "$APPLEDB_COMMIT" \
+            --output metadata/releases.json \
+            --check
+          uv run ipsw-diff-catalog audit
+
+      - name: Create unsigned non-overwriting publication commit
+        id: commit
+        env:
+          APPLEDB_COMMIT: ${{ needs.detect.outputs.appledb_commit }}
+          INVENTORY: ${{ needs.detect.outputs.inventory }}
+        run: |
+          set -euo pipefail
+          git add -- README.md catalog.json metadata/releases.json entries specs
+          git diff --cached --check
+          git diff --cached --quiet && {
+            echo "publication candidate has no staged changes" >&2
+            exit 1
+          }
+          tree=$(git write-tree)
+          [[ "$tree" =~ ^[0-9a-f]{40}$ ]]
+          branch="generated/catalog-${tree:0:12}"
+          if git ls-remote --exit-code --heads origin "refs/heads/$branch" >/dev/null 2>&1; then
+            echo "publication branch already exists: $branch" >&2
+            exit 1
+          fi
+          git switch --create "$branch"
+          git -c user.name='github-actions[bot]' \
+            -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+            -c commit.gpgsign=false commit --no-gpg-sign \
+            --message='Catalog merged shard diffs'
+          if git cat-file commit HEAD | grep --quiet '^gpgsig '; then
+            echo "publication commit is unexpectedly signed" >&2
+            exit 1
+          fi
+
+          added=$(git diff-tree --no-commit-id --name-only --diff-filter=A -r HEAD -- entries)
+          if [[ -z "$added" ]]; then
+            echo "publication commit did not add a catalog entry" >&2
+            exit 1
+          fi
+          {
+            echo 'This automated catalog update reconciles newly merged shard manifests.'
+            echo
+            echo '### New catalog entries'
+            while IFS= read -r path; do
+              printf -- "- \`%s\`\n" "${path#entries/}"
+            done <<< "$added"
+            echo
+            echo '### Immutable shard inputs'
+            jq --raw-output '.[] | "- `\(.id)`: `\(.commit)`"' <<< "$INVENTORY"
+            echo
+            printf -- "- \`AppleDB\`: \`%s\`\n" "$APPLEDB_COMMIT"
+            echo
+            echo 'The commit is unsigned. Merge and announcement remain manual.'
+          } > "$RUNNER_TEMP/pull-request.md"
+          printf 'branch=%s\n' "$branch" >> "$GITHUB_OUTPUT"
+
+      - name: Push branch and open ready pull request
+        env:
+          BRANCH: ${{ steps.commit.outputs.branch }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git push --atomic origin "HEAD:refs/heads/$BRANCH"
+          url=$(gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title 'Catalog merged shard diffs' \
+            --body-file "$RUNNER_TEMP/pull-request.md")
+          printf 'ready pull request: %s\n' "$url"

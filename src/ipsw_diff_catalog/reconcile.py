@@ -174,7 +174,12 @@ def _manifest_paths(repo: Path, commit: str) -> tuple[str, ...]:
     paths: list[str] = []
     for entry in tree_entries(repo, commit, "manifests"):
         path = PurePosixPath(entry.path)
-        if path.parent != PurePosixPath("manifests") or path.suffix != ".json":
+        if (
+            path.is_absolute()
+            or str(path) != entry.path
+            or path.parts[0] != "manifests"
+            or path.suffix != ".json"
+        ):
             raise CatalogError(f"unsupported generated manifest path: {entry.path}")
         paths.append(entry.path)
     return tuple(sorted(paths))

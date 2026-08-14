@@ -77,9 +77,14 @@ jobs:
           --output migration/specs-15
           --check
 
+      - name: Resolve curated AppleDB metadata commit
+        run: |
+          set -euo pipefail
+          commit=$(jq --exit-status --raw-output '.source.commit' metadata/releases.json)
+          [[ "$commit" =~ ^[0-9a-f]{40}$ ]]
+          printf 'APPLEDB_COMMIT=%s\n' "$commit" >> "$GITHUB_ENV"
+
       - name: Fetch pinned AppleDB metadata commit
-        env:
-          APPLEDB_COMMIT: 8e3f8002f17cb54cb39f050e09e2028d3fdb8270
         run: |
           set -euo pipefail
           git init --quiet --object-format=sha1 appledb
@@ -93,12 +98,12 @@ jobs:
           git -C appledb checkout --quiet --detach "$APPLEDB_COMMIT"
 
       - name: Check curated release metadata
-        run: >-
-          uv run ipsw-diff-catalog release-metadata
-          --appledb-repo appledb
-          --appledb-commit 8e3f8002f17cb54cb39f050e09e2028d3fdb8270
-          --output metadata/releases.json
-          --check
+        run: |
+          uv run ipsw-diff-catalog release-metadata \
+            --appledb-repo appledb \
+            --appledb-commit "$APPLEDB_COMMIT" \
+            --output metadata/releases.json \
+            --check
 
       - name: Re-audit immutable source and destination commits
         run: uv run ipsw-diff-catalog audit
