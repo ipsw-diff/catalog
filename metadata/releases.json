@@ -1691,6 +1691,16 @@
       "source_path": "osFiles/macOS/24x - 15.x/24E248.json"
     },
     {
+      "beta": false,
+      "build": "24E263",
+      "channel": "release",
+      "display_version": "15.4.1",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2025-04-16",
+      "source_path": "osFiles/macOS/24x - 15.x/24E263.json"
+    },
+    {
       "beta": true,
       "build": "24F5042g",
       "channel": "beta",
