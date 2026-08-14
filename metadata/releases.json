@@ -82,6 +82,16 @@
     },
     {
       "beta": false,
+      "build": "20H392",
+      "channel": "release",
+      "display_version": "16.7.16",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-05-11",
+      "source_path": "osFiles/iOS/20x - 16.x/20H392.json"
+    },
+    {
+      "beta": false,
       "build": "21A329",
       "channel": "release",
       "display_version": "17.0",

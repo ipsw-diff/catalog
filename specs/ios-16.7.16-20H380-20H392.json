@@ -1,0 +1,27 @@
+{
+  "destination": {
+    "manifest_path": "manifests/16_7_15_20H380_vs_16_7_16_20H392.json",
+    "payload_path": "diffs/16_7_15_20H380_vs_16_7_16_20H392",
+    "repository": "https://github.com/ipsw-diff/ios-16"
+  },
+  "device": "iPhone10,3",
+  "from": {
+    "build": "20H380",
+    "input": "iPhone10,3,iPhone10,6_16.7.15_20H380_Restore.ipsw",
+    "version": "16.7.15"
+  },
+  "id": "ios-16.7.16-20H380-20H392",
+  "major_version": 16,
+  "platform": "iOS",
+  "schema_version": 1,
+  "source": {
+    "commit": "ee0763d61f61d5e85a6b191199b9291ba39543a1",
+    "path": "16_7_15_20H380_vs_16_7_16_20H392",
+    "repository": "https://github.com/ipsw-diff/ios-16"
+  },
+  "to": {
+    "build": "20H392",
+    "input": "iPhone10,3,iPhone10,6_16.7.16_20H392_Restore.ipsw",
+    "version": "16.7.16"
+  }
+}
