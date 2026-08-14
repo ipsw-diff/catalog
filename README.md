@@ -219,10 +219,11 @@ Full comparison and integrity details are in the version browser below.
 </details>
 
 <details>
-<summary><strong>iOS 15</strong> · 1 diff</summary>
+<summary><strong>iOS 15</strong> · 2 diffs</summary>
 
 | Device | Comparison | Integrity |
 | --- | --- | --- |
+| `iPod9,1` | [15.8.7 (19H411) → 15.8.8 (19H422)](https://github.com/ipsw-diff/ios-15/blob/cfb419fd06a27e0a66ea3f64d2148e21d44452ad/diffs/15_8_7_19H411_vs_15_8_8_19H422/README.md) | `685a5f409b13` · 9 files · 13,101 bytes · [manifest](https://github.com/ipsw-diff/ios-15/blob/cfb419fd06a27e0a66ea3f64d2148e21d44452ad/manifests/15_8_7_19H411_vs_15_8_8_19H422.json) |
 | `iPodtouch_7` | [15.8.6 (19H402) → 15.8.7 (19H411)](https://github.com/ipsw-diff/ios-15/blob/57d0ea0143913199c0585265319d6800d858fc39/diffs/15_8_6_19H402__vs_15_8_7_19H411/README.md) | `721ca55fb96c` · 1 files · 10,605 bytes · [manifest](https://github.com/ipsw-diff/ios-15/blob/57d0ea0143913199c0585265319d6800d858fc39/manifests/15_8_6_19H402__vs_15_8_7_19H411.json) |
 
 </details>
