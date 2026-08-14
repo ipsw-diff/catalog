@@ -68,7 +68,7 @@ default-branch commits:
 | iOS 18 | `13cb572f327d0bb768e7604b8579348e6983e524` |
 | iOS 26 | `760c616ec6a23bb734a7e73a6964a1bb162ecbe3` |
 | iOS 27 | `02a1347af0fba002b609dc4621e49908d94502e3` |
-| macOS 15 | `cbcc4b65101dd58a82a0d88df9f7c136f5441bad` |
+| macOS 15 | `f5b44667c85ac5c32eab73b345bd740a6436041e` |
 | macOS 26 | `e74d2042bc3f6dfe3e877df76fc32c6161ffda1b` |
 | macOS 27 | `5ae46bec474cd7c18200bf05e0e2c65cea39f0df` |
 
@@ -85,13 +85,29 @@ second edge, or announce externally.
 
 | Stage | Pilot evidence required | Status |
 | --- | --- | --- |
-| Selection and trigger | A reviewed macOS 15 caller dispatches only when discovery reports `candidate` | Unresolved |
-| Inputs and resources | One exact AppleDB commit and two detector-selected IPSWs pass size and SHA-256 checks | Unresolved |
-| Transformation and signing | Pinned `ipsw diff` flags produce one payload and both commits are unsigned | Unresolved |
-| Advertisement and options | Caller and reusable workflow are pinned by full commit SHA with bounded permissions | Unresolved |
+| Selection and trigger | A reviewed macOS 15 caller dispatches only when discovery reports `candidate` | Closed |
+| Inputs and resources | One exact AppleDB commit and two detector-selected IPSWs pass size and SHA-256 checks | Closed |
+| Transformation and signing | Pinned `ipsw diff` flags produce one payload and both commits are unsigned | Closed |
+| Advertisement and options | Full workflow pins, bounded token permissions, and repository policy permit PR creation | Closed |
 | Dispatch and transport | Atomic non-overwriting branch/tag push and exactly one ready review PR | Unresolved |
-| State transition | Payload-only source commit precedes canonical publication commit | Unresolved |
-| Outcome oracle | Source/destination trees match and the generated destination leaves the queue | Unresolved |
+| State transition | Payload-only source commit precedes canonical publication commit | Closed |
+| Outcome oracle | Source/destination trees match and the generated destination leaves the queue | Closed |
+
+Hosted run [31765590172](https://github.com/ipsw-diff/macos-15/actions/runs/31765590172)
+used macOS 15 caller `f5b44667c85ac5c32eab73b345bd740a6436041e`,
+catalog workflow `b2acda91fb3a16d1a9779d564b64ba8bac37b50d`, AppleDB
+commit `8e3f8002f17cb54cb39f050e09e2028d3fdb8270`, and `ipsw`
+3.1.708. It verified both inputs, generated the first edge, created unsigned
+source commit `656c9385aa86df13dd44e2ee33ae343d09acd226` followed by
+publication commit `fb305ab40ac703ef5256117ca700dcdf593b8604`, proved equal
+payload trees and a post-publication queue transition, and atomically pushed
+the branch and source tag. GitHub then rejected only the ready-PR API call
+because Actions PR creation was disabled. The organization policy is now
+enabled, and pull request
+[ipsw-diff/macos-15#5](https://github.com/ipsw-diff/macos-15/pull/5)
+recovered the exact generated branch without rewriting it and merged as
+`a3d4e9f54153704fcda18ff24e8b0ad388b3c275`. Manual recovery does not close
+automatic PR transport; a later Actions-created PR must supply that evidence.
 
 ## Negative-evidence audit
 
@@ -131,19 +147,24 @@ inventories, and every shard's merged manifests:
 The macOS 15 rehearsal initially exposed a false chronological edge from a
 15.5 beta back to 15.4.1. The final planner instead continues 15.5 betas from
 the 15.5 beta anchor and routes 15.4.1 from merged 15.4 final build `24E248`.
-Generation state and final shard/catalog merge identities remain unexercised.
+The first macOS 15 generation and shard-merge transitions are exercised; the
+final catalog merge identity remains unexercised.
 
 ## Unresolved rows and stop conditions
 
-All lifecycle rows remain unresolved until the central queue contract is merged
-and each shard has a reviewed policy and caller. Generation must stop on an
-ambiguous release order, missing intermediate build, duplicate active source,
-unsupported device, moving dependency revision, existing publication ref, or
-catalog identity mismatch.
+Automatic ready-PR transport remains unresolved. Generation must stop before
+large downloads when repository policy forbids Actions PR creation, and must
+also stop on an ambiguous release order, missing intermediate build, duplicate
+active source, unsupported device, moving dependency revision, existing
+publication ref, or catalog identity mismatch. An authoritative pre-download
+policy query requires the planned admin-readable GitHub App; `GITHUB_TOKEN`
+cannot read that repository setting. Until the App is installed, the enabled
+organization policy remains an externally verified activation prerequisite.
 
 ## Bounded conclusion
 
-The merged macOS 27 workflows prove reviewed wiring but did not exercise a
-candidate. They do not establish unattended or multi-shard generation coverage.
-This document remains open until the macOS 15 hosted pilot and every
-success-critical matrix row are closed.
+The macOS 15 hosted pilot proves selection through validated branch/tag
+publication for one edge, but its ready PR required manual recovery after a
+repository-policy denial. It does not establish automatic PR transport,
+later-edge, or multi-shard generation coverage. This document remains open
+until every success-critical matrix row is closed.

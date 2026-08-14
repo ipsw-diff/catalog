@@ -5,7 +5,13 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-from ipsw_diff_catalog.git import blob_at_path, identity, resolve_commit, run_git
+from ipsw_diff_catalog.git import (
+    blob_at_path,
+    blob_oid_at_path,
+    identity,
+    resolve_commit,
+    run_git,
+)
 from ipsw_diff_catalog.model import (
     CatalogError,
     MigrationSpec,
@@ -65,6 +71,37 @@ def _fetch_commit(path: Path, commit: str) -> None:
         )
 
 
+def _fetch_blobs(path: Path, object_ids: set[str]) -> None:
+    if not object_ids:
+        return
+    command = [
+        "git",
+        "-C",
+        os.fspath(path),
+        "-c",
+        "fetch.negotiationAlgorithm=noop",
+        "fetch",
+        "--quiet",
+        "origin",
+        "--no-tags",
+        "--no-write-fetch-head",
+        "--recurse-submodules=no",
+        "--filter=blob:none",
+        "--stdin",
+    ]
+    requests = "".join(f"{object_id}\n" for object_id in sorted(object_ids))
+    try:
+        subprocess.run(  # noqa: S603
+            command,
+            check=True,
+            capture_output=True,
+            input=requests,
+            text=True,
+        )
+    except (OSError, subprocess.CalledProcessError) as error:
+        raise CatalogError("cannot batch-fetch remote audit blobs") from error
+
+
 def audit(entries_dir: Path, specs_dir: Path) -> int:
     entries = load_entries(entries_dir)
     specs = _load_specs(specs_dir)
@@ -89,12 +126,44 @@ def audit(entries_dir: Path, specs_dir: Path) -> int:
             repositories[url] = path
             return path
 
+        required_blobs: dict[Path, set[str]] = {}
         for entry in entries:
             spec = specs[entry.identifier]
             source_repo = repository(spec.source.repository)
             destination_repo = repository(entry.destination_repository)
             _fetch_commit(source_repo, spec.source.commit)
             _fetch_commit(destination_repo, entry.destination_commit)
+            source_commit = resolve_commit(source_repo, spec.source.commit)
+            destination_commit = resolve_commit(
+                destination_repo,
+                entry.destination_commit,
+            )
+            required_blobs.setdefault(source_repo, set()).add(
+                blob_oid_at_path(source_repo, source_commit, spec.source_entrypoint)
+            )
+            destination_blobs = required_blobs.setdefault(destination_repo, set())
+            destination_blobs.add(
+                blob_oid_at_path(
+                    destination_repo,
+                    destination_commit,
+                    spec.destination.manifest_path,
+                )
+            )
+            destination_blobs.add(
+                blob_oid_at_path(
+                    destination_repo,
+                    destination_commit,
+                    spec.entrypoint,
+                )
+            )
+
+        for path, object_ids in required_blobs.items():
+            _fetch_blobs(path, object_ids)
+
+        for entry in entries:
+            spec = specs[entry.identifier]
+            source_repo = repository(spec.source.repository)
+            destination_repo = repository(entry.destination_repository)
             source = validate_source_identity(spec, source_repo)
             destination_commit = resolve_commit(destination_repo, entry.destination_commit)
             destination = identity(

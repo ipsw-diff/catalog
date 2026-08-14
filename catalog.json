@@ -5745,6 +5745,40 @@
         "input": "UniversalMac_15.5_24F5042g_Restore.ipsw",
         "version": "15.5"
       }
+    },
+    {
+      "destination": {
+        "commit": "a3d4e9f54153704fcda18ff24e8b0ad388b3c275",
+        "entrypoint": "diffs/15_5_24F5042g_vs_15_5_24F5053f/README.md",
+        "manifest_path": "manifests/15_5_24F5042g_vs_15_5_24F5053f.json",
+        "payload_path": "diffs/15_5_24F5042g_vs_15_5_24F5053f",
+        "repository": "https://github.com/ipsw-diff/macos-15"
+      },
+      "device": "Mac16,1",
+      "from": {
+        "build": "24F5042g",
+        "input": "UniversalMac_15.5_24F5042g_Restore.ipsw",
+        "version": "15.5"
+      },
+      "id": "macos-15.5-24F5042g-24F5053f",
+      "integrity": {
+        "git_tree": "157ce93d8278bff81561dbeaefc966994a27dc61",
+        "logical_bytes": 8047620,
+        "tracked_file_count": 1483
+      },
+      "major_version": 15,
+      "platform": "macOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "656c9385aa86df13dd44e2ee33ae343d09acd226",
+        "path": "15_5_24F5042g_vs_15_5_24F5053f",
+        "repository": "https://github.com/ipsw-diff/macos-15"
+      },
+      "to": {
+        "build": "24F5053f",
+        "input": "UniversalMac_15.5_24F5053f_Restore.ipsw",
+        "version": "15.5"
+      }
     }
   ],
   "schema_version": 1

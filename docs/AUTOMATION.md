@@ -43,7 +43,7 @@ update the catalog, or announce externally.
 | iOS 18 | `ipsw-diff/ios-18` | `os=iOS`, `device=iPhone11,8`, major `18` | `22H340` | Scheduled discovery merged |
 | iOS 26 | `ipsw-diff/ios-26` | `os=iOS`, `device=iPhone18,1`, major `26` | `23G82` | Scheduled discovery merged |
 | iOS 27 | `ipsw-diff/ios-27` | `os=iOS`, `device=iPhone18,1`, major `27` | `24A5408d` | Scheduled discovery merged |
-| macOS 15 | `ipsw-diff/macos-15` | `os=macOS`, `device=Mac16,1`, major `15` | `24F5042g` | Scheduled discovery merged |
+| macOS 15 | `ipsw-diff/macos-15` | `os=macOS`, `device=Mac16,1`, major `15` | `24F5042g` | First generated edge merged; automatic PR transport pending |
 | macOS 26 | `ipsw-diff/macos-26` | `os=macOS`, `device=Mac17,6`, major `26` | `25G82` | Scheduled discovery merged |
 | macOS 27 | `ipsw-diff/macos-27` | `os=macOS`, `device=Mac17,6`, major `27` | `26A5406e` | Scheduled discovery and candidate-generation wiring merged |
 
@@ -134,8 +134,9 @@ environment and recheck [current pricing][x-pricing] at activation time.
 - macOS 27 candidate dispatch and ready-PR pilot merged, but no hosted candidate
   has exercised the costly path yet.
 - The reusable generator passes static and live read-only contract checks.
-- One macOS 15 backlog edge completes a hosted generation run before broader
-  generator activation.
+- One macOS 15 backlog edge completed hosted generation and merged; its PR was
+  recovered manually, so the next bounded edge must prove automatic PR
+  transport before broader generator activation.
 - Organization GitHub App permissions reviewed and installation scoped.
 - X account/app policy setup complete; environment secrets and spending cap set.
 - A dry-run announcement prints exact JSON and creates no external state.
