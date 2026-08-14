@@ -184,6 +184,26 @@ def test_reconcile_does_not_rederive_recorded_legacy_manifest(
     assert result.reconciled_count == 0
 
 
+def test_reconcile_classifies_recorded_nested_manifest(
+    generated_shard: GeneratedShard,
+    tmp_path: Path,
+) -> None:
+    specs = tmp_path / "specs"
+    entries = tmp_path / "entries"
+    reconcile(generated_shard.repo, generated_shard.destination_commit, specs, entries)
+    old_path = generated_shard.spec.destination.manifest_path
+    nested_path = f"manifests/{generated_shard.spec.device}/{generated_shard.spec.source.path}.json"
+    (generated_shard.repo / "manifests" / generated_shard.spec.device).mkdir()
+    git(generated_shard.repo, "mv", old_path, nested_path)
+    destination_commit = commit_all(generated_shard.repo, "nest recorded manifest")
+
+    result = reconcile(generated_shard.repo, destination_commit, specs, entries)
+
+    assert result.manifest_count == 1
+    assert result.recorded_count == 1
+    assert result.reconciled_count == 0
+
+
 def test_reconcile_rejects_abbreviated_destination_revision(
     generated_shard: GeneratedShard,
     tmp_path: Path,

@@ -19,12 +19,6 @@ from tests.helpers import populate_destination
 if TYPE_CHECKING:
     from tests.helpers import Repositories
 
-_EXPECTED_REAL_ENTRIES = 171
-_EXPECTED_REAL_RELEASES = 191
-_EXPECTED_REAL_BETAS = 95
-_EXPECTED_REAL_RCS = 18
-_EXPECTED_REAL_FINAL_RELEASES = 78
-
 
 def _record_fixture(repositories: Repositories, entries: Path) -> None:
     commit = populate_destination(repositories)
@@ -346,11 +340,17 @@ def test_checked_in_release_registry_exactly_covers_the_real_catalog() -> None:
     entries = load_entries(Path("entries"))
     labels = load_release_labels(Path("metadata/releases.json"), entries)
 
-    assert len(entries) == _EXPECTED_REAL_ENTRIES
-    assert len(labels) == _EXPECTED_REAL_RELEASES
-    assert sum(label.channel == "beta" for label in labels.values()) == _EXPECTED_REAL_BETAS
-    assert sum(label.channel == "rc" for label in labels.values()) == _EXPECTED_REAL_RCS
-    assert (
-        sum(label.channel == "release" for label in labels.values())
-        == _EXPECTED_REAL_FINAL_RELEASES
-    )
+    expected_endpoints = {
+        (entry.platform, release.build)
+        for entry in entries
+        for release in (entry.previous, entry.next)
+    }
+    channel_counts = {
+        channel: sum(label.channel == channel for label in labels.values())
+        for channel in ("beta", "rc", "release")
+    }
+
+    assert entries
+    assert set(labels) == expected_endpoints
+    assert sum(channel_counts.values()) == len(labels)
+    assert all(count > 0 for count in channel_counts.values())

@@ -104,8 +104,17 @@ The local `reconcile` command is the fail-closed core of that transition. It
 accepts only an already-fetched shard repository plus a full merge SHA, derives
 missing specs from canonical generated manifests, requires matching provenance
 and immutable source tags, and writes only preflighted spec/entry pairs. It does
-not fetch, render, commit, push, or open a pull request; scheduled discovery and
-write-capable catalog publication remain a separate activation step.
+not fetch, render, commit, push, or open a pull request.
+
+The catalog publication workflow keeps that core behind a reviewed ten-shard
+registry. Its read-only job resolves every shard default branch and AppleDB to
+full commits, reconciles all shards, and reports only `current` or `candidate`.
+Only a candidate starts the separately permissioned publication job. That job
+replays the exact resolved commits, regenerates release metadata and indexes,
+runs the complete audit, creates one unsigned content-addressed commit, and
+opens one ready pull request. It cannot overwrite a generated branch, merge,
+or announce. Pull-request-triggered checks created with `GITHUB_TOKEN` still
+require manual approval by a repository writer.
 
 ## X announcement transition
 
