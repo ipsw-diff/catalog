@@ -79,7 +79,7 @@ jobs:
 
       - name: Fetch pinned AppleDB metadata commit
         env:
-          APPLEDB_COMMIT: ff4db9a3836c567087dc7f2efda2b27877664ebb
+          APPLEDB_COMMIT: 8e3f8002f17cb54cb39f050e09e2028d3fdb8270
         run: |
           set -euo pipefail
           git init --quiet --object-format=sha1 appledb
@@ -96,7 +96,7 @@ jobs:
         run: >-
           uv run ipsw-diff-catalog release-metadata
           --appledb-repo appledb
-          --appledb-commit ff4db9a3836c567087dc7f2efda2b27877664ebb
+          --appledb-commit 8e3f8002f17cb54cb39f050e09e2028d3fdb8270
           --output metadata/releases.json
           --check
 
