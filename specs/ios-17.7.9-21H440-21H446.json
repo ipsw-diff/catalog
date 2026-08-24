@@ -1,0 +1,27 @@
+{
+  "destination": {
+    "manifest_path": "manifests/17_7_8_21H440_vs_17_7_9_21H446.json",
+    "payload_path": "diffs/17_7_8_21H440_vs_17_7_9_21H446",
+    "repository": "https://github.com/ipsw-diff/ios-17"
+  },
+  "device": "iPad7,5",
+  "from": {
+    "build": "21H440",
+    "input": "iPad_64bit_TouchID_ASTC_17.7.8_21H440_Restore.ipsw",
+    "version": "17.7.8"
+  },
+  "id": "ios-17.7.9-21H440-21H446",
+  "major_version": 17,
+  "platform": "iOS",
+  "schema_version": 1,
+  "source": {
+    "commit": "6741fd0170528c3fb2b356527bb59a4371e00446",
+    "path": "17_7_8_21H440_vs_17_7_9_21H446",
+    "repository": "https://github.com/ipsw-diff/ios-17"
+  },
+  "to": {
+    "build": "21H446",
+    "input": "iPad_64bit_TouchID_ASTC_17.7.9_21H446_Restore.ipsw",
+    "version": "17.7.9"
+  }
+}

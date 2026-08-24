@@ -392,6 +392,16 @@
     },
     {
       "beta": false,
+      "build": "21H446",
+      "channel": "release",
+      "display_version": "17.7.9",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-07-29",
+      "source_path": "osFiles/iPadOS/21x - 17.x/21H446.json"
+    },
+    {
+      "beta": false,
       "build": "22A3354",
       "channel": "release",
       "display_version": "18.0",
@@ -1049,6 +1059,16 @@
       "rc": false,
       "released": "2026-04-22",
       "source_path": "osFiles/iOS/22x - 18.x/22H352.json"
+    },
+    {
+      "beta": false,
+      "build": "22H355",
+      "channel": "release",
+      "display_version": "18.7.9",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-05-11",
+      "source_path": "osFiles/iOS/22x - 18.x/22H355.json"
     },
     {
       "beta": false,
@@ -1772,6 +1792,16 @@
     },
     {
       "beta": true,
+      "build": "24F5053j",
+      "channel": "beta",
+      "display_version": "15.5 beta 3",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2025-04-21",
+      "source_path": "osFiles/macOS/24x - 15.x/24F5053j.json"
+    },
+    {
+      "beta": true,
       "build": "25D5087f",
       "channel": "beta",
       "display_version": "26.3 beta",
@@ -1983,7 +2013,7 @@
   ],
   "schema_version": 1,
   "source": {
-    "commit": "06d4daf8c3bba8074d71a9f0324788841b141b97",
+    "commit": "f0318d4655f8d9ef5069aab560e80d6e35da59a3",
     "repository": "https://github.com/littlebyteorg/appledb"
   }
 }
