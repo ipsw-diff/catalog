@@ -13,9 +13,9 @@ Full comparison and integrity details are in the version browser below.
 
 ### iOS 27
 
+- [27.0 beta 7 (`24A5424a`)](https://github.com/ipsw-diff/ios-27/blob/fc30f522f8d6d236fa985590e206c9ed12f9ad71/diffs/27_0_24A5418b_vs_27_0_24A5424a/README.md) ← 27.0 beta 6 (`24A5418b`)
 - [27.0 beta 6 (`24A5418b`)](https://github.com/ipsw-diff/ios-27/blob/b730b3629840ae2c1fd6c7ebc9f06d38ed068520/diffs/27_0_24A5408d_vs_27_0_24A5418b/README.md) ← 27.0 beta 5 (`24A5408d`)
 - [27.0 beta 5 (`24A5408d`)](https://github.com/ipsw-diff/ios-27/blob/2ed100600c64666ae0347694e17e0aa2f80cb63e/diffs/27_0_24A5390f_vs_27_0_24A5408d/README.md) ← 27.0 beta 4 (`24A5390f`)
-- [27.0 beta 4 (`24A5390f`)](https://github.com/ipsw-diff/ios-27/blob/148f4599b7caf915be62d6c68b121e8cf8362fd7/diffs/27_0_24A5380h_vs_27_0_24A5390f/README.md) ← 27.0 beta 3 (`24A5380h`)
 
 ### macOS 27
 
@@ -28,10 +28,11 @@ Full comparison and integrity details are in the version browser below.
 ### iOS
 
 <details>
-<summary><strong>iOS 27</strong> · 6 diffs</summary>
+<summary><strong>iOS 27</strong> · 7 diffs</summary>
 
 | Device | Comparison | Integrity |
 | --- | --- | --- |
+| `iPhone18,1` | [27.0 beta 6 (24A5418b) → 27.0 beta 7 (24A5424a)](https://github.com/ipsw-diff/ios-27/blob/fc30f522f8d6d236fa985590e206c9ed12f9ad71/diffs/27_0_24A5418b_vs_27_0_24A5424a/README.md) | `f8e4a066f02b` · 130 files · 729,982 bytes · [manifest](https://github.com/ipsw-diff/ios-27/blob/fc30f522f8d6d236fa985590e206c9ed12f9ad71/manifests/27_0_24A5418b_vs_27_0_24A5424a.json) |
 | `iPhone18,1` | [27.0 beta 5 (24A5408d) → 27.0 beta 6 (24A5418b)](https://github.com/ipsw-diff/ios-27/blob/b730b3629840ae2c1fd6c7ebc9f06d38ed068520/diffs/27_0_24A5408d_vs_27_0_24A5418b/README.md) | `d45a3eb67cbc` · 942 files · 3,187,277 bytes · [manifest](https://github.com/ipsw-diff/ios-27/blob/b730b3629840ae2c1fd6c7ebc9f06d38ed068520/manifests/27_0_24A5408d_vs_27_0_24A5418b.json) |
 | `iPhone18,1` | [27.0 beta 4 (24A5390f) → 27.0 beta 5 (24A5408d)](https://github.com/ipsw-diff/ios-27/blob/2ed100600c64666ae0347694e17e0aa2f80cb63e/diffs/27_0_24A5390f_vs_27_0_24A5408d/README.md) | `c8b4d57f870c` · 4,389 files · 57,800,821 bytes · [manifest](https://github.com/ipsw-diff/ios-27/blob/2ed100600c64666ae0347694e17e0aa2f80cb63e/manifests/27_0_24A5390f_vs_27_0_24A5408d.json) |
 | `iPhone18,1` | [27.0 beta 3 (24A5380h) → 27.0 beta 4 (24A5390f)](https://github.com/ipsw-diff/ios-27/blob/148f4599b7caf915be62d6c68b121e8cf8362fd7/diffs/27_0_24A5380h_vs_27_0_24A5390f/README.md) | `0f83eb81bd45` · 8,225 files · 57,188,642 bytes · [manifest](https://github.com/ipsw-diff/ios-27/blob/148f4599b7caf915be62d6c68b121e8cf8362fd7/manifests/27_0_24A5380h_vs_27_0_24A5390f.json) |
@@ -180,10 +181,11 @@ Full comparison and integrity details are in the version browser below.
 </details>
 
 <details>
-<summary><strong>iOS 17</strong> · 26 diffs</summary>
+<summary><strong>iOS 17</strong> · 27 diffs</summary>
 
 | Device | Comparison | Integrity |
 | --- | --- | --- |
+| `iPad7,5` | [17.7.9 (21H446) → 17.7.10 (21H450)](https://github.com/ipsw-diff/ios-17/blob/626539374e248f37f2675b3202181dce6844d24f/diffs/17_7_9_21H446_vs_17_7_10_21H450/README.md) | `a5958de8d772` · 2 files · 1,265 bytes · [manifest](https://github.com/ipsw-diff/ios-17/blob/626539374e248f37f2675b3202181dce6844d24f/manifests/17_7_9_21H446_vs_17_7_10_21H450.json) |
 | `iPad7,5` | [17.7.8 (21H440) → 17.7.9 (21H446)](https://github.com/ipsw-diff/ios-17/blob/6c264d429e041b4e7abfff06b4fb9adffe6bef83/diffs/17_7_8_21H440_vs_17_7_9_21H446/README.md) | `fbf79c1f2492` · 103 files · 145,523 bytes · [manifest](https://github.com/ipsw-diff/ios-17/blob/6c264d429e041b4e7abfff06b4fb9adffe6bef83/manifests/17_7_8_21H440_vs_17_7_9_21H446.json) |
 | `iPad` | [17.7.7 (21H433) → 17.7.8 (21H440)](https://github.com/ipsw-diff/ios-17/blob/28fd3d571d396c6030354e4a5cab91ab75aba685/diffs/17_7_7_21H433__vs_17_7_8_21H440/README.md) | `5dc6be01ccd3` · 1 files · 3,377 bytes · [manifest](https://github.com/ipsw-diff/ios-17/blob/28fd3d571d396c6030354e4a5cab91ab75aba685/manifests/17_7_7_21H433__vs_17_7_8_21H440.json) |
 | `iPad` | [17.7.5 (21H420) → 17.7.6 (21H423)](https://github.com/ipsw-diff/ios-17/blob/28fd3d571d396c6030354e4a5cab91ab75aba685/diffs/17_7_5_21H420__vs_17_7_6_21H423/README.md) | `6b1622a19fce` · 68 files · 147,199 bytes · [manifest](https://github.com/ipsw-diff/ios-17/blob/28fd3d571d396c6030354e4a5cab91ab75aba685/manifests/17_7_5_21H420__vs_17_7_6_21H423.json) |

@@ -206,6 +206,40 @@
     },
     {
       "destination": {
+        "commit": "fc30f522f8d6d236fa985590e206c9ed12f9ad71",
+        "entrypoint": "diffs/27_0_24A5418b_vs_27_0_24A5424a/README.md",
+        "manifest_path": "manifests/27_0_24A5418b_vs_27_0_24A5424a.json",
+        "payload_path": "diffs/27_0_24A5418b_vs_27_0_24A5424a",
+        "repository": "https://github.com/ipsw-diff/ios-27"
+      },
+      "device": "iPhone18,1",
+      "from": {
+        "build": "24A5418b",
+        "input": "iPhone18,1_27.0_24A5418b_Restore.ipsw",
+        "version": "27.0"
+      },
+      "id": "ios-27.0-24A5418b-24A5424a",
+      "integrity": {
+        "git_tree": "f8e4a066f02b1533fc7feb504e72c857b4ce0f24",
+        "logical_bytes": 729982,
+        "tracked_file_count": 130
+      },
+      "major_version": 27,
+      "platform": "iOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "202439e9a0962b5f001fa539995e91771a9f239d",
+        "path": "27_0_24A5418b_vs_27_0_24A5424a",
+        "repository": "https://github.com/ipsw-diff/ios-27"
+      },
+      "to": {
+        "build": "24A5424a",
+        "input": "iPhone18,1_27.0_24A5424a_Restore.ipsw",
+        "version": "27.0"
+      }
+    },
+    {
+      "destination": {
         "commit": "181d2d99f2d683c3e4df8a62949568c109785dc1",
         "entrypoint": "diffs/26_0_23A5336a__vs_26_0_23A340/README.md",
         "manifest_path": "manifests/26_0_23A5336a__vs_26_0_23A340.json",
@@ -5132,6 +5166,40 @@
         "build": "21H16",
         "input": "iPhone16,2_17.7_21H16_Restore.ipsw",
         "version": "17.7"
+      }
+    },
+    {
+      "destination": {
+        "commit": "626539374e248f37f2675b3202181dce6844d24f",
+        "entrypoint": "diffs/17_7_9_21H446_vs_17_7_10_21H450/README.md",
+        "manifest_path": "manifests/17_7_9_21H446_vs_17_7_10_21H450.json",
+        "payload_path": "diffs/17_7_9_21H446_vs_17_7_10_21H450",
+        "repository": "https://github.com/ipsw-diff/ios-17"
+      },
+      "device": "iPad7,5",
+      "from": {
+        "build": "21H446",
+        "input": "iPad_64bit_TouchID_ASTC_17.7.9_21H446_Restore.ipsw",
+        "version": "17.7.9"
+      },
+      "id": "ios-17.7.10-21H446-21H450",
+      "integrity": {
+        "git_tree": "a5958de8d772aa7c9ee97bfc66dce7ccf53fd557",
+        "logical_bytes": 1265,
+        "tracked_file_count": 2
+      },
+      "major_version": 17,
+      "platform": "iOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "c188229c685de3ba6d4ef52517a899f55a9f4520",
+        "path": "17_7_9_21H446_vs_17_7_10_21H450",
+        "repository": "https://github.com/ipsw-diff/ios-17"
+      },
+      "to": {
+        "build": "21H450",
+        "input": "iPad_64bit_TouchID_ASTC_17.7.10_21H450_Restore.ipsw",
+        "version": "17.7.10"
       }
     },
     {
