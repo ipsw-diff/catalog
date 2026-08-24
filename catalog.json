@@ -4320,6 +4320,40 @@
     },
     {
       "destination": {
+        "commit": "edb0161ddac6373db075259d207a979d2d6091a1",
+        "entrypoint": "diffs/18_7_8_22H352_vs_18_7_9_22H355/README.md",
+        "manifest_path": "manifests/18_7_8_22H352_vs_18_7_9_22H355.json",
+        "payload_path": "diffs/18_7_8_22H352_vs_18_7_9_22H355",
+        "repository": "https://github.com/ipsw-diff/ios-18"
+      },
+      "device": "iPhone11,8",
+      "from": {
+        "build": "22H352",
+        "input": "iPhone11,8_18.7.8_22H352_Restore.ipsw",
+        "version": "18.7.8"
+      },
+      "id": "ios-18.7.9-22H352-22H355",
+      "integrity": {
+        "git_tree": "22dfb8ded312a782fea3be9513db772177341b97",
+        "logical_bytes": 339426,
+        "tracked_file_count": 298
+      },
+      "major_version": 18,
+      "platform": "iOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "5a7ad878ee7eba95150706d98095471cdcbb1319",
+        "path": "18_7_8_22H352_vs_18_7_9_22H355",
+        "repository": "https://github.com/ipsw-diff/ios-18"
+      },
+      "to": {
+        "build": "22H355",
+        "input": "iPhone11,8_18.7.9_22H355_Restore.ipsw",
+        "version": "18.7.9"
+      }
+    },
+    {
+      "destination": {
         "commit": "a234b0187dbcac26fa7c0c1ee8095c9a59140da2",
         "entrypoint": "diffs/17_0_21A329__vs_17_0_1_21A340/README.md",
         "manifest_path": "manifests/17_0_21A329__vs_17_0_1_21A340.json",
@@ -5166,6 +5200,40 @@
         "build": "21H440",
         "input": "iPad_64bit_TouchID_ASTC_17.7.8_21H440_Restore.ipsw",
         "version": "17.7.8"
+      }
+    },
+    {
+      "destination": {
+        "commit": "6c264d429e041b4e7abfff06b4fb9adffe6bef83",
+        "entrypoint": "diffs/17_7_8_21H440_vs_17_7_9_21H446/README.md",
+        "manifest_path": "manifests/17_7_8_21H440_vs_17_7_9_21H446.json",
+        "payload_path": "diffs/17_7_8_21H440_vs_17_7_9_21H446",
+        "repository": "https://github.com/ipsw-diff/ios-17"
+      },
+      "device": "iPad7,5",
+      "from": {
+        "build": "21H440",
+        "input": "iPad_64bit_TouchID_ASTC_17.7.8_21H440_Restore.ipsw",
+        "version": "17.7.8"
+      },
+      "id": "ios-17.7.9-21H440-21H446",
+      "integrity": {
+        "git_tree": "fbf79c1f2492f4fe5e1446b799d5ed11c1d867cb",
+        "logical_bytes": 145523,
+        "tracked_file_count": 103
+      },
+      "major_version": 17,
+      "platform": "iOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "6741fd0170528c3fb2b356527bb59a4371e00446",
+        "path": "17_7_8_21H440_vs_17_7_9_21H446",
+        "repository": "https://github.com/ipsw-diff/ios-17"
+      },
+      "to": {
+        "build": "21H446",
+        "input": "iPad_64bit_TouchID_ASTC_17.7.9_21H446_Restore.ipsw",
+        "version": "17.7.9"
       }
     },
     {
@@ -6049,6 +6117,40 @@
       "to": {
         "build": "24F5053f",
         "input": "UniversalMac_15.5_24F5053f_Restore.ipsw",
+        "version": "15.5"
+      }
+    },
+    {
+      "destination": {
+        "commit": "21f7d01a8d5fe29d1bde86d4fd5046c8ec2a2374",
+        "entrypoint": "diffs/15_5_24F5053f_vs_15_5_24F5053j/README.md",
+        "manifest_path": "manifests/15_5_24F5053f_vs_15_5_24F5053j.json",
+        "payload_path": "diffs/15_5_24F5053f_vs_15_5_24F5053j",
+        "repository": "https://github.com/ipsw-diff/macos-15"
+      },
+      "device": "Mac16,1",
+      "from": {
+        "build": "24F5053f",
+        "input": "UniversalMac_15.5_24F5053f_Restore.ipsw",
+        "version": "15.5"
+      },
+      "id": "macos-15.5-24F5053f-24F5053j",
+      "integrity": {
+        "git_tree": "3cb99564a3ab0a5a4643a868c6b3a20db03d81af",
+        "logical_bytes": 4150525,
+        "tracked_file_count": 1129
+      },
+      "major_version": 15,
+      "platform": "macOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "2640b1eecf565da3758ecff7a08f0aa81ccc6ca7",
+        "path": "15_5_24F5053f_vs_15_5_24F5053j",
+        "repository": "https://github.com/ipsw-diff/macos-15"
+      },
+      "to": {
+        "build": "24F5053j",
+        "input": "UniversalMac_15.5_24F5053j_Restore.ipsw",
         "version": "15.5"
       }
     }
