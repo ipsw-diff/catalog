@@ -2059,6 +2059,16 @@
       "rc": false,
       "released": "2026-08-17",
       "source_path": "osFiles/macOS/26x - 27.x/26A5416b.json"
+    },
+    {
+      "beta": true,
+      "build": "26A5421a",
+      "channel": "beta",
+      "display_version": "27.0 beta 7",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2026-08-24",
+      "source_path": "osFiles/macOS/26x - 27.x/26A5421a.json"
     }
   ],
   "schema_version": 1,
