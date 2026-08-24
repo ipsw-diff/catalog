@@ -1102,6 +1102,16 @@
     },
     {
       "beta": false,
+      "build": "22H374",
+      "channel": "release",
+      "display_version": "18.7.10",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-08-17",
+      "source_path": "osFiles/iOS/22x - 18.x/22H374.json"
+    },
+    {
+      "beta": false,
       "build": "23A340",
       "channel": "rc",
       "display_version": "26.0 RC",
@@ -1849,6 +1859,16 @@
       "rc": false,
       "released": "2025-04-28",
       "source_path": "osFiles/macOS/24x - 15.x/24F5068b.json"
+    },
+    {
+      "beta": false,
+      "build": "24F74",
+      "channel": "release",
+      "display_version": "15.5",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2025-05-12",
+      "source_path": "osFiles/macOS/24x - 15.x/24F74.json"
     },
     {
       "beta": true,

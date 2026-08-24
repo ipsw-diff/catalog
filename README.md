@@ -109,10 +109,11 @@ Full comparison and integrity details are in the version browser below.
 </details>
 
 <details>
-<summary><strong>iOS 18</strong> · 65 diffs</summary>
+<summary><strong>iOS 18</strong> · 66 diffs</summary>
 
 | Device | Comparison | Integrity |
 | --- | --- | --- |
+| `iPhone11,8` | [18.7.10 RC (22H373) → 18.7.10 (22H374)](https://github.com/ipsw-diff/ios-18/blob/d04ade632ab58984fea3043c4e0c685b4bc01afc/diffs/18_7_10_22H373_vs_18_7_10_22H374/README.md) | `73beab94baf9` · 6 files · 5,831 bytes · [manifest](https://github.com/ipsw-diff/ios-18/blob/d04ade632ab58984fea3043c4e0c685b4bc01afc/manifests/18_7_10_22H373_vs_18_7_10_22H374.json) |
 | `iPhone11,8` | [18.7.9 (22H355) → 18.7.10 RC (22H373)](https://github.com/ipsw-diff/ios-18/blob/2b2a7fee2b92b66580b2f54af4ce2eb5bbbe0f18/diffs/18_7_9_22H355_vs_18_7_10_22H373/README.md) | `845539e4a3ac` · 297 files · 48,776,266 bytes · [manifest](https://github.com/ipsw-diff/ios-18/blob/2b2a7fee2b92b66580b2f54af4ce2eb5bbbe0f18/manifests/18_7_9_22H355_vs_18_7_10_22H373.json) |
 | `iPhone11,8` | [18.7.8 (22H352) → 18.7.9 (22H355)](https://github.com/ipsw-diff/ios-18/blob/edb0161ddac6373db075259d207a979d2d6091a1/diffs/18_7_8_22H352_vs_18_7_9_22H355/README.md) | `22dfb8ded312` · 298 files · 339,426 bytes · [manifest](https://github.com/ipsw-diff/ios-18/blob/edb0161ddac6373db075259d207a979d2d6091a1/manifests/18_7_8_22H352_vs_18_7_9_22H355.json) |
 | `iPhone11,8` | [18.7.7 (22H340) → 18.7.8 (22H352)](https://github.com/ipsw-diff/ios-18/blob/38dce150c9acb0509c094130226213562ddd9b2b/diffs/18_7_7_22H340_vs_18_7_8_22H352/README.md) | `cd4b1e415826` · 16 files · 22,207 bytes · [manifest](https://github.com/ipsw-diff/ios-18/blob/38dce150c9acb0509c094130226213562ddd9b2b/manifests/18_7_7_22H340_vs_18_7_8_22H352.json) |
@@ -282,10 +283,11 @@ Full comparison and integrity details are in the version browser below.
 </details>
 
 <details>
-<summary><strong>macOS 15</strong> · 7 diffs</summary>
+<summary><strong>macOS 15</strong> · 8 diffs</summary>
 
 | Device | Comparison | Integrity |
 | --- | --- | --- |
+| `Mac16,1` | [15.5 beta 4 (24F5068b) → 15.5 (24F74)](https://github.com/ipsw-diff/macos-15/blob/aeea0d6be4d178a2278a19ba7eccdcdd029941a2/diffs/15_5_24F5068b_vs_15_5_24F74/README.md) | `cfe5c1b00618` · 955 files · 1,672,327 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/aeea0d6be4d178a2278a19ba7eccdcdd029941a2/manifests/15_5_24F5068b_vs_15_5_24F74.json) |
 | `Mac16,1` | [15.5 beta 3 (24F5053j) → 15.5 beta 4 (24F5068b)](https://github.com/ipsw-diff/macos-15/blob/2b200386ada99cbdaac24f2835f1d8c67d291e24/diffs/15_5_24F5053j_vs_15_5_24F5068b/README.md) | `166a66052893` · 1,120 files · 2,225,812 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/2b200386ada99cbdaac24f2835f1d8c67d291e24/manifests/15_5_24F5053j_vs_15_5_24F5068b.json) |
 | `Mac16,1` | [15.5 beta 2 (24F5053f) → 15.5 beta 3 (24F5053j)](https://github.com/ipsw-diff/macos-15/blob/21f7d01a8d5fe29d1bde86d4fd5046c8ec2a2374/diffs/15_5_24F5053f_vs_15_5_24F5053j/README.md) | `3cb99564a3ab` · 1,129 files · 4,150,525 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/21f7d01a8d5fe29d1bde86d4fd5046c8ec2a2374/manifests/15_5_24F5053f_vs_15_5_24F5053j.json) |
 | `Mac16,1` | [15.5 beta (24F5042g) → 15.5 beta 2 (24F5053f)](https://github.com/ipsw-diff/macos-15/blob/a3d4e9f54153704fcda18ff24e8b0ad388b3c275/diffs/15_5_24F5042g_vs_15_5_24F5053f/README.md) | `157ce93d8278` · 1,483 files · 8,047,620 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/a3d4e9f54153704fcda18ff24e8b0ad388b3c275/manifests/15_5_24F5042g_vs_15_5_24F5053f.json) |
