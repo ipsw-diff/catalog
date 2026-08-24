@@ -402,6 +402,16 @@
     },
     {
       "beta": false,
+      "build": "21H450",
+      "channel": "release",
+      "display_version": "17.7.10",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2025-08-20",
+      "source_path": "osFiles/iPadOS/21x - 17.x/21H450.json"
+    },
+    {
+      "beta": false,
       "build": "22A3354",
       "channel": "release",
       "display_version": "18.0",
@@ -1719,6 +1729,16 @@
       "rc": false,
       "released": "2026-08-17",
       "source_path": "osFiles/iOS/24x - 27.x/24A5418b.json"
+    },
+    {
+      "beta": true,
+      "build": "24A5424a",
+      "channel": "beta",
+      "display_version": "27.0 beta 7",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-08-24",
+      "source_path": "osFiles/iOS/24x - 27.x/24A5424a.json"
     },
     {
       "beta": true,
