@@ -1892,6 +1892,16 @@
     },
     {
       "beta": true,
+      "build": "24G5074c",
+      "channel": "beta",
+      "display_version": "15.6 beta 3",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2025-07-14",
+      "source_path": "osFiles/macOS/24x - 15.x/24G5074c.json"
+    },
+    {
+      "beta": true,
       "build": "25D5087f",
       "channel": "beta",
       "display_version": "26.3 beta",

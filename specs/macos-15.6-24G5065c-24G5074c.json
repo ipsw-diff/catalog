@@ -1,0 +1,27 @@
+{
+  "destination": {
+    "manifest_path": "manifests/15_6_24G5065c_vs_15_6_24G5074c.json",
+    "payload_path": "diffs/15_6_24G5065c_vs_15_6_24G5074c",
+    "repository": "https://github.com/ipsw-diff/macos-15"
+  },
+  "device": "Mac16,1",
+  "from": {
+    "build": "24G5065c",
+    "input": "UniversalMac_15.6_24G5065c_Restore.ipsw",
+    "version": "15.6"
+  },
+  "id": "macos-15.6-24G5065c-24G5074c",
+  "major_version": 15,
+  "platform": "macOS",
+  "schema_version": 1,
+  "source": {
+    "commit": "198b01f67a670c73fb32b43a0f6df2fdf30ae270",
+    "path": "15_6_24G5065c_vs_15_6_24G5074c",
+    "repository": "https://github.com/ipsw-diff/macos-15"
+  },
+  "to": {
+    "build": "24G5074c",
+    "input": "UniversalMac_15.6_24G5074c_Restore.ipsw",
+    "version": "15.6"
+  }
+}
