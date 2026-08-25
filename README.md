@@ -283,10 +283,11 @@ Full comparison and integrity details are in the version browser below.
 </details>
 
 <details>
-<summary><strong>macOS 15</strong> · 9 diffs</summary>
+<summary><strong>macOS 15</strong> · 10 diffs</summary>
 
 | Device | Comparison | Integrity |
 | --- | --- | --- |
+| `Mac16,1` | [15.6 beta (24G5054d) → 15.6 beta 2 (24G5065c)](https://github.com/ipsw-diff/macos-15/blob/2894af0ad7041d3d23549307debe02ea5eefeef8/diffs/15_6_24G5054d_vs_15_6_24G5065c/README.md) | `7920bf3742eb` · 667 files · 6,663,719 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/2894af0ad7041d3d23549307debe02ea5eefeef8/manifests/15_6_24G5054d_vs_15_6_24G5065c.json) |
 | `Mac16,1` | [15.5 (24F74) → 15.6 beta (24G5054d)](https://github.com/ipsw-diff/macos-15/blob/b032cd08a01f083cda69099b8ba47ba3fad5d58b/diffs/15_5_24F74_vs_15_6_24G5054d/README.md) | `38e46faba166` · 3,528 files · 10,930,197 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/b032cd08a01f083cda69099b8ba47ba3fad5d58b/manifests/15_5_24F74_vs_15_6_24G5054d.json) |
 | `Mac16,1` | [15.5 beta 4 (24F5068b) → 15.5 (24F74)](https://github.com/ipsw-diff/macos-15/blob/aeea0d6be4d178a2278a19ba7eccdcdd029941a2/diffs/15_5_24F5068b_vs_15_5_24F74/README.md) | `cfe5c1b00618` · 955 files · 1,672,327 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/aeea0d6be4d178a2278a19ba7eccdcdd029941a2/manifests/15_5_24F5068b_vs_15_5_24F74.json) |
 | `Mac16,1` | [15.5 beta 3 (24F5053j) → 15.5 beta 4 (24F5068b)](https://github.com/ipsw-diff/macos-15/blob/2b200386ada99cbdaac24f2835f1d8c67d291e24/diffs/15_5_24F5053j_vs_15_5_24F5068b/README.md) | `166a66052893` · 1,120 files · 2,225,812 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/2b200386ada99cbdaac24f2835f1d8c67d291e24/manifests/15_5_24F5053j_vs_15_5_24F5068b.json) |
