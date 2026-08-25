@@ -6527,6 +6527,74 @@
         "input": "UniversalMac_15.6_24G5074c_Restore.ipsw",
         "version": "15.6"
       }
+    },
+    {
+      "destination": {
+        "commit": "06356975719c8c5868dc3bc958b091952cefc7e8",
+        "entrypoint": "diffs/15_6_24G5074c_vs_15_6_24G84/README.md",
+        "manifest_path": "manifests/15_6_24G5074c_vs_15_6_24G84.json",
+        "payload_path": "diffs/15_6_24G5074c_vs_15_6_24G84",
+        "repository": "https://github.com/ipsw-diff/macos-15"
+      },
+      "device": "Mac16,1",
+      "from": {
+        "build": "24G5074c",
+        "input": "UniversalMac_15.6_24G5074c_Restore.ipsw",
+        "version": "15.6"
+      },
+      "id": "macos-15.6-24G5074c-24G84",
+      "integrity": {
+        "git_tree": "8ffb089a297273a10e1475c9f37d7ca3a11233e1",
+        "logical_bytes": 3309205,
+        "tracked_file_count": 1205
+      },
+      "major_version": 15,
+      "platform": "macOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "155e8ad98c1f23e1264f1b480a2d64f0d3c29333",
+        "path": "15_6_24G5074c_vs_15_6_24G84",
+        "repository": "https://github.com/ipsw-diff/macos-15"
+      },
+      "to": {
+        "build": "24G84",
+        "input": "UniversalMac_15.6_24G84_Restore.ipsw",
+        "version": "15.6"
+      }
+    },
+    {
+      "destination": {
+        "commit": "06356975719c8c5868dc3bc958b091952cefc7e8",
+        "entrypoint": "diffs/15_6_24G84_vs_15_6_1_24G90/README.md",
+        "manifest_path": "manifests/15_6_24G84_vs_15_6_1_24G90.json",
+        "payload_path": "diffs/15_6_24G84_vs_15_6_1_24G90",
+        "repository": "https://github.com/ipsw-diff/macos-15"
+      },
+      "device": "Mac16,1",
+      "from": {
+        "build": "24G84",
+        "input": "UniversalMac_15.6_24G84_Restore.ipsw",
+        "version": "15.6"
+      },
+      "id": "macos-15.6.1-24G84-24G90",
+      "integrity": {
+        "git_tree": "f1b791ff2d95579f788636a7019cf0b9a023a4c9",
+        "logical_bytes": 7811,
+        "tracked_file_count": 9
+      },
+      "major_version": 15,
+      "platform": "macOS",
+      "schema_version": 1,
+      "source": {
+        "commit": "2ae09fb82ce5b1cdc87d9c004d20910b8500b717",
+        "path": "15_6_24G84_vs_15_6_1_24G90",
+        "repository": "https://github.com/ipsw-diff/macos-15"
+      },
+      "to": {
+        "build": "24G90",
+        "input": "UniversalMac_15.6.1_24G90_Restore.ipsw",
+        "version": "15.6.1"
+      }
     }
   ],
   "schema_version": 1

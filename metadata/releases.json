@@ -1901,6 +1901,26 @@
       "source_path": "osFiles/macOS/24x - 15.x/24G5074c.json"
     },
     {
+      "beta": false,
+      "build": "24G84",
+      "channel": "release",
+      "display_version": "15.6",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2025-07-29",
+      "source_path": "osFiles/macOS/24x - 15.x/24G84.json"
+    },
+    {
+      "beta": false,
+      "build": "24G90",
+      "channel": "release",
+      "display_version": "15.6.1",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2025-08-20",
+      "source_path": "osFiles/macOS/24x - 15.x/24G90.json"
+    },
+    {
       "beta": true,
       "build": "25D5087f",
       "channel": "beta",
@@ -2123,7 +2143,7 @@
   ],
   "schema_version": 1,
   "source": {
-    "commit": "6eb860df35cea11f8135864a23e59a58f349481a",
+    "commit": "5b8e2c7e1ab9b0f48bbf33ac8cdb724517b07200",
     "repository": "https://github.com/littlebyteorg/appledb"
   }
 }

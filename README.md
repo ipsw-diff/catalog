@@ -283,10 +283,12 @@ Full comparison and integrity details are in the version browser below.
 </details>
 
 <details>
-<summary><strong>macOS 15</strong> · 11 diffs</summary>
+<summary><strong>macOS 15</strong> · 13 diffs</summary>
 
 | Device | Comparison | Integrity |
 | --- | --- | --- |
+| `Mac16,1` | [15.6 (24G84) → 15.6.1 (24G90)](https://github.com/ipsw-diff/macos-15/blob/06356975719c8c5868dc3bc958b091952cefc7e8/diffs/15_6_24G84_vs_15_6_1_24G90/README.md) | `f1b791ff2d95` · 9 files · 7,811 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/06356975719c8c5868dc3bc958b091952cefc7e8/manifests/15_6_24G84_vs_15_6_1_24G90.json) |
+| `Mac16,1` | [15.6 beta 3 (24G5074c) → 15.6 (24G84)](https://github.com/ipsw-diff/macos-15/blob/06356975719c8c5868dc3bc958b091952cefc7e8/diffs/15_6_24G5074c_vs_15_6_24G84/README.md) | `8ffb089a2972` · 1,205 files · 3,309,205 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/06356975719c8c5868dc3bc958b091952cefc7e8/manifests/15_6_24G5074c_vs_15_6_24G84.json) |
 | `Mac16,1` | [15.6 beta 2 (24G5065c) → 15.6 beta 3 (24G5074c)](https://github.com/ipsw-diff/macos-15/blob/04840dc548b3f549b1df70f13ea8936e138ffb03/diffs/15_6_24G5065c_vs_15_6_24G5074c/README.md) | `713b130d22eb` · 625 files · 3,876,756 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/04840dc548b3f549b1df70f13ea8936e138ffb03/manifests/15_6_24G5065c_vs_15_6_24G5074c.json) |
 | `Mac16,1` | [15.6 beta (24G5054d) → 15.6 beta 2 (24G5065c)](https://github.com/ipsw-diff/macos-15/blob/2894af0ad7041d3d23549307debe02ea5eefeef8/diffs/15_6_24G5054d_vs_15_6_24G5065c/README.md) | `7920bf3742eb` · 667 files · 6,663,719 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/2894af0ad7041d3d23549307debe02ea5eefeef8/manifests/15_6_24G5054d_vs_15_6_24G5065c.json) |
 | `Mac16,1` | [15.5 (24F74) → 15.6 beta (24G5054d)](https://github.com/ipsw-diff/macos-15/blob/b032cd08a01f083cda69099b8ba47ba3fad5d58b/diffs/15_5_24F74_vs_15_6_24G5054d/README.md) | `38e46faba166` · 3,528 files · 10,930,197 bytes · [manifest](https://github.com/ipsw-diff/macos-15/blob/b032cd08a01f083cda69099b8ba47ba3fad5d58b/manifests/15_5_24F74_vs_15_6_24G5054d.json) |
