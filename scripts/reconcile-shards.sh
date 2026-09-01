@@ -41,7 +41,7 @@ jq --exit-status '
     type == "object" and
     (keys | sort) == ["branch", "id", "repository"] and
     (.id | test("^(ios|macos)-(12|15|16|17|18|26|27)$")) and
-    .repository == ("https://github.com/ipsw-diff/" + .id) and
+    .repository == ("https://github.com/ipsw-diffs/" + .id) and
     .branch == "main") and
   ([.shards[].id] | sort) == [
     "ios-12", "ios-15", "ios-16", "ios-17", "ios-18", "ios-26", "ios-27",

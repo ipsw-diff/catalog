@@ -4,52 +4,52 @@
     {
       "branch": "main",
       "id": "ios-12",
-      "repository": "https://github.com/ipsw-diff/ios-12"
+      "repository": "https://github.com/ipsw-diffs/ios-12"
     },
     {
       "branch": "main",
       "id": "ios-15",
-      "repository": "https://github.com/ipsw-diff/ios-15"
+      "repository": "https://github.com/ipsw-diffs/ios-15"
     },
     {
       "branch": "main",
       "id": "ios-16",
-      "repository": "https://github.com/ipsw-diff/ios-16"
+      "repository": "https://github.com/ipsw-diffs/ios-16"
     },
     {
       "branch": "main",
       "id": "ios-17",
-      "repository": "https://github.com/ipsw-diff/ios-17"
+      "repository": "https://github.com/ipsw-diffs/ios-17"
     },
     {
       "branch": "main",
       "id": "ios-18",
-      "repository": "https://github.com/ipsw-diff/ios-18"
+      "repository": "https://github.com/ipsw-diffs/ios-18"
     },
     {
       "branch": "main",
       "id": "ios-26",
-      "repository": "https://github.com/ipsw-diff/ios-26"
+      "repository": "https://github.com/ipsw-diffs/ios-26"
     },
     {
       "branch": "main",
       "id": "ios-27",
-      "repository": "https://github.com/ipsw-diff/ios-27"
+      "repository": "https://github.com/ipsw-diffs/ios-27"
     },
     {
       "branch": "main",
       "id": "macos-15",
-      "repository": "https://github.com/ipsw-diff/macos-15"
+      "repository": "https://github.com/ipsw-diffs/macos-15"
     },
     {
       "branch": "main",
       "id": "macos-26",
-      "repository": "https://github.com/ipsw-diff/macos-26"
+      "repository": "https://github.com/ipsw-diffs/macos-26"
     },
     {
       "branch": "main",
       "id": "macos-27",
-      "repository": "https://github.com/ipsw-diff/macos-27"
+      "repository": "https://github.com/ipsw-diffs/macos-27"
     }
   ]
 }
