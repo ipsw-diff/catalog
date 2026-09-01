@@ -1772,6 +1772,16 @@
     },
     {
       "beta": true,
+      "build": "24A5430a",
+      "channel": "beta",
+      "display_version": "27.0 beta 8",
+      "platform": "iOS",
+      "rc": false,
+      "released": "2026-08-31",
+      "source_path": "osFiles/iOS/24x - 27.x/24A5430a.json"
+    },
+    {
+      "beta": true,
       "build": "24A5279h",
       "channel": "beta",
       "display_version": "15.0 beta 2",
@@ -2139,11 +2149,21 @@
       "rc": false,
       "released": "2026-08-24",
       "source_path": "osFiles/macOS/26x - 27.x/26A5421a.json"
+    },
+    {
+      "beta": true,
+      "build": "26A5425a",
+      "channel": "beta",
+      "display_version": "27.0 beta 8",
+      "platform": "macOS",
+      "rc": false,
+      "released": "2026-08-31",
+      "source_path": "osFiles/macOS/26x - 27.x/26A5425a.json"
     }
   ],
   "schema_version": 1,
   "source": {
-    "commit": "5b8e2c7e1ab9b0f48bbf33ac8cdb724517b07200",
+    "commit": "7bc31cfbc25288bb0466f5af26aadca21aa63a82",
     "repository": "https://github.com/littlebyteorg/appledb"
   }
 }
